@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome page</title>
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root">
+    <nav data-bs-theme="light" class="welcome-bar shadow-sm p-1 d-flex navbar navbar-expand navbar-light bg-light fixed-top">
+      <a href="#home" class="d-flex logo-href ps-3 ms-5 me-auto navbar-brand">
+        <img src="./img/logo.png" alt="logo" class="logo-main p-2 navbar-brand">
+      </a>
+      <div class="welcome-bar-elements m-2 d-flex">
+        <div class="d-flex navbar-nav">
+          <a href="#home" data-rr-ui-event-key="#home" class="fs-6 m-3 py-3 nav-link">
+            About
+          </a>
+          <a href="#home" data-rr-ui-event-key="#home" class="fs-6 m-3 py-3 nav-link">
+            Explore
+          </a>
+          <div class="d-flex align-items-center divider-bar bg-dark m-3"></div>
+          <button type="button" class="btn-register m-3 px-4 py-3 btn btn-warning">
+            Register
+          </button>
+          <button type="button" class="btn-signin m-3 me-5 px-4 py-3 btn btn-info">
+            Sign in
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="welcome-content d-flex flex-column mt-5 mx-2 pt-5 px-1">
+      <div class="info-get-started d-flex justify-content-center mx-1">
+        <div class="d-flex flex-column cont-get-st"><div class="text-get-st d-flex flex-column">
+          <h1 class="d-flex m-3 text-start">
+            <strong>The best investment is knowledge</strong>
+          </h1>
+          <p class="d-flex fs-4 m-3 text-start">
+            Class Nexus is a platform platform that connects students with a diverse community 
+            of highly qualified educators, providing you with unparalleled opportunities to learn and grow. 
+            Our platform serves as a gateway to a vast array of educators who are passionate about sharing 
+            their knowledge and expertise with you
+          </p>
+        </div>
+        <div class="div-btn-get-st d-flex p-3 ps-0 justify-content-start">
+          <button type="button" class="btn-get-st m-3 px-3 py-2 btn btn-info">
+            Get Started
+          </button>
+        </div>
+      </div>
+      <div class="img-get-st d-flex m-3 me-0">
+        <img src="./img/imgWelcome.jpg" alt="imgWelcome" class="img-Welcome p-2">
+      </div>
+    </div>
+    <div class="why-class-nexus justify-content-between">
+      <h2 class="m-3">
+        <strong>Why class nexus</strong>
+      </h2>
+      <div class="why-features d-flex justify-content-between px-0 py-2 mx-0 my-3 flex-wrap flex-row">
+        <div class="d-flex why-feature bg-body-secondary flex-column p-3 m-3">
+          <div class="d-flex feature-img-container">
+            <img src="./img/f0.png" alt="imgFeature" class="d-flex feature-img p-2">
+          </div><div class="d-flex feature-title justify-content-center my-3">
+            <strong><h3>Convenient scheduling</h3></strong>
+          </div>
+          <div class="d-flex feature-text text-start">
+            <p class="fw-lighter">
+            ClassNexus makes it easy to schedule classes with teachers. You can specify the date, time, location, and subject 
+            of the class, and teachers will be notified of your request. This makes it easy to find a time that works for both 
+            you and your teacher, and to get the help you need when you need it.
+          </p>
+        </div>
+      </div>
+      <div class="d-flex why-feature bg-body-secondary flex-column p-3 m-3">
+        <div class="d-flex feature-img-container">
+          <img src="./img/f1.png" alt="imgFeature" class="d-flex feature-img p-2">
+        </div>
+        <div class="d-flex feature-title justify-content-center my-3">
+          <strong><h3>Flexible learning options</h3></strong>
+        </div>
+        <div class="d-flex feature-text text-start">
+          <p class="fw-lighter">
+            ClassNexus offers both virtual and in-person classes. This gives you the flexibility to choose 
+            the learning option that best suits your needs. If you're unable to make it to a physical class, you can still take 
+            the class virtually. And if you prefer to learn in person, you can find a teacher who is willing to meet at your home or at theirs
+          </p>
+        </div>
+      </div>
+      <div class="d-flex why-feature bg-body-secondary flex-column p-3 m-3">
+        <div class="d-flex feature-img-container">
+          <img src="./img/f2.png" alt="imgFeature" class="d-flex feature-img p-2">
+        </div><div class="d-flex feature-title justify-content-center my-3">
+          <strong>
+            <h3>Secure and private</h3>
+          </strong>
+        </div>
+        <div class="d-flex feature-text text-start">
+          <p class="fw-lighter">ClassNexus is a secure and private platform. Your personal information is protected, and your classes are only 
+            visible to you and your teacher. This means that you can focus on learning without having to worry about your privacy
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex how-works-container bg-body-secondary flex-row p-4 m-3">
+    <div class="d-flex align-items-center how-works-title p-3">
+      <h2 class="d-flex">How does it work?</h2>
+    </div>
+    <div class="d-flex how-works-text">
+      <div class="d-flex align-content-end flex-column p-2">
+        <div class="d-flex flex-row"><div class="d-flex align-items-start px-2">
+          <strong class="fs-2">1</strong>
+        </div>
+        <p class="text-start">
+          <strong>Create an account</strong>: 
+          To get started, create an account on ClassNexus. You can use your email address or your Google account to sign up. 
+          You will also need to provide billing details to complete a monthly subscription.
+        </p>
+      </div>
+      <div class="d-flex flex-row">
+        <div class="d-flex align-items-start px-2">
+          <strong class="fs-2">2</strong>
+        </div>
+        <p class="text-start">
+          <strong>Take the class</strong>: When the class starts, you'll be able to join the virtual classroom or meet 
+          with the teacher in person. You can interact with the teacher during the class.
+        </p>
+      </div>
+    </div>
+    <div class="d-flex align-content-end flex-column p-2">
+      <div class="d-flex flex-row">
+        <div class="d-flex align-items-start px-2">
+          <strong class="fs-2">3</strong>
+        </div>
+        <p class="text-start">
+          <strong>Schedule a class</strong>: Once you have y   our account active, you can schedule a class. You can s
+          pecify the date, time, location, and subject of the class.
+        </p>
+      </div>
+      <div class="d-flex flex-row">
+        <div class="d-flex align-items-start px-2">
+          <strong class="fs-2">4</strong>
+        </div>
+        <p class="text-start">
+          <strong>Rate and block teachers</strong>: You can also rate and block teachers on ClassNexus. This allows you
+           to prevent yourself from being matched with teachers that you don't want to work with again.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="faq-section d-flex flex-column">
+    <h2 class="m-3">
+      <strong>FAQ</strong>
+    </h2><div class="d-flex m-3 list-group">
+      <div class="d-flex list-group-item list-group-item-dark">
+        <div class="d-flex flex-column justify-content-start">
+          <strong class="d-flex text-start">
+            What is ClassNexus?
+          </strong>
+          <p class="d-flex text-start">
+            ClassNexus is a platform that makes it easy to schedule classes with teachers. You can find teachers who are offering
+             classes in your area, and you can schedule classes with them at your convenience. ClassNexus also offers both virtual 
+             and in-person classes.
+            </p>
+          </div>
+        </div>
+        <div class="d-flex list-group-item list-group-item-light">
+          <div class="d-flex flex-column justify-content-start">
+            <strong class="d-flex text-start">
+              How much does ClassNexus cost?
+            </strong>
+            <p class="d-flex text-start">
+              ClassNexus offers a monthly subscription plan. The cost of the subscription plan is $20,00/month.
+            </p>
+          </div>
+        </div>
+        <div class="d-flex list-group-item list-group-item-dark">
+          <div class="d-flex flex-column justify-content-start">
+            <strong class="d-flex text-start">
+              How do I create an account on ClassNexus?
+            </strong>
+            <p class="d-flex text-start">
+              To create an account on ClassNexus, you can go to the ClassNexus website. Click on the 'Register' button.
+              Enter your email address or Google account credentials, and then provide your billing details
+            </p>
+          </div>
+        </div>
+        <div class="d-flex list-group-item list-group-item-light">
+          <div class="d-flex flex-column justify-content-start">
+            <strong class="d-flex text-start">
+              How do I schedule a class on ClassNexus?
+            </strong>
+            <p class="d-flex text-start">To schedule a class on ClassNexus, you can go to the 'Schedule' tab. Then, provide 
+              the relevant information about subject, topic description, date and time, and location.
+            </p>
+          </div>
+        </div>
+        <div class="d-flex list-group-item list-group-item-dark">
+          <div class="d-flex flex-column justify-content-start">
+            <strong class="d-flex text-start">
+              What if I have a question about ClassNexus?
+            </strong>
+            <p class="d-flex text-start">
+              If you have a question about ClassNexus, you can contact the ClassNexus support team. You can contact the support
+               team by email or by phone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-evenly mt-4 mb-0 bg-body-secondary p-4 m-3">
+      <div class="d-flex flex-column ">
+        <strong class="lh-lg mb-3">Support</strong>
+        <p class="lh-1"> Help and support</p>
+        <p class="lh-1">Teaching</p>
+        <p class="lh-1">Guides</p>
+        <p class="lh-1">Information</p>
+      </div>
+      <div class="d-flex flex-column ">
+        <strong class="lh-lg mb-3"></strong>
+        <p class="lh-1">Policy</p>
+        <p class="lh-1">Terms of service</p>
+        <p class="lh-1">Privacy policy</p>
+      </div>
+      <div class="d-flex flex-column ">
+        <strong class="lh-lg mb-3">Contact</strong>
+        <p class="lh-1">Github</p>
+        <p class="lh-1">Development Team</p>
+        <p class="lh-1">Mail</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

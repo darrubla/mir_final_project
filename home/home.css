@@ -1,11 +1,9 @@
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
-.card {
+.course {
   padding: 2em;
 }
 
@@ -122,4 +120,80 @@ button:focus-visible {
 }
 .how-works-text {
   width: 70%;
+}
+
+.subjects-list {
+  width: 100%;
+  position: absolute !important;
+  top: 114px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.subjects-list ul {
+  width: 100%;
+  justify-content: space-around;
+  padding: 0;
+}
+
+footer {
+  bottom: 0;
+  width: 100vw;
+}
+
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(249px, 1fr));
+  column-gap: 30px;
+  row-gap: 50px;
+}
+
+.course {
+  display: flex;
+  width: 248px;
+  height: 380.664px;
+  padding: 29.905px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 29.905px;
+  border: 1px solid #b4b4b4;
+}
+
+.course-header {
+  display: flex;
+  align-items: center;
+  gap: 14.952px;
+}
+
+.course-header__text {
+  display: flex;
+  padding: 5.981px 0px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.course-header__text > span {
+  color: #333435;
+  text-align: center;
+  font-size: 12.73px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16.197px;
+}
+
+.course > img {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.home-content {
+  margin-top: 175px;
+  padding: 40px;
 }

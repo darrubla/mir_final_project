@@ -16,6 +16,10 @@
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
   </head>
   <body>
     <div id="root">
@@ -25,12 +29,23 @@
       >
         <a href="#home" class="d-flex logo-href ps-3 ms-5 me-auto navbar-brand">
           <img
-            src="./assets/img/logo.png"
+            src="../assets/img/logo.png"
             alt="logo"
             class="logo-main p-2 navbar-brand"
           />
         </a>
         <div class="welcome-bar-elements m-2 d-flex">
+          <form class="d-flex py-4">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button type="button" class="btn btn-secondary" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
           <div class="d-flex navbar-nav">
             <a
               href="#home"
@@ -44,44 +59,214 @@
               data-rr-ui-event-key="#home"
               class="fs-6 m-3 py-3 nav-link"
             >
+              Schedule
+            </a>
+            <a
+              href="#home"
+              data-rr-ui-event-key="#home"
+              class="fs-6 m-3 py-3 nav-link"
+            >
               Explore
             </a>
             <div
               class="d-flex align-items-center divider-bar bg-dark m-3"
             ></div>
+            <button type="button" class="btn my-3">
+              <i class="bi bi-person-circle"></i> Account
+            </button>
+            <button type="button" class="btn my-3">
+              <i class="bi bi-envelope-fill"></i>
+            </button>
+            <button type="button" class="btn my-3">
+              <i class="bi bi-suit-heart-fill"></i>
+            </button>
+            <button type="button" class="btn my-3">
+              <i class="bi bi-calendar-fill"></i>
+            </button>
+            <button type="button" class="btn my-3">
+              <i class="bi bi-bell-fill"></i>
+            </button>
             <button
               type="button"
               class="btn-register m-3 px-4 py-3 btn btn-warning"
             >
-              Register
-            </button>
-            <button
-              type="button"
-              class="btn-signin m-3 me-5 px-4 py-3 btn btn-info"
-            >
-              Sign in
+              Become a teacher
             </button>
           </div>
         </div>
       </nav>
-      <div class="welcome-content d-flex flex-column mt-5 mx-2 pt-5 px-1"></div>
-      <footer
-        class="d-flex flex-row justify-content-evenly mt-4 mb-0 bg-body-secondary p-4 m-3"
+      <nav
+        data-bs-theme="light"
+        class="shadow-sm p-1 d-flex subjects-list navbar navbar-expand navbar-light bg-light"
       >
-        <div class="d-flex flex-column">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"
+              >Programming</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"
+              >Video Editing</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Maths</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Cooking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Language</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Fitness</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Science</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">History</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="home-content d-flex flex-column">
+        <div class="mb-4">
+          <h6 class="text-uppercase">Recent</h6>
+          <!-- Gradient divider -->
+          <hr data-content="AND" class="hr-text" />
+        </div>
+        <ul class="courses-list">
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+        </ul>
+        <div class="mb-4">
+          <h6 class="text-uppercase">Most Voted</h6>
+          <!-- Gradient divider -->
+          <hr data-content="AND" class="hr-text" />
+        </div>
+        <ul class="courses-list">
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+          <article class="course">
+            <div class="course-header">
+              <img src="../assets/img/oval.png" alt="teacher profile picture" />
+              <div class="course-header__text">
+                <h4>Teacher</h4>
+                <span>Course</span>
+                <p>
+                  200 Points <span><i class="bi bi-trophy-fill"></i></span>
+                </p>
+              </div>
+            </div>
+            <img src="../assets/img/card-img.png" alt="course picture" />
+          </article>
+        </ul>
+      </div>
+      <footer
+        class="d-flex flex-row justify-content-around mt-4 mb-0 bg-body-secondary p-4"
+      >
+        <div class="d-flex flex-column align-items-start">
           <strong class="lh-lg mb-3">Support</strong>
           <p class="lh-1">Help and support</p>
           <p class="lh-1">Teaching</p>
           <p class="lh-1">Guides</p>
           <p class="lh-1">Information</p>
         </div>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column align-items-start">
           <strong class="lh-lg mb-3">About</strong>
           <p class="lh-1">Policy</p>
           <p class="lh-1">Terms of service</p>
           <p class="lh-1">Privacy policy</p>
         </div>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column align-items-start">
           <strong class="lh-lg mb-3">Contact</strong>
           <p class="lh-1">Github</p>
           <p class="lh-1">Development Team</p>

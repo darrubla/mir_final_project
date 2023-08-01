@@ -11,6 +11,8 @@ import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';
 import SubjectsCarousell from '../components/subjectsCarousell/subjectsCarousell';
+import { NavigationTab } from '../components/NavigationTab';
+import { NavSeparator } from '../components/NavSeparator';
 
 export function Welcome() {
     const navigate = useNavigate();
@@ -37,6 +39,7 @@ export function Welcome() {
       if (!user?.type) {
         return (
           <>
+            <NavSeparator />
             <Button variant="warning" className='btn-register m-3 px-4 py-3' onClick={() => handleShow("signup")}>Register</Button>
             <Button variant="info" className='btn-signin m-3 me-5 px-4 py-3' onClick={() => handleShow("signin")}>Sign in</Button>
           </>
@@ -44,35 +47,19 @@ export function Welcome() {
       }
       return (
         <>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-person-circle"></i> {user.email}
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-envelope-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-suit-heart-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-calendar-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-bell-fill"></i>
-            </button>
-            <button
-              type="button"
-              className="btn-register m-3 px-4 py-3 btn btn-warning"
-              onClick={handleLogout}
-            >
-              Log out
-            </button>
+            <NavigationTab title="Schedule" />
+            <NavSeparator />
+            <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} />
+            <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
+            <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
+            <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
+            <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
+            <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
         </>
       )
     }
 
     const renderStudentView = () => (<SubjectsCarousell/>)
-
-
     const renderView = () => {
       if (user?.type == "student" && user?.email) {
         return renderStudentView()
@@ -91,9 +78,8 @@ export function Welcome() {
         <>
         <NavigationBar elements={
           <>
-            <Nav.Link href="/about" className='fs-6 m-3 py-3'>About</Nav.Link>
-            <Nav.Link href="/explore" className='fs-6 m-3 py-3'>Explore</Nav.Link>
-            <div className="d-flex align-items-center divider-bar bg-dark m-3" />
+            <NavigationTab title="About" />
+            <NavigationTab title="Explore" />
             {navRightOptions()}
           </>
         } />

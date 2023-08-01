@@ -3,7 +3,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import PropTypes from 'prop-types';
 import { ErrorMessage } from 'formik';
 
-export function FormPassword ({fieldName, handleChange, handleBlur, val, classN}) {
+export function FormText ({fieldName, handleChange, handleBlur, val, classN}) {
     return (
         <>
             <Form.Group className="d-flex flex-column my-1 mx-3" >
@@ -12,7 +12,7 @@ export function FormPassword ({fieldName, handleChange, handleBlur, val, classN}
                     <Form.Control
                         placeholder={fieldName.toLowerCase()}
                         aria-label={fieldName.toLowerCase()}
-                        type="password"
+                        type="text"
                         className={`rounded-5 ${classN}`}
                         name={fieldName.toLowerCase().replace(/ /g, '')}
                         onChange={handleChange}
@@ -31,7 +31,7 @@ export function FormPassword ({fieldName, handleChange, handleBlur, val, classN}
     
 }
 
-FormPassword.propTypes = {
+FormText.propTypes = {
     fieldName: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleBlur: PropTypes.func.isRequired,

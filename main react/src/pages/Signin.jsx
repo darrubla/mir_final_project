@@ -1,47 +1,56 @@
-import Nav from 'react-bootstrap/Nav';
-import { NavigationBar } from '../components/NavigationBar';
+import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { FormUsername } from '../components/FormUsername';
 import { FormPassword } from '../components/FormPassword';
 import { Identify } from '../components/Identify';
-//import { useState } from 'react';
+import { Formik } from 'formik';
+import Form from 'react-bootstrap/Form';
+import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { z } from 'zod';
+import UserContext from '../containers/UserContext';
+import { useNavigate } from 'react-router-dom';
+
+
+const signInSchema = z
+    .object({
+        email: z.string().email({ message: "Invalid email address" }),
+        password: z.string().min(8, { message: "Must be 8 or more characters long" }),
+    })
 
 export function Signin() {
+    const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
+    const type = JSON.parse(JSON.stringify(user)).type
+    const initialValues = {
+        email: '',
+        password: '',
+      }
     return (
         <>
-            <NavigationBar elements={
-                <>
-                    <Nav.Link href="/about" className='fs-6 m-3 py-3'>About</Nav.Link>
-                    <Nav.Link href="/explore" className='fs-6 m-3 py-3'>Explore</Nav.Link>
-                    <div className="d-flex align-items-center divider-bar bg-dark m-3" />
-                    <Button href="/signup" variant="warning" className='btn-register m-3 px-4 py-3'>Register</Button>
-                    <Button href="/signin" variant="info" className='btn-signin m-3 me-5 px-4 py-3'>Sign in</Button>
-                </>
-            }/>
-            <Identify 
-                formTitle="LOG IN"
-                elements={
-                    <>
-                        <FormUsername 
-                            fieldName="EMAIL/USERNAME"
-                        />
-                        <FormPassword 
-                            fieldName="PASSWORD"
-                        />
-                        <Button variant="warning" className='d-flex btn-register m-3 px-4 py-3 justify-content-center'>SIGN IN</Button>
-                        <Button variant="info" className='d-flex btn-signin m-3 px-0 py-3 justify-content-evenly'>
-                            <div className='d-flex'>
-                                <i className="bi bi-google" />
-                            </div>
-                            <div className='d-flex'>
-                                CONTINUE WITH GOOGLE
-                            </div>
-                            
-                            
-                        </Button>
-                    </>
-                }
-            />
+            <Formik
+                initialValues={initialValues}
+                onSubmit={(values, { setSubmitting }) => {
+                    setUser({ type: type, email: values.email});
+                    setSubmitting(false);
+                    navigate(`/home_${type.toLowerCase()}`);
+                }}
+                validationSchema={toFormikValidationSchema(signInSchema)}
+            >
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, }) => (
+                    <Identify formTitle={`${type.toUpperCase()} LOG IN`}>
+                        <Form className='d-flex flex-column' onSubmit={handleSubmit}>
+                            <FormUsername fieldName="EMAIL" symbol="@" handleChange={handleChange} handleBlur={handleBlur} val={values.email} classN={touched.email && errors.email ? 'is-invalid' : ''}/>
+                            <FormPassword fieldName="PASSWORD" handleChange={handleChange} handleBlur={handleBlur} val={values.password} classN={touched.password && errors.password ? 'is-invalid' : ''}/>
+                            <Button variant="warning" className='d-flex btn-register m-3 px-4 py-3 justify-content-center' type="submit" disabled={isSubmitting}>SIGN IN</Button>
+                            <Button variant="info" className='d-flex btn-signin m-3 px-0 py-3 justify-content-evenly'>
+                                <div className='d-flex'> <i className="bi bi-google" /></div>
+                                <div className='d-flex'>CONTINUE WITH GOOGLE</div>
+                            </Button>
+                        </Form>
+                    </Identify>
+                )}
+            </Formik>
         </>
     );
 }

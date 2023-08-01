@@ -1,0 +1,15 @@
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(249px, 1fr));
+  column-gap: 30px;
+  row-gap: 50px;
+}
+
+.home-content {
+  padding: 40px;
+}
+
+.welcome-content {
+  margin-top: 175px;
+  min-width: 1044px;
+}

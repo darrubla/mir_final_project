@@ -23,11 +23,11 @@ function CoursesList({title, subjects}) {
 
   return (
     <div className="courses-list__section">
-      <div class="mb-4">
-        <h6 class="text-uppercase">{title}</h6>
-        <hr data-content="AND" class="hr-text" />
+      <div className="mb-4">
+        <h6 className="text-uppercase">{title}</h6>
+        <hr data-content="AND" className="hr-text" />
       </div>
-      <ul class="courses-list">
+      <ul className="courses-list">
         {renderCards()}
       </ul>
     </div>

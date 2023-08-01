@@ -44,24 +44,24 @@ export function Welcome() {
       }
       return (
         <>
-            <button type="button" class="btn my-3">
-              <i class="bi bi-person-circle"></i> {user.email}
+            <button type="button" className="btn my-3">
+              <i className="bi bi-person-circle"></i> {user.email}
             </button>
-            <button type="button" class="btn my-3">
-              <i class="bi bi-envelope-fill"></i>
+            <button type="button" className="btn my-3">
+              <i className="bi bi-envelope-fill"></i>
             </button>
-            <button type="button" class="btn my-3">
-              <i class="bi bi-suit-heart-fill"></i>
+            <button type="button" className="btn my-3">
+              <i className="bi bi-suit-heart-fill"></i>
             </button>
-            <button type="button" class="btn my-3">
-              <i class="bi bi-calendar-fill"></i>
+            <button type="button" className="btn my-3">
+              <i className="bi bi-calendar-fill"></i>
             </button>
-            <button type="button" class="btn my-3">
-              <i class="bi bi-bell-fill"></i>
+            <button type="button" className="btn my-3">
+              <i className="bi bi-bell-fill"></i>
             </button>
             <button
               type="button"
-              class="btn-register m-3 px-4 py-3 btn btn-warning"
+              className="btn-register m-3 px-4 py-3 btn btn-warning"
               onClick={handleLogout}
             >
               Log out

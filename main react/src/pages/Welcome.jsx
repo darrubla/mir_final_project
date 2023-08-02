@@ -10,7 +10,7 @@ import Faq from '../content-welcome/Faq';
 import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';
-import SubjectsCarousell from '../components/subjectsCarousell/subjectsCarousell';
+import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell'
 
 export function Welcome() {
     const navigate = useNavigate();

@@ -1,14 +1,12 @@
 import { useContext, useState } from 'react';
 import { ModalAlert } from '../components/ModalAlert';
-import Features from '../content-welcome/features';
+import Features from '../content-welcome/Features';
 import Presentation from '../content-welcome/Presentation';
 import { HowWorks } from '../content-welcome/HowWorks';
-import Faq from '../content-welcome/FAQ';
+import Faq from '../content-welcome/Faq';
 import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';
-import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
-
 import { StudentNavbar } from '../components/StudentNavbar';
 import { TeacherNavbar } from '../components/TeacherNavbar';
 import { NavigationBar } from '../components/NavigationBar';

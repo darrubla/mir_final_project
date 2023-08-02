@@ -10,11 +10,13 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 import UserContext from '../containers/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { FormRange } from '../components/FormRange';
 
 const signUpSchema = z
     .object({
         name: z.string().min(2, { message: "Must be 2 or more characters long" }),
         lastname: z.string().min(2, { message: "Must be 2 or more characters long" }),
+        age: z.number(),
         email: z.string().email({ message: "Invalid email address" }),
         password: z.string().min(8, { message: "Must be 8 or more characters long" }),
         confirmpassword: z.string(),
@@ -33,6 +35,7 @@ export function Signup() {
     const initialValues = {
         name: '',
         lastname: '',
+        age: 18,
         email: '',
         password: '',
         confirmpassword: '',
@@ -54,6 +57,7 @@ export function Signup() {
                         <Form className='d-flex flex-column' onSubmit={handleSubmit}>
                             <FormText fieldName="NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.name} classN={touched.name && errors.name ? 'is-invalid' : ''}/>
                             <FormText fieldName="LAST NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.lastname} classN={touched.lastname && errors.lastname ? 'is-invalid' : ''}/>
+                            <FormRange val={values.age} handleChange={handleChange}/>
                             <FormUsername fieldName="EMAIL" symbol="@" handleChange={handleChange} handleBlur={handleBlur} val={values.email} classN={touched.email && errors.email ? 'is-invalid' : ''}/>
                             <FormPassword fieldName="PASSWORD" handleChange={handleChange} handleBlur={handleBlur} val={values.password} classN={touched.password && errors.password ? 'is-invalid' : ''}/>
                             <FormPassword fieldName="CONFIRM PASSWORD" handleChange={handleChange} handleBlur={handleBlur} val={values.confirmpassword} classN={touched.confirmpassword && errors.confirmpassword ? 'is-invalid' : ''}/>

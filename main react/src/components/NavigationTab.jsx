@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { IconBar } from './IconBar';
 
-export function NavigationTab({title, iconClassName, navi}) {
+export function NavigationTab({title, iconClassName, navig}) {
     const navigate = useNavigate();
     return (
         <>
             <Nav.Link onClick={() => {
-                title!==undefined?
-                    navigate(`/${title.toLowerCase()}`)
-                    : navigate(`/${navi.toLowerCase()}`)
+                console.log("navig:"+navig)
+                console.log("title:"+title)
+                navig!==undefined?
+                    navigate(`/${navig.toLowerCase()}`)
+                    : navigate(`/${title.toLowerCase()}`)
                 }
                 }   
                 className='fs-5 m-3 py-3'
@@ -24,5 +26,5 @@ export function NavigationTab({title, iconClassName, navi}) {
 NavigationTab.propTypes = {
     title: PropTypes.string,
     iconClassName: PropTypes.string,
-    navi: PropTypes.string,
+    navig: PropTypes.string,
 };

@@ -50,11 +50,11 @@ export function Welcome() {
             <>
                 <NavigationTab title="Schedule" />
                 <NavSeparator />
-                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navi="my_account"/>
-                <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
-                <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
-                <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
-                <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
+                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navig="my_account"/>
+                <NavigationTab navig="Messages" iconClassName={"bi bi-envelope-fill"} />
+                <NavigationTab navig="Liked" iconClassName={"bi bi-suit-heart-fill"} />
+                <NavigationTab navig="Scheduled" iconClassName={"bi bi-calendar-fill"} />
+                <NavigationTab navig="Notifications" iconClassName={"bi bi-bell-fill"} />
                 <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
             </>
           )
@@ -64,11 +64,11 @@ export function Welcome() {
             <>
                 <NavigationTab title="Bank" />
                 <NavSeparator />
-                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navi="my_account"/>
-                <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
-                <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
-                <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
-                <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
+                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navig="my_account"/>
+                <NavigationTab navig="Messages" iconClassName={"bi bi-envelope-fill"} />
+                <NavigationTab navig="Liked" iconClassName={"bi bi-suit-heart-fill"} />
+                <NavigationTab navig="Scheduled" iconClassName={"bi bi-calendar-fill"} />
+                <NavigationTab navig="Notifications" iconClassName={"bi bi-bell-fill"} />
                 <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
             </>
           )

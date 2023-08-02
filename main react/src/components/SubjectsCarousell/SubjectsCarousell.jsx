@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {subjects} from '../../mocks/subjects.js'
 import CoursesList from '../CoursesList/CoursesList'
 
@@ -22,7 +20,7 @@ function SubjectsCarousell() {
   }
 
   return (
-    <div class="home-content d-flex flex-column">
+    <div className="home-content d-flex flex-column">
       {renderRecentSubjects()}
       {renderMostVotedSubjects()}
     </div>

@@ -20,7 +20,7 @@ const signInSchema = z
 export function Signin() {
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
-    const type = JSON.parse(JSON.stringify(user)).type
+    const type = user === undefined ? JSON.parse(localStorage.getItem('user')).type : JSON.parse(JSON.stringify(user)).type;
     const initialValues = {
         email: '',
         password: '',

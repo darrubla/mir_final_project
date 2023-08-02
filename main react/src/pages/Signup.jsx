@@ -29,9 +29,8 @@ const signUpSchema = z
 
 export function Signup() {
     const navigate = useNavigate();
-    const { setUser } = useContext(UserContext);
-    const { user } = useContext(UserContext);
-    const type = JSON.parse(JSON.stringify(user)).type;
+    const { setUser, user } = useContext(UserContext);
+    const type = user === undefined ? JSON.parse(localStorage.getItem('user')).type : JSON.parse(JSON.stringify(user)).type;
     const initialValues = {
         name: '',
         lastname: '',

@@ -6,21 +6,17 @@ import { IconBar } from './IconBar';
 export function NavigationTab({title, iconClassName, navig}) {
     const navigate = useNavigate();
     return (
-        <>
-            <Nav.Link onClick={() => {
-                console.log("navig:"+navig)
-                console.log("title:"+title)
-                navig!==undefined?
-                    navigate(`/${navig.toLowerCase()}`)
-                    : navigate(`/${title.toLowerCase()}`)
-                }
-                }   
-                className='fs-5 m-3 py-3'
-            >
-                <IconBar className={`${title!==undefined? "me-2 ": ""}${iconClassName!==undefined? iconClassName: ""}`} />
-                {title}
-            </Nav.Link>
-        </>
+        <Nav.Link onClick={() => {
+            navig!==undefined?
+                navigate(`/${navig.toLowerCase()}`)
+                : navigate(`/${title.toLowerCase()}`)
+            }
+            }
+            className='fs-5 m-3 py-3'
+        >
+            <IconBar className={`${title!==undefined? "me-2 ": ""}${iconClassName!==undefined? iconClassName: ""}`} />
+            {title}
+        </Nav.Link>
     )
 }
 NavigationTab.propTypes = {

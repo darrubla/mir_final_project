@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 
 export function IconBar({className}) {
     return (
-        <>
-            <i className={className}/>
-        </>
+        <i className={className}/>
     )
 }
 

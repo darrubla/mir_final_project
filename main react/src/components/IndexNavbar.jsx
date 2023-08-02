@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 export function IndexNavbar({handleShow}) {
     return (
-        <>
             <NavigationBar elements={
             <>
                 <NavigationTab title="About" />
@@ -16,7 +15,6 @@ export function IndexNavbar({handleShow}) {
                 <Button variant="info" className='btn-signin m-3 me-5 px-4 py-3' onClick={() => handleShow("signin")}>Sign in</Button>
             </>
         } />
-        </>
     )
 }
 

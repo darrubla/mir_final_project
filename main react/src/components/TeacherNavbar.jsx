@@ -8,8 +8,7 @@ import PropTypes from 'prop-types';
 
 export function TeacherNavbar({account_email, handleLogout}) {
     return (
-        <>
-            <NavigationBar elements={
+        <NavigationBar elements={
             <>
                 <NavigationTab title="About" />
                 <NavigationTab title="Explore" />
@@ -21,9 +20,8 @@ export function TeacherNavbar({account_email, handleLogout}) {
                 <NavigationTab navig="Scheduled" iconClassName={"bi bi-calendar-fill"} />
                 <NavigationTab navig="Notifications" iconClassName={"bi bi-bell-fill"} />
                 <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
-          </>
+            </>
         } />
-        </>
     )
 }
 

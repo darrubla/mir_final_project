@@ -7,8 +7,6 @@ const user_info = [
 
 export function StudentAccountInfo() {
     return (
-        <>
-            
             <div className="info-recent-teachers d-flex flex-column justify-content-center mx-1">
                 <div className="d-flex flex-row section-header align-items-center">
                     <div className="d-flex align-items-start divider-h bg-dark mx-2" />
@@ -16,6 +14,5 @@ export function StudentAccountInfo() {
                     <div className="d-flex align-items-start divider-h bg-dark mx-2" />
                 </div>
             </div>
-        </>
     )
 }

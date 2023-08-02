@@ -39,10 +39,8 @@ export function Welcome() {
         return (
           <>
             <NavigationBar elements={
-            <>
                 <IndexNavbar handleShow={handleShow} />
-            </>
-            } />
+            }/>
         </>
         )
       }

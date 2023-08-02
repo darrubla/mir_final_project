@@ -1,7 +1,5 @@
 import { useContext, useState } from 'react';
-import { NavigationBar } from '../components/NavigationBar';
 import { ModalAlert } from '../components/ModalAlert';
-import Button from 'react-bootstrap/Button';
 import Features from '../content-welcome/features';
 import Presentation from '../content-welcome/Presentation';
 import { HowWorks } from '../content-welcome/HowWorks';
@@ -9,9 +7,12 @@ import Faq from '../content-welcome/FAQ';
 import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';
-import SubjectsCarousell from '../components/subjectsCarousell/subjectsCarousell';
-import { NavigationTab } from '../components/NavigationTab';
-import { NavSeparator } from '../components/NavSeparator';
+import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
+
+import { StudentNavbar } from '../components/StudentNavbar';
+import { TeacherNavbar } from '../components/TeacherNavbar';
+import { NavigationBar } from '../components/NavigationBar';
+import { IndexNavbar } from '../components/IndexNavbar';
 
 export function Welcome() {
     const navigate = useNavigate();
@@ -35,53 +36,36 @@ export function Welcome() {
     }
 
     const navRightOptions = () => {
-      if (!user?.email) {//With user.type when coming back, buttons are not rendered because the modal sends the account type to show the login/signup page
+      if (!user?.email) {//If log is false, show welcome index bar
         return (
           <>
-            <NavSeparator />
-            <Button variant="warning" className='btn-register m-3 px-4 py-3' onClick={() => handleShow("signup")}>Register</Button>
-            <Button variant="info" className='btn-signin m-3 me-5 px-4 py-3' onClick={() => handleShow("signin")}>Sign in</Button>
-          </>
+            <NavigationBar elements={
+            <>
+                <IndexNavbar handleShow={handleShow} />
+            </>
+            } />
+        </>
         )
       }
-      if (user?.email) {
+      if (user?.email) {//if log is true
         if (user?.type == "student") {
           return (
-            <>
-                <NavigationTab title="Schedule" />
-                <NavSeparator />
-                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navig="my_account"/>
-                <NavigationTab navig="Messages" iconClassName={"bi bi-envelope-fill"} />
-                <NavigationTab navig="Liked" iconClassName={"bi bi-suit-heart-fill"} />
-                <NavigationTab navig="Scheduled" iconClassName={"bi bi-calendar-fill"} />
-                <NavigationTab navig="Notifications" iconClassName={"bi bi-bell-fill"} />
-                <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
-            </>
+            <StudentNavbar account_email={user.email} handleLogout={handleLogout} />
           )
         }
         if (user?.type == "teacher") {
           return (
-            <>
-                <NavigationTab title="Bank" />
-                <NavSeparator />
-                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navig="my_account"/>
-                <NavigationTab navig="Messages" iconClassName={"bi bi-envelope-fill"} />
-                <NavigationTab navig="Liked" iconClassName={"bi bi-suit-heart-fill"} />
-                <NavigationTab navig="Scheduled" iconClassName={"bi bi-calendar-fill"} />
-                <NavigationTab navig="Notifications" iconClassName={"bi bi-bell-fill"} />
-                <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
-            </>
+            <TeacherNavbar account_email={user.email} handleLogout={handleLogout} />
           )
         }
       }
       
     }
 
-    const renderStudentView = () => 
-    (<SubjectsCarousell/>)
+    const renderStudentView = () => (<SubjectsCarousell/>)
     const renderView = () => {
       if (user?.type == "student" && user?.email) {
-        return renderStudentView()
+        return renderStudentView()//Cards and student home page
       }
       return (
         <>
@@ -95,19 +79,11 @@ export function Welcome() {
 
     return (
         <>
-        <NavigationBar elements={
-          <>
-            <NavigationTab title="About" />
-            <NavigationTab title="Explore" />
-            {navRightOptions()}
-          </>
-        } />
-
+        {navRightOptions()}{/*Navbars*/}
         <ModalAlert handleClose={handleClose} show={show} onLog={onLog}/>
-
         <div className="welcome-content d-flex flex-column mt-5 mx-2 pt-5 px-1">
           {renderView()}
-          <Info />
+          <Info />{/*Info section always visible in home page (with and without login)*/}
         </div>
       </>
     );

@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Features from '../content-welcome/Features';
 import Presentation from '../content-welcome/Presentation';
 import { HowWorks } from '../content-welcome/HowWorks';
-import Faq from '../content-welcome/FAQ';
+import Faq from '../content-welcome/Faq';
 import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';

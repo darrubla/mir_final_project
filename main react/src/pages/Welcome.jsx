@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import Nav from 'react-bootstrap/Nav';
 import { NavigationBar } from '../components/NavigationBar';
 import { ModalAlert } from '../components/ModalAlert';
 import Button from 'react-bootstrap/Button';
@@ -36,7 +35,7 @@ export function Welcome() {
     }
 
     const navRightOptions = () => {
-      if (!user?.type) {
+      if (!user?.email) {//With user.type when coming back, buttons are not rendered because the modal sends the account type to show the login/signup page
         return (
           <>
             <NavSeparator />
@@ -45,21 +44,41 @@ export function Welcome() {
           </>
         )
       }
-      return (
-        <>
-            <NavigationTab title="Schedule" />
-            <NavSeparator />
-            <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} />
-            <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
-            <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
-            <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
-            <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
-            <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
-        </>
-      )
+      if (user?.email) {
+        if (user?.type == "student") {
+          return (
+            <>
+                <NavigationTab title="Schedule" />
+                <NavSeparator />
+                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navi="my_account"/>
+                <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
+                <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
+                <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
+                <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
+                <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
+            </>
+          )
+        }
+        if (user?.type == "teacher") {
+          return (
+            <>
+                <NavigationTab title="Bank" />
+                <NavSeparator />
+                <NavigationTab title={user.email} iconClassName={"bi bi-person-circle"} navi="my_account"/>
+                <NavigationTab navi="Messages" iconClassName={"bi bi-envelope-fill"} />
+                <NavigationTab navi="Liked" iconClassName={"bi bi-suit-heart-fill"} />
+                <NavigationTab navi="Scheduled" iconClassName={"bi bi-calendar-fill"} />
+                <NavigationTab navi="Notifications" iconClassName={"bi bi-bell-fill"} />
+                <Button variant="warning" className='btn-logout m-3 me-5 px-4 py-3' onClick={() => handleLogout()}>Log out</Button>
+            </>
+          )
+        }
+      }
+      
     }
 
-    const renderStudentView = () => (<SubjectsCarousell/>)
+    const renderStudentView = () => 
+    (<SubjectsCarousell/>)
     const renderView = () => {
       if (user?.type == "student" && user?.email) {
         return renderStudentView()

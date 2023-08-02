@@ -8,7 +8,6 @@ export function NavigationTab({title, iconClassName, navi}) {
     return (
         <>
             <Nav.Link onClick={() => {
-                console.log(title);
                 title!==undefined?
                     navigate(`/${title.toLowerCase()}`)
                     : navigate(`/${navi.toLowerCase()}`)
@@ -17,7 +16,6 @@ export function NavigationTab({title, iconClassName, navi}) {
                 className='fs-5 m-3 py-3'
             >
                 <IconBar className={`${title!==undefined? "me-2 ": ""}${iconClassName!==undefined? iconClassName: ""}`} />
-
                 {title}
             </Nav.Link>
         </>

@@ -11,6 +11,7 @@ import { StudentNavbar } from '../components/StudentNavbar';
 import { TeacherNavbar } from '../components/TeacherNavbar';
 import { NavigationBar } from '../components/NavigationBar';
 import { IndexNavbar } from '../components/IndexNavbar';
+import SubjectsCarousell from '../components/subjectsCarousell/subjectsCarousell';
 
 export function Welcome() {
     const navigate = useNavigate();

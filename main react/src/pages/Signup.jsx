@@ -31,7 +31,6 @@ export function Signup() {
     const currentUrl = window.location.href;
     const parts = currentUrl.split('/');
     const lastUrlPart = parts[parts.length - 1];
-    console.log(lastUrlPart);
     const navigate = useNavigate();
     let type = "";
     if (lastUrlPart==="student" || lastUrlPart==="teacher") {

@@ -27,5 +27,5 @@ export function StudentNavbar({account_email, handleLogout}) {
 
 StudentNavbar.propTypes = {
     handleLogout: PropTypes.func.isRequired,
-    account_email: PropTypes.bool.isRequired,
+    account_email: PropTypes.string.isRequired,
 };

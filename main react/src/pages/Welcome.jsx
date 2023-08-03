@@ -12,6 +12,7 @@ import { TeacherNavbar } from '../components/TeacherNavbar';
 import { NavigationBar } from '../components/NavigationBar';
 import { IndexNavbar } from '../components/IndexNavbar';
 import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
+import { NavbarState } from '../components/NavbarState';
 
 export function Welcome() {
     const navigate = useNavigate();

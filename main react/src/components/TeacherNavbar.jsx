@@ -12,7 +12,7 @@ export function TeacherNavbar({account_email, handleLogout}) {
             <>
                 <NavigationTab title="About" />
                 <NavigationTab title="Explore" />
-                <NavigationTab title="Schedule" />
+                <NavigationTab title="Bank" />
                 <NavSeparator />
                 <NavigationTab title={account_email} iconClassName={"bi bi-person-circle"} navig="my_account"/>
                 <NavigationTab navig="Messages" iconClassName={"bi bi-envelope-fill"} />

@@ -12,6 +12,7 @@ import { TeacherNavbar } from '../components/TeacherNavbar';
 import { NavigationBar } from '../components/NavigationBar';
 import { IndexNavbar } from '../components/IndexNavbar';
 import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
+import { NavbarState } from '../components/NavbarState';
 
 export function Welcome() {
     const navigate = useNavigate();
@@ -36,24 +37,9 @@ export function Welcome() {
     }
 
     const navRightOptions = () => {
-      if (!user?.email) {//If log is false, show welcome index bar
-        return (
-          <IndexNavbar handleShow={handleShow} />
-        )
-      }
-      if (user?.email) {//if log is true
-        if (user?.type == "student") {
-          return (
-            <StudentNavbar account_email={user.email} handleLogout={handleLogout} />
-          )
-        }
-        if (user?.type == "teacher") {
-          return (
-            <TeacherNavbar account_email={user.email} handleLogout={handleLogout} />
-          )
-        }
-      }
-      
+      return (
+        <NavbarState handleShow={handleShow} handleLogout={handleLogout} user={user}/>
+      )
     }
 
     const renderStudentView = () => (<SubjectsCarousell/>)

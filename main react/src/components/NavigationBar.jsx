@@ -9,7 +9,7 @@ export function NavigationBar({elements}) {
     return (
       <>
         <Navbar bg="light" data-bs-theme="light" fixed="top" className="welcome-bar shadow-sm p-1 d-flex">
-            <Navbar.Brand onClick={() => navigate("/home")} className='d-flex logo-href ps-3 ms-5 me-auto' >
+            <Navbar.Brand onClick={() => navigate("/")} className='d-flex logo-href ps-3 ms-5 me-auto' >
                 <img src={logo} alt="logo" className='logo-main p-2 navbar-brand'/>
             </Navbar.Brand>
             <div className="welcome-bar-elements m-2 d-flex">
@@ -17,7 +17,7 @@ export function NavigationBar({elements}) {
                     {elements}
                 </Nav>
             </div> 
-      </Navbar>
+        </Navbar>
       </>
     );
 }

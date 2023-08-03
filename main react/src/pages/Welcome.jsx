@@ -27,7 +27,8 @@ export function Welcome() {
 
     function onLog(val) {/*Navigate to signin or signup*/
       setUser({type: val});
-      navigate(logType);
+      //navigate(logType);
+      navigate(`${logType}/${val}`)
     }
 
     const handleLogout = () => {
@@ -37,11 +38,7 @@ export function Welcome() {
     const navRightOptions = () => {
       if (!user?.email) {//If log is false, show welcome index bar
         return (
-          <>
-            <NavigationBar elements={
-                <IndexNavbar handleShow={handleShow} />
-            }/>
-        </>
+          <IndexNavbar handleShow={handleShow} />
         )
       }
       if (user?.email) {//if log is true

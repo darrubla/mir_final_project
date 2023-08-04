@@ -8,6 +8,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import { Signin } from './pages/Signin';
 import { Signup } from './pages/Signup';
+import { StudentAccountInfo } from './pages/StudentAccountInfo';
+import { NotFound } from './pages/NotFound';
 
 function App() {
 

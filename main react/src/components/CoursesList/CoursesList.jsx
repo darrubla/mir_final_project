@@ -1,6 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
+import React from 'react'
 import SubjectCard from '../SubjectCard/SubjectCard'
 
 function CoursesList({title, subjects}) {

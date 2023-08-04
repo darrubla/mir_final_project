@@ -18,9 +18,18 @@ const signInSchema = z
     })
 
 export function Signin() {
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split('/');
+    const lastUrlPart = parts[parts.length - 1];
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
-    const type = JSON.parse(JSON.stringify(user)).type
+    let type = "";
+    if (lastUrlPart==="student" || lastUrlPart==="teacher") {
+        type = lastUrlPart;
+    }
+    else {
+        navigate("/notFound");
+    }
+    const { setUser } = useContext(UserContext);
     const initialValues = {
         email: '',
         password: '',
@@ -32,7 +41,7 @@ export function Signin() {
                 onSubmit={(values, { setSubmitting }) => {
                     setUser({ type: type, email: values.email});
                     setSubmitting(false);
-                    navigate(`/home_${type.toLowerCase()}`);
+                    navigate(`/`);
                 }}
                 validationSchema={toFormikValidationSchema(signInSchema)}
             >

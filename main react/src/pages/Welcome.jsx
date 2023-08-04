@@ -28,7 +28,8 @@ export function Welcome() {
 
     function onLog(val) {/*Navigate to signin or signup*/
       setUser({type: val});
-      navigate(logType);
+      //navigate(logType);
+      navigate(`${logType}/${val}`)
     }
 
     const handleLogout = () => {
@@ -36,48 +37,15 @@ export function Welcome() {
     }
 
     const navRightOptions = () => {
-      if (!user?.type) {
-        return (
-          <>
-            <Button variant="warning" className='btn-register m-3 px-4 py-3' onClick={() => handleShow("signup")}>Register</Button>
-            <Button variant="info" className='btn-signin m-3 me-5 px-4 py-3' onClick={() => handleShow("signin")}>Sign in</Button>
-          </>
-        )
-      }
       return (
-        <>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-person-circle"></i> {user.email}
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-envelope-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-suit-heart-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-calendar-fill"></i>
-            </button>
-            <button type="button" className="btn my-3">
-              <i className="bi bi-bell-fill"></i>
-            </button>
-            <button
-              type="button"
-              className="btn-register m-3 px-4 py-3 btn btn-warning"
-              onClick={handleLogout}
-            >
-              Log out
-            </button>
-        </>
+        <NavbarState handleShow={handleShow} handleLogout={handleLogout} user={user}/>
       )
     }
 
     const renderStudentView = () => (<SubjectsCarousell/>)
-
-
     const renderView = () => {
       if (user?.type == "student" && user?.email) {
-        return renderStudentView()
+        return renderStudentView()//Cards and student home page
       }
       return (
         <>
@@ -91,20 +59,11 @@ export function Welcome() {
 
     return (
         <>
-        <NavigationBar elements={
-          <>
-            <Nav.Link href="/about" className='fs-6 m-3 py-3'>About</Nav.Link>
-            <Nav.Link href="/explore" className='fs-6 m-3 py-3'>Explore</Nav.Link>
-            <div className="d-flex align-items-center divider-bar bg-dark m-3" />
-            {navRightOptions()}
-          </>
-        } />
-
+        {navRightOptions()}{/*Navbars*/}
         <ModalAlert handleClose={handleClose} show={show} onLog={onLog}/>
-
         <div className="welcome-content d-flex flex-column mt-5 mx-2 pt-5 px-1">
           {renderView()}
-          <Info />
+          <Info />{/*Info section always visible in home page (with and without login)*/}
         </div>
       </>
     );

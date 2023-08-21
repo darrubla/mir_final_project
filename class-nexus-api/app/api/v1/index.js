@@ -5,4 +5,3 @@ import { router as lessons } from "./lessons/routes.js";
 export const router = Router();
 
 router.use("/lessons", lessons);
-// router.use("/classes", lessons);

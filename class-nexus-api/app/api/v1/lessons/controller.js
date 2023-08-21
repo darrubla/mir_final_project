@@ -17,16 +17,38 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const all = (req, res) => {
-  res.json({
-    data: [],
-  });
+export const all = async (req, res, next) => {
+  try {
+    const result = await prisma.lesson.findMany();
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const read = (req, res) => {
-  res.json({
-    data: {},
-  });
+export const read = async (req, res, next) => {
+  const { params = {} } = req;
+  try {
+    const result = await prisma.lesson.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!result) {
+      return next({
+        message: "Lesson not found",
+        status: 404,
+      });
+    }
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const update = (req, res) => {

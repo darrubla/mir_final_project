@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Lesson {
-  id          String   @id @default(uuid()) @db.Uuid
-  subject     String
-  description String
-  createdAt   DateTime @default(now())
-  scheduledAt DateTime
-  site        String
+  id          String    @id @default(uuid()) @db.Uuid
+  subject     String?
+  description String?
+  createdAt   DateTime  @default(now())
+  scheduledAt DateTime?
+  site        String?
   // teacher     Teacher  @relation(fields: [teacherId], references: [id])
   // teacherId   String   @db.Uuid
   // student     Student  @relation(fields: [studentId], references: [id])
@@ -25,23 +25,23 @@ model Lesson {
 }
 
 model Teacher {
-  id       String @id @default(uuid()) @db.Uuid
-  email    String @unique
-  name     String
-  lastname String
-  age      Int
-  password String
-  type     String
+  id       String  @id @default(uuid()) @db.Uuid
+  email    String  @unique
+  name     String?
+  lastname String?
+  age      Int?
+  password String?
+  type     String?
   // lesson   Lesson[]
 }
 
 model Student {
-  id       String @id @default(uuid()) @db.Uuid
-  email    String @unique
-  name     String
-  lastname String
-  age      Int
-  password String
-  type     String
+  id       String  @id @default(uuid()) @db.Uuid
+  email    String  @unique
+  name     String?
+  lastname String?
+  age      Int?
+  password String?
+  type     String?
   // lesson   Lesson[]
 }

@@ -13,35 +13,35 @@ datasource db {
 model Lesson {
   id          String   @id @default(uuid()) @db.Uuid
   subject     String
-  decription  String
+  description String
   createdAt   DateTime @default(now())
   scheduledAt DateTime
   site        String
-  teacher     Teacher  @relation(fields: [teacherId], references: [id])
-  teacherId   String   @db.Uuid
-  student     Student  @relation(fields: [studentId], references: [id])
-  studentId   String   @db.Uuid
+  // teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  // teacherId   String   @db.Uuid
+  // student     Student  @relation(fields: [studentId], references: [id])
+  // studentId   String   @db.Uuid
   status      String // Scheduled, Finished, Canceled
 }
 
 model Teacher {
-  id       String   @id @default(uuid()) @db.Uuid
-  email    String   @unique
+  id       String @id @default(uuid()) @db.Uuid
+  email    String @unique
   name     String
   lastname String
   age      Int
   password String
   type     String
-  lesson   Lesson[]
+  // lesson   Lesson[]
 }
 
 model Student {
-  id       String   @id @default(uuid()) @db.Uuid
-  email    String   @unique
+  id       String @id @default(uuid()) @db.Uuid
+  email    String @unique
   name     String
   lastname String
   age      Int
   password String
   type     String
-  lesson   Lesson[]
+  // lesson   Lesson[]
 }

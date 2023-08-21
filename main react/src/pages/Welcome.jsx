@@ -7,9 +7,6 @@ import Faq from '../content-welcome/Faq';
 import { Info } from '../content-welcome/Info';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../containers/UserContext';
-import { StudentNavbar } from '../components/StudentNavbar';
-import { TeacherNavbar } from '../components/TeacherNavbar';
-import { NavigationBar } from '../components/NavigationBar';
 import { IndexNavbar } from '../components/IndexNavbar';
 import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
 import { NavbarState } from '../components/NavbarState';
@@ -47,8 +44,12 @@ export function Welcome() {
       if (user?.type == "student" && user?.email) {
         return renderStudentView()//Cards and student home page
       }
+      if (user?.type == "teacher" && user?.email) {
+        return renderStudentView()//Cards and student home page
+      }
       return (
         <>
+          <IndexNavbar handleShow={handleShow}/>
           <Presentation handleShow={handleShow}/>
           <Features />
           <HowWorks />

@@ -45,6 +45,7 @@ export function Signup() {
         lastname: '',
         age: 18,
         email: '',
+        type: type,
         password: '',
         confirmpassword: '',
       }

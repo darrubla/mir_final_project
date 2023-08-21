@@ -1,9 +1,21 @@
-export const create = (req, res) => {
-  const { body } = req;
-  res.status(201);
-  res.json({
-    data: body,
-  });
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+export const create = async (req, res, next) => {
+  const { body = {} } = req;
+
+  try {
+    const result = await prisma.lesson.create({
+      data: body,
+    });
+
+    res.status(201);
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const all = (req, res) => {

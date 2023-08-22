@@ -7,6 +7,7 @@ export function StudentAccountInfo() {
     const navigate = useNavigate();
     const { setUser, user } = useContext(UserContext);
     if (user?.type == "student" && user?.email) {
+        console.log(user);
         return (
             <>
                 <StudentNavbar 

@@ -44,7 +44,7 @@ export const all = async (req, res, next) => {
   }
 };
 
-export const read = async (req, res, next) => {
+export const id = async (req, res, next) => {
   const { params = {} } = req;
   try {
     const result = await prisma.lesson.findUnique({
@@ -53,12 +53,32 @@ export const read = async (req, res, next) => {
       },
     });
 
-    if (!result) {
-      return next({
-        message: "Lesson not found",
-        status: 404,
-      });
-    }
+    req.result = result;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const read = async (req, res, next) => {
+  res.json({
+    data: req.result,
+  });
+};
+
+export const update = async (req, res, next) => {
+  const { body = {}, params = {} } = req;
+  const { id } = params;
+
+  try {
+    const result = await prisma.lesson.update({
+      where: {
+        id,
+      },
+      data: body,
+    });
+
     res.json({
       data: result,
     });
@@ -67,13 +87,17 @@ export const read = async (req, res, next) => {
   }
 };
 
-export const update = (req, res) => {
-  res.json({
-    data: {},
-  });
-};
+export const remove = async (req, res, next) => {
+  const { params = {} } = req;
+  const { id } = params;
 
-export const remove = (req, res) => {
-  res.status(204);
-  res.end();
+  try {
+    await prisma.lesson.delete({
+      where: { id },
+    });
+    res.status(204);
+    res.end();
+  } catch (error) {
+    next(error);
+  }
 };

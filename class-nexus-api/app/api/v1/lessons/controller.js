@@ -1,4 +1,5 @@
 import { prisma } from "../../../database.js";
+import { parsePaginationParams } from "../../../utils.js";
 
 export const create = async (req, res, next) => {
   const { body = {} } = req;
@@ -18,10 +19,25 @@ export const create = async (req, res, next) => {
 };
 
 export const all = async (req, res, next) => {
+  const { query } = req;
+  const { offset, limit } = parsePaginationParams(query);
+
   try {
-    const result = await prisma.lesson.findMany();
+    const [result, total] = await Promise.all([
+      prisma.lesson.findMany({
+        skip: offset,
+        take: limit,
+      }),
+      prisma.lesson.count(),
+    ]);
+
     res.json({
       data: result,
+      meta: {
+        limit,
+        offset,
+        total,
+      },
     });
   } catch (error) {
     next(error);

@@ -10,6 +10,9 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
+import { TimePicker } from './TimePicker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 
 const subjects = ["Math", "Science", "Spanish", "History", "English", "Art", "Music", "Physical Education", "Biology", "Chemistry", "Physics", "Geography", "Computer Science", "Economics", "Psychology", "Sociology", "Political Science", "Literature", "Philosophy", "Foreign Languages", "Health Education", "Environmental Science", "Civics", "Engineering", "Astronomy"];
 const locations = ["Teacher's location", "Student's location", "Videocall"]
@@ -24,27 +27,35 @@ const scheduleSchema = z
         errorMap: () => ({ message: 'Please select a valid location' })
     }),
     locationdescription: z.string(),
-    scheduledate: z.string()
+    scheduledate: z.string(),
+    scheduletime: z.string(),
 })
 export function ScheduleForm() {
     const [dateValue, onDateChange] = useState(new Date());
-    const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
+    const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [showTime, setShowTime] = useState(false);
+    const [hour, setHour] = useState("12")
+    const [minute, setMinute] = useState("00")
 
     const handleShowCalendar = () => {
         setShowCalendar(!showCalendar);
-        console.log(showCalendar,'++')
+    }
+    const handleShowTime = () => {
+        setShowTime(!showTime);
     }
     const handleCloseCalendar = () => {
         setShowCalendar(false);
     }
-    
+
     const initialValues = {
         subject: '',
         topicdescription: '',
         location: '',
         locationdescription: '',
         scheduledate: dateSelected,
+        scheduletime: `${hour}:${minute}:00`,
+
     }
 
     return (
@@ -64,7 +75,7 @@ export function ScheduleForm() {
                                 <ListSelect optionsList={subjects} fieldName='SUBJECT' handleChange={handleChange} handleBlur={handleBlur} value={values.subject} className={touched.subject && errors.subject ? ' is-invalid' : ''} />
                                 <FormDescription fieldName="topic description" handleChange={handleChange} handleBlur={handleBlur} val={values.topicdescription} classN={touched.topicdescription && errors.topicdescription ? 'is-invalid' : ''}/>
                                 <div>
-                                    <DateText fieldName='schedule date' handleShowCalendar={handleShowCalendar} handleChange={handleChange} handleBlur={handleBlur} value={values.scheduledate} className={touched.scheduledate && errors.scheduledate ? 'is-invalid' : ''}/>
+                                    <DateText fieldName='schedule date' handleShow={handleShowCalendar} handleChange={handleChange} handleBlur={handleBlur} value={values.scheduledate} className={touched.scheduledate && errors.scheduledate ? 'is-invalid' : ''}/>
                                     {showCalendar && (
                                         <Calendar
                                             onHide={handleCloseCalendar}
@@ -73,8 +84,8 @@ export function ScheduleForm() {
                                             onClickDay={
                                             (dateValue) => {
                                                 handleShowCalendar()
-                                                setDateSelected(`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
-                                                values.scheduledate=`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
+                                                setDateSelected(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
+                                                values.scheduledate=`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
                                             }}
                                             minDate={new Date()}
                                         />
@@ -89,7 +100,23 @@ export function ScheduleForm() {
                                 <ListSelect optionsList={locations} fieldName='LOCATION' handleChange={handleChange} handleBlur={handleBlur} value={values.location} className={touched.location && errors.location ? ' is-invalid' : ''} />
                                 <FormDescription fieldName="location description" handleChange={handleChange} handleBlur={handleBlur} val={values.locationdescription} classN={touched.locationdescription && errors.locationdescription ? 'is-invalid' : ''}/>
                                 <div>
-                                    
+                                    <DateText fieldName='schedule time' handleShow={handleShowTime} handleChange={handleChange} handleBlur={handleBlur} value={`${values.scheduletime}`} className={touched.scheduletime && errors.scheduletime ? 'is-invalid' : ''}/>
+                                    {showTime && (
+                                        <TimePicker 
+                                            handleChange={(event) =>{
+                                                if (event.target.name==="hour") {
+                                                    setHour(event.target.value)
+                                                    values.scheduletime=`${event.target.value}:${minute}:00`
+                                                }
+                                                if (event.target.name==="minute") {
+                                                    setMinute(event.target.value)
+                                                    values.scheduletime=`${hour}:${event.target.value}:00`
+                                                }
+                                            }} 
+                                            valueHour={hour} 
+                                            valueMinute={minute}
+                                        />
+                                    )}
                                 </div>
                             </div>
                             <div className='d-flex flex-column justify-content-start'>

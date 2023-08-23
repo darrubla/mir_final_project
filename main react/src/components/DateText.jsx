@@ -38,5 +38,5 @@ DateText.propTypes = {
     handleBlur: PropTypes.func.isRequired,
     handleShow: PropTypes.func.isRequired,
     className: PropTypes.string.isRequired,
-    value: PropTypes.isRequired,
+    value: PropTypes.string.isRequired,
 }

@@ -26,7 +26,7 @@ const scheduleSchema = z
     location: z.enum(locations, {
         errorMap: () => ({ message: 'Please select a valid location' })
     }),
-    locationdescription: z.string(),
+    locationdescription: z.string().min(10, { message: "Provide a longer description" }),
     scheduledate: z.string(),
     scheduletime: z.string(),
 })
@@ -55,9 +55,9 @@ export function ScheduleForm() {
         locationdescription: '',
         scheduledate: dateSelected,
         scheduletime: `${hour}:${minute}:00`,
-
+        scheduledatetime: (new Date(`${dateSelected}T${hour}:${minute}:00`))
     }
-
+    console.log(initialValues.scheduledatetime)
     return (
         <>
             <Formik 
@@ -86,6 +86,8 @@ export function ScheduleForm() {
                                                 handleShowCalendar()
                                                 setDateSelected(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
                                                 values.scheduledate=`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
+                                                values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
+                                                console.log(values)
                                             }}
                                             minDate={new Date()}
                                         />
@@ -107,10 +109,14 @@ export function ScheduleForm() {
                                                 if (event.target.name==="hour") {
                                                     setHour(event.target.value)
                                                     values.scheduletime=`${event.target.value}:${minute}:00`
+                                                    values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
+                                                    console.log(values)
                                                 }
                                                 if (event.target.name==="minute") {
                                                     setMinute(event.target.value)
                                                     values.scheduletime=`${hour}:${event.target.value}:00`
+                                                    values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
+                                                    console.log(values)
                                                 }
                                             }} 
                                             valueHour={hour} 

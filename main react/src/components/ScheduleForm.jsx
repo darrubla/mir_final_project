@@ -3,11 +3,10 @@ import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
 import { NavSeparator } from './NavSeparator';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
@@ -28,7 +27,6 @@ const scheduleSchema = z
     scheduledate: z.string()
 })
 export function ScheduleForm() {
-    const navigate = useNavigate();
     const [dateValue, onDateChange] = useState(new Date());
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
     const [showCalendar, setShowCalendar] = useState(false);
@@ -41,7 +39,6 @@ export function ScheduleForm() {
         setShowCalendar(false);
     }
     
-    // dateValue=`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`
     const initialValues = {
         subject: '',
         topicdescription: '',
@@ -57,7 +54,6 @@ export function ScheduleForm() {
                 onSubmit={(values, { setSubmitting }) => {
                     console.log(JSON.stringify(values, null, 2));
                     setSubmitting(false);
-                    navigate(`/`);
                 }}
                 validationSchema={toFormikValidationSchema(scheduleSchema)}
             >
@@ -69,18 +65,21 @@ export function ScheduleForm() {
                                 <FormDescription fieldName="topic description" handleChange={handleChange} handleBlur={handleBlur} val={values.topicdescription} classN={touched.topicdescription && errors.topicdescription ? 'is-invalid' : ''}/>
                                 <div>
                                     <DateText fieldName='schedule date' handleShowCalendar={handleShowCalendar} handleChange={handleChange} handleBlur={handleBlur} value={values.scheduledate} className={touched.scheduledate && errors.scheduledate ? 'is-invalid' : ''}/>
-                                    <Calendar 
-                                        show={showCalendar}
-                                        onHide={handleCloseCalendar}
-                                        onChange={onDateChange} 
-                                        value={dateSelected}
-                                        onClickDay={
-                                        (dateValue) => {
-                                            setDateSelected(`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
-                                            values.scheduledate=`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
-                                        }}
-                                        minDate={new Date()}
-                                    />
+                                    {showCalendar && (
+                                        <Calendar
+                                            onHide={handleCloseCalendar}
+                                            onChange={onDateChange} 
+                                            value={dateSelected}
+                                            onClickDay={
+                                            (dateValue) => {
+                                                handleShowCalendar()
+                                                setDateSelected(`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
+                                                values.scheduledate=`${dateValue.getFullYear()}-${dateValue.getMonth().toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
+                                            }}
+                                            minDate={new Date()}
+                                        />
+                                    )}
+                                    
                                 </div>
                             </div>
                             <div className='d-flex flex-column justify-content-start'>

@@ -18,6 +18,7 @@ export function DateText ({fieldName, handleShowCalendar, handleChange, handleBl
                         onBlur={handleBlur}
                         value={value}
                         onClick={handleShowCalendar}
+                        readOnly
                     />
                     <ErrorMessage
                         name={fieldName.toLowerCase().replace(/ /g, '')}

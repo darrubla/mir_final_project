@@ -1,8 +1,11 @@
 import express from "express";
+import cors from "cors";
 import { router as api } from "./api/v1/index.js";
 
 export const app = express();
 
+// CORS
+app.use(cors());
 // Parse JSON body
 app.use(express.json());
 

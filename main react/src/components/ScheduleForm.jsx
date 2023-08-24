@@ -6,13 +6,14 @@ import { z } from 'zod';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
 import { NavSeparator } from './NavSeparator';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
 import { TimePicker } from './TimePicker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import { useNavigate } from 'react-router-dom';
 
 const subjects = ["Math", "Science", "Spanish", "History", "English", "Art", "Music", "Physical Education", "Biology", "Chemistry", "Physics", "Geography", "Computer Science", "Economics", "Psychology", "Sociology", "Political Science", "Literature", "Philosophy", "Foreign Languages", "Health Education", "Environmental Science", "Civics", "Engineering", "Astronomy"];
 const locations = ["Teacher's location", "Student's location", "Videocall"]
@@ -31,6 +32,7 @@ const scheduleSchema = z
     scheduletime: z.string(),
 })
 export function ScheduleForm() {
+    const navigate = useNavigate()
     const [dateValue, onDateChange] = useState(new Date());
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
     const [showCalendar, setShowCalendar] = useState(false);
@@ -48,6 +50,7 @@ export function ScheduleForm() {
         setShowCalendar(false);
     }
 
+
     const initialValues = {
         subject: '',
         topicdescription: '',
@@ -57,13 +60,21 @@ export function ScheduleForm() {
         scheduletime: `${hour}:${minute}:00`,
         scheduledatetime: (new Date(`${dateSelected}T${hour}:${minute}:00`))
     }
-    console.log(initialValues.scheduledatetime)
+
+      
     return (
         <>
             <Formik 
                 initialValues={initialValues}
                 onSubmit={(values, { setSubmitting }) => {
-                    console.log(JSON.stringify(values, null, 2));
+                    let lessonContent={}
+                    lessonContent.subject=values.subject
+                    lessonContent.site=values.location
+                    lessonContent.description=values.topicdescription
+                    lessonContent.scheculedAt=values.scheduledatetime
+
+                    console.log(JSON.stringify(lessonContent, null, 2))
+                    navigate('/')
                     setSubmitting(false);
                 }}
                 validationSchema={toFormikValidationSchema(scheduleSchema)}
@@ -87,7 +98,6 @@ export function ScheduleForm() {
                                                 setDateSelected(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`)
                                                 values.scheduledate=`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
                                                 values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
-                                                console.log(values)
                                             }}
                                             minDate={new Date()}
                                         />
@@ -110,13 +120,11 @@ export function ScheduleForm() {
                                                     setHour(event.target.value)
                                                     values.scheduletime=`${event.target.value}:${minute}:00`
                                                     values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
-                                                    console.log(values)
                                                 }
                                                 if (event.target.name==="minute") {
                                                     setMinute(event.target.value)
                                                     values.scheduletime=`${hour}:${event.target.value}:00`
                                                     values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
-                                                    console.log(values)
                                                 }
                                             }} 
                                             valueHour={hour} 

@@ -45,3 +45,8 @@ model Student {
   type     String?
   // lesson   Lesson[]
 }
+
+model Subject {
+  id          String @id @default(uuid()) @db.Uuid
+  subjectname String
+}

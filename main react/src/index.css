@@ -1,3 +1,35 @@
+@font-face {
+  font-family: 'ClashGrotesk-Light';
+  src: url('./assets/fonts/ClashGrotesk-Light.woff2') format('woff2');
+       font-weight: 300;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk-Regular';
+  src: url('./assets/fonts/ClashGrotesk-Regular.woff2') format('woff2');
+       font-weight: 400;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk-Medium';
+  src: url('./assets/fonts/ClashGrotesk-Medium.woff2') format('woff2');
+       font-weight: 500;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk-Semibold';
+  src: url('./assets/fonts/ClashGrotesk-Semibold.woff2') format('woff2');
+       font-weight: 600;
+       font-display: swap;
+       font-style: normal;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -5,8 +5,6 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 
 import teacherImage from "../img/teacher.png";
-// import avatar from "../img/avatar.png";
-
 
 export function ScheduledLesson({lessondata}) {
     
@@ -59,7 +57,7 @@ export function ScheduledLesson({lessondata}) {
                                                 <p className="fw-semibold">TIME</p>
                                             </div>
                                             <div className='d-flex lesson-time'>
-                                                <p className="fw-light">{lesson.scheduledAt}</p>
+                                                <p className="fw-light">{(formatDate(lesson.scheduledAt).time)}</p>
                                             </div>
                                         </div>
                                         <div className='d-flex flex-row location-info justify-content-between'>

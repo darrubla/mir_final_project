@@ -25,24 +25,26 @@ model Lesson {
 }
 
 model Teacher {
-  id       String  @id @default(uuid()) @db.Uuid
-  email    String  @unique
-  name     String?
-  lastname String?
-  age      Int?
-  password String?
-  type     String?
+  id          String    @id @default(uuid()) @db.Uuid
+  email       String    @unique
+  name        String?
+  lastname    String?
+  age         Int?
+  password    String?
+  createdAt   DateTime  @default(now())
+  scheduledAt DateTime?
   // lesson   Lesson[]
 }
 
 model Student {
-  id       String  @id @default(uuid()) @db.Uuid
-  email    String  @unique
-  name     String?
-  lastname String?
-  age      Int?
-  password String?
-  type     String?
+  id          String    @id @default(uuid()) @db.Uuid
+  email       String    @unique
+  name        String
+  lastname    String
+  age         Int
+  password    String?
+  createdAt   DateTime  @default(now())
+  scheduledAt DateTime?
   // lesson   Lesson[]
 }
 

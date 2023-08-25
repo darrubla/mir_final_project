@@ -5,10 +5,18 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 
 import teacherImage from "../img/teacher.png";
-import avatar from "../img/avatar.png";
+// import avatar from "../img/avatar.png";
 
 
 export function ScheduledLesson({lessondata}) {
+    
+    function formatDate(p) {
+        let dateVal={}
+        dateVal.date=`${(new Date(p)).getFullYear()}-${((new Date(p)).getMonth()+1).toString().padStart(2, '0')}-${((new Date(p)).getDate()).toString().padStart(2, '0')}`
+        dateVal.time=`${(new Date(p)).getHours().toString().padStart(2, '0')}:${(new Date(p)).getMinutes().toString().padStart(2, '0')}`
+        return (dateVal)
+    }
+
     return (
         <Accordion defaultActiveKey="0">
             {lessondata.map((lesson, key)=>(
@@ -19,7 +27,7 @@ export function ScheduledLesson({lessondata}) {
                                 {`${lesson.subject}`}
                             </div>
                             <div className='d-flex'>
-                                <p className=" d-flex text-muted fw-lighter m-0">{`${lesson.scheduledAt}`}</p>
+                                <p className=" d-flex text-muted fw-lighter m-0">{`${formatDate(lesson.scheduledAt).date} ${formatDate(lesson.scheduledAt).time}`}</p>
                             </div>
                         </div>
                     </Accordion.Header>
@@ -35,12 +43,22 @@ export function ScheduledLesson({lessondata}) {
                                             <p className="fw-light">{lesson.description}</p>
                                         </div>
                                     </div>
-                                    <div className='f-flex flex-colum datetime-location'>
+                                    <div className='f-flex flex-column datetime-location'>
                                         <div className='d-flex flex-row date-info justify-content-between'>
                                             <div className='d-flex date-title'>
                                                 <p className="fw-semibold">DATE</p>
                                             </div>
                                             <div className='d-flex lesson-date'>
+                                                <p className="fw-light">
+                                                    {(formatDate(lesson.scheduledAt).date)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className='d-flex flex-row time-info justify-content-between'>
+                                            <div className='d-flex time-title'>
+                                                <p className="fw-semibold">TIME</p>
+                                            </div>
+                                            <div className='d-flex lesson-time'>
                                                 <p className="fw-light">{lesson.scheduledAt}</p>
                                             </div>
                                         </div>

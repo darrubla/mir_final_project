@@ -1,5 +1,3 @@
-// import { Prisma } from "@prisma/client";
-
 import { prisma } from "../../../database.js";
 import { fields } from "./model.js";
 import { parseOrderParams, parsePaginationParams } from "../../../utils.js";

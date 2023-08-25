@@ -5,7 +5,6 @@ import { TeacherNavbar } from "./TeacherNavbar"
 import PropTypes from 'prop-types';
 
 export function NavbarState({handleShow, handleLogout, user}) {
-        //console.log(typeof(user));
         if (!user?.email) {//If log is false, show welcome index bar
             return (
               <IndexNavbar handleShow={handleShow} />

@@ -5,29 +5,27 @@ import { ErrorMessage } from 'formik';
 
 export function DateText ({fieldName, handleShow, handleChange, handleBlur, value, className}) {
     return (
-        <>
-            <Form.Group className="d-flex flex-column mt-2">
-                <InputGroup className="field-form">
-                    <Form.Control
-                        placeholder={fieldName.toLowerCase()}
-                        aria-label={fieldName.toLowerCase()}
-                        type="text"
-                        className={`rounded-5 ${className}`}
-                        name={fieldName.toLowerCase().replace(/ /g, '')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={value}
-                        onClick={handleShow}
-                        readOnly
-                    />
-                    <ErrorMessage
-                        name={fieldName.toLowerCase().replace(/ /g, '')}
-                        component="div"
-                        className="invalid-feedback"
-                    />
-                </InputGroup>
-            </Form.Group>
-        </>
+        <Form.Group className="d-flex flex-column mt-2">
+            <InputGroup className="field-form">
+                <Form.Control
+                    placeholder={fieldName.toLowerCase()}
+                    aria-label={fieldName.toLowerCase()}
+                    type="text"
+                    className={`rounded-5 ${className}`}
+                    name={fieldName.toLowerCase().replace(/ /g, '')}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={value}
+                    onClick={handleShow}
+                    readOnly
+                />
+                <ErrorMessage
+                    name={fieldName.toLowerCase().replace(/ /g, '')}
+                    component="div"
+                    className="invalid-feedback"
+                />
+            </InputGroup>
+        </Form.Group>
     );
     
 }

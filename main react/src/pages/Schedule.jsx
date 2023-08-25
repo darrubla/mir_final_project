@@ -23,14 +23,17 @@ export function Schedule() {
     if (user?.type == "student" && user?.email) {
         return (
             <>
-                <StudentNavbar account_email={user.email} handleLogout={()=>{
-                    setUser(null)
-                    navigate("/")
-                }}/>
-                <SectionName title="SCHEDULE" />
+            <StudentNavbar account_email={user.email} handleLogout={()=>{
+                        setUser(null)
+                        navigate("/")
+                    }}/>
+            <div className="pt-4 mt-5">
+                <SectionName title="SCHEDULE" className="mt-5"/>
                 <ScheduleForm />
-                <SectionName title="SCHEDULED" />
+                <SectionName title="SCHEDULED" className="mt-5"/>
                 <ScheduledLesson lessondata={data} />
+            </div>
+                
             </>
         )
     }

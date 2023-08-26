@@ -4,13 +4,13 @@ import * as controller from "./controller.js";
 // eslint-disable-next-line new-cap
 export const router = Router();
 
-router.route("/").get(controller.allLessons).post(controller.createLesson);
+router.route("/").get(controller.allStudents).post(controller.createStudent);
 
-router.param("id", controller.idLesson);
+router.param("id", controller.idStudent);
 
 router
   .route("/:id")
-  .get(controller.readLesson)
-  .put(controller.updateLesson)
-  .patch(controller.updateLesson)
-  .delete(controller.removeLesson);
+  .get(controller.readStudent)
+  .put(controller.updateStudent)
+  .patch(controller.updateStudent)
+  .delete(controller.removeStudent);

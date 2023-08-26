@@ -17,35 +17,35 @@ model Lesson {
   createdAt   DateTime  @default(now())
   scheduledAt DateTime?
   site        String?
+  status      String // Scheduled, Finished, Canceled
   // teacher     Teacher  @relation(fields: [teacherId], references: [id])
   // teacherId   String   @db.Uuid
-  // student     Student  @relation(fields: [studentId], references: [id])
-  // studentId   String   @db.Uuid
-  status      String // Scheduled, Finished, Canceled
+  student     Student   @relation(fields: [studentId], references: [id])
+  studentId   String    @db.Uuid
 }
 
 model Teacher {
-  id          String    @id @default(uuid()) @db.Uuid
-  email       String    @unique
-  name        String?
-  lastname    String?
-  age         Int?
-  password    String?
-  createdAt   DateTime  @default(now())
-  scheduledAt DateTime?
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  name      String?
+  lastname  String?
+  age       Int?
+  password  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
   // lesson   Lesson[]
 }
 
 model Student {
-  id          String    @id @default(uuid()) @db.Uuid
-  email       String    @unique
-  name        String
-  lastname    String
-  age         Int
-  password    String?
-  createdAt   DateTime  @default(now())
-  scheduledAt DateTime?
-  // lesson   Lesson[]
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  name      String
+  lastname  String
+  age       Int
+  password  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  lesson    Lesson[]
 }
 
 model Subject {

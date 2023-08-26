@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { router as api } from "./api/v1/index.js";
-
 export const app = express();
 
 // CORS
@@ -12,6 +11,7 @@ app.use(express.json());
 app.use("/api", api);
 app.use("/api/v1", api);
 
+// app.use('/api/v1/docs', swa)
 app.use((req, res, next) => {
   next({
     message: "Route Not Found",

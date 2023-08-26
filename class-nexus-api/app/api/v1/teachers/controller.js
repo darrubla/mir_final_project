@@ -2,11 +2,11 @@ import { prisma } from "../../../database.js";
 import { fields } from "./model.js";
 import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
 
-export const createStudent = async (req, res, next) => {
+export const createTeacher = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
-    const result = await prisma.Student.create({
+    const result = await prisma.Teacher.create({
       data: body,
     });
 
@@ -19,7 +19,7 @@ export const createStudent = async (req, res, next) => {
   }
 };
 
-export const allStudents = async (req, res, next) => {
+export const allTeachers = async (req, res, next) => {
   const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
   const { orderBy, direction } = parseOrderParams({
@@ -29,23 +29,14 @@ export const allStudents = async (req, res, next) => {
 
   try {
     const [result, total] = await Promise.all([
-      prisma.Student.findMany({
+      prisma.Teacher.findMany({
         skip: offset,
         take: limit,
         orderBy: {
           [orderBy]: direction,
         },
-        include: {
-          lesson: {
-            // Para que solo me traiga estos campos
-            select: {
-              id: true,
-              subject: true,
-            },
-          },
-        },
       }),
-      prisma.Student.count(),
+      prisma.Teacher.count(),
     ]);
 
     res.json({
@@ -63,10 +54,10 @@ export const allStudents = async (req, res, next) => {
   }
 };
 
-export const idStudent = async (req, res, next) => {
+export const idTeacher = async (req, res, next) => {
   const { params = {} } = req;
   try {
-    const result = await prisma.Student.findUnique({
+    const result = await prisma.Teacher.findUnique({
       where: {
         id: params.id,
       },
@@ -74,7 +65,7 @@ export const idStudent = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Student not found",
+        message: "Teacher not found",
         status: 404,
       });
     } else {
@@ -86,18 +77,18 @@ export const idStudent = async (req, res, next) => {
   }
 };
 
-export const readStudent = async (req, res, next) => {
+export const readTeacher = async (req, res, next) => {
   res.json({
     data: req.data,
   });
 };
 
-export const updateStudent = async (req, res, next) => {
+export const updateTeacher = async (req, res, next) => {
   const { body = {}, params = {} } = req;
   const { id } = params;
 
   try {
-    const result = await prisma.Student.update({
+    const result = await prisma.Teacher.update({
       where: {
         id,
       },
@@ -112,12 +103,12 @@ export const updateStudent = async (req, res, next) => {
   }
 };
 
-export const removeStudent = async (req, res, next) => {
+export const removeTeacher = async (req, res, next) => {
   const { params = {} } = req;
   const { id } = params;
 
   try {
-    await prisma.Student.delete({
+    await prisma.Teacher.delete({
       where: { id },
     });
     res.status(204);

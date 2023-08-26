@@ -5,4 +5,5 @@ export const fields = [
   "createdAt",
   "scheduledAt",
   "site",
+  "status",
 ];

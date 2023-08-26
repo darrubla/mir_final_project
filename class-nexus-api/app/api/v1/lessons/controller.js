@@ -35,6 +35,16 @@ export const allLessons = async (req, res, next) => {
         orderBy: {
           [orderBy]: direction,
         },
+        include: {
+          student: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+        },
       }),
       prisma.lesson.count(),
     ]);

@@ -49,7 +49,7 @@ export function Welcome() {
       }
       return (
         <>
-          <IndexNavbar handleShow={handleShow}/>
+          {/*<IndexNavbar handleShow={handleShow}/>*/}
           <Presentation handleShow={handleShow}/>
           <Features />
           <HowWorks />

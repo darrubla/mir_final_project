@@ -45,6 +45,7 @@ export function Signup() {
         lastname: '',
         age: 18,
         email: '',
+        type: type,
         password: '',
         confirmpassword: '',
       }
@@ -54,7 +55,13 @@ export function Signup() {
                 initialValues={initialValues}
                 onSubmit={(values, { setSubmitting }) => {
                     console.log(JSON.stringify(values, null, 2));
-                    setUser({ type: type, email: values.email});
+                    setUser({ 
+                        type: type, 
+                        email: values.email, 
+                        name: values.name, 
+                        lastname: values.lastname,
+                        password: values.password,
+                    });
                     setSubmitting(false);
                     navigate(`/`);
                 }}

@@ -31,7 +31,7 @@ faq_list.map ((element, index)=>(
 export default function Faq () {
     return (
         <>
-            <div className='faq-section d-flex flex-column'>
+            <section className='faq-section d-flex flex-column'>
                 <h2 className="m-3"><strong>FAQ</strong></h2>
                 <ListGroup className="d-flex m-3">
                     {faq_list.map((fq, index)=>(
@@ -44,7 +44,7 @@ export default function Faq () {
                     ))}
                     
                 </ListGroup>
-            </div>
+            </section>
         </>
     );
 }

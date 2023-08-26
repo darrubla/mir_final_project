@@ -8,7 +8,7 @@ export function NavigationBar({elements}) {
     const navigate = useNavigate();
     return (
       <>
-        <Navbar bg="light" data-bs-theme="light" fixed="top" className="welcome-bar shadow-sm p-1 d-flex">
+        <Navbar bg="nexus-base" data-bs-theme="nexus-base" fixed="top" className="welcome-bar shadow-sm p-1 d-flex">
             <Navbar.Brand onClick={() => navigate("/")} className='d-flex logo-href ps-3 ms-5 me-auto' >
                 <img src={Logo} alt="logo" className='logo-main p-2 navbar-brand'/>
             </Navbar.Brand>

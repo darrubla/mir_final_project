@@ -21,7 +21,7 @@ const features_array = [
 export default function Features() {
     return (
         <>
-        <div className='why-class-nexus justify-content-between'>
+        <section className='why-class-nexus justify-content-between'>
           <h2 className="m-3"><strong>Why ClassNexus</strong></h2>
           <div className="why-features d-flex justify-content-between px-0 py-2 mx-0 my-3 flex-wrap flex-row">
           {features_array.map((feature, index) => (
@@ -38,7 +38,7 @@ export default function Features() {
             </div>
           ))}
           </div>
-        </div>
+        </section>
           
         </>
     );

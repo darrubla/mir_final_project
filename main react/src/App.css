@@ -1,8 +1,13 @@
 #root {
-  max-width: 1280px;
+  /*max-width: 1740px;*/
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding-top: 138px;
+  padding-left: 90px;
+  padding-right: 90px;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .logo {

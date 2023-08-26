@@ -24,11 +24,17 @@ $nexus-vertical-unit: 8.625rem; // 138px
 
 $nexus-vertical-gutter-unit: 2.5rem; // 40px 
 
+$nexus-vertical-page-padding-unit: 5.625rem; // 90px
+
+$nexus-horizontal-page-padding-unit: 3.75rem; // 60px // ONLY TOP PADDING!
+
 $nexus-vertical-spacers: (
     '1i' : $nexus-vertical-unit * 1 ,
     '2i' : $nexus-vertical-unit * 2 ,
     '3i' : $nexus-vertical-unit * 3 ,
     'gut' : $nexus-vertical-gutter-unit,
+    'page-v' : $nexus-vertical-page-padding-unit,
+    'page-h' : $nexus-horizontal-page-padding-unit,
 );
 
 $nexus-display-font-1: 6rem;

@@ -52,7 +52,6 @@ export function Welcome() {
           {/*<IndexNavbar handleShow={handleShow}/>*/}
           <Presentation handleShow={handleShow}/>
           <Features />
-          <HowWorks />
           <Faq />
         </>
       )

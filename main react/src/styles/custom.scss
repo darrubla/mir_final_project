@@ -48,6 +48,9 @@ $nexus-display-font-sizes: (
 
 // HERE SHOULD BE OUR BOOTSTRAP VARIABLE OVERRIDES
 
+//Enable bootstrap negative margins
+$enable-negative-margins: true;
+
 //body bg colors
 $body-bg: $nexus-base;
 $body-secondary-bg: $nexus-primary;

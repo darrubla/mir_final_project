@@ -22,27 +22,22 @@ const faq_list =[
     a: "If you have a question about ClassNexus, you can contact the ClassNexus support team. You can contact the support team by email or by phone.",
 }
 ]
-faq_list.map ((element, index)=>(
-    index%2===0?
-        element.variant="dark"
-    :
-        element.variant="light"
-))
+faq_list.map ((element)=>( element.variant="secondary"))
 export default function Faq () {
+    const active_index = null;
     return (
         <>
-            <section className='faq-section d-flex flex-column'>
-                <h2 className="m-3"><strong>FAQ</strong></h2>
-                <ListGroup className="d-flex m-3">
+            <section className='d-flex flex-column text-center'>
+                <h1 className='mb-5 fw-normal text-nexus-gray-500'>FAQ</h1>
+                <ListGroup className="mx-1i row-gap-gut">
                     {faq_list.map((fq, index)=>(
-                        <ListGroup.Item key={index} variant={fq.variant} className="d-flex">
-                            <div className="d-flex flex-column justify-content-start">
-                                <strong className="d-flex text-start">{fq.q}</strong>
-                                <p className="d-flex text-start">{fq.a}</p>
+                        <ListGroup.Item key={index} variant={fq.variant} className="d-flex justify-content-between align-items-center">
+                            <div className="">
+                               <h2 className='m-0 fw-normal fs-1 text-start'>{fq.q}</h2>
+                                <p className="m-0">{active_index?fq.a:''}</p>
                             </div>
                         </ListGroup.Item>
                     ))}
-                    
                 </ListGroup>
             </section>
         </>

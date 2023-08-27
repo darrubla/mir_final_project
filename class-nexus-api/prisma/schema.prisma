@@ -18,8 +18,8 @@ model Lesson {
   scheduledAt DateTime?
   site        String?
   status      String // Scheduled, Finished, Canceled
-  // teacher     Teacher  @relation(fields: [teacherId], references: [id])
-  // teacherId   String   @db.Uuid
+  teacher     Teacher?  @relation(fields: [teacherId], references: [id])
+  teacherId   String?   @db.Uuid
   student     Student   @relation(fields: [studentId], references: [id])
   studentId   String    @db.Uuid
 }
@@ -33,7 +33,7 @@ model Teacher {
   password  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime?
-  // lesson   Lesson[]
+  lesson    Lesson[]
 }
 
 model Student {

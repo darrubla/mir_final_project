@@ -1,6 +1,8 @@
 import { Router } from "express";
 
 import * as controller from "./controller.js";
+import { router as lessonsRouter } from "../lessons/routes.js";
+
 // eslint-disable-next-line new-cap
 export const router = Router();
 
@@ -14,3 +16,5 @@ router
   .put(controller.updateTeacher)
   .patch(controller.updateTeacher)
   .delete(controller.removeTeacher);
+
+router.use("/:teacherId/lessons", lessonsRouter); // Para poder sacar las clases de ese usuario

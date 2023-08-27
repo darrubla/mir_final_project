@@ -20,12 +20,14 @@ export const createLesson = async (req, res, next) => {
 };
 
 export const allLessons = async (req, res, next) => {
-  const { query } = req;
+  const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
   const { orderBy, direction } = parseOrderParams({
     fields,
     ...query,
   });
+
+  const { studentId, teacherId } = params;
 
   try {
     const [result, total] = await Promise.all([
@@ -44,6 +46,18 @@ export const allLessons = async (req, res, next) => {
               email: true,
             },
           },
+          teacher: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+        },
+        where: {
+          studentId, // studentId == studentId
+          teacherId, // teacherId == teacherId
         },
       }),
       prisma.lesson.count(),
@@ -68,6 +82,24 @@ export const idLesson = async (req, res, next) => {
   const { params = {} } = req;
   try {
     const result = await prisma.lesson.findUnique({
+      include: {
+        student: {
+          // Para que solo me traiga estos campos
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+        teacher: {
+          // Para que solo me traiga estos campos
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+      },
       where: {
         id: params.id,
       },

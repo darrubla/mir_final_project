@@ -35,6 +35,21 @@ export const allTeachers = async (req, res, next) => {
         orderBy: {
           [orderBy]: direction,
         },
+        include: {
+          lesson: {
+            // Para que solo me traiga estos campos
+            select: {
+              id: true,
+              subject: true,
+            },
+          },
+          _count: {
+            // Contar las clases de este usuario
+            select: {
+              lesson: true,
+            },
+          },
+        },
       }),
       prisma.Teacher.count(),
     ]);
@@ -60,6 +75,21 @@ export const idTeacher = async (req, res, next) => {
     const result = await prisma.Teacher.findUnique({
       where: {
         id: params.id,
+      },
+      include: {
+        lesson: {
+          // Para que solo me traiga estos campos
+          select: {
+            id: true,
+            subject: true,
+          },
+        },
+        _count: {
+          // Contar las clases de este usuario
+          select: {
+            lesson: true,
+          },
+        },
       },
     });
     if (!result) {

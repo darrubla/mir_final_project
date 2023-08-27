@@ -2,11 +2,11 @@ import { prisma } from "../../../database.js";
 import { fields } from "./model.js";
 import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
 
-export const createLesson = async (req, res, next) => {
+export const createStudent = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
-    const result = await prisma.lesson.create({
+    const result = await prisma.Student.create({
       data: body,
     });
 
@@ -19,48 +19,39 @@ export const createLesson = async (req, res, next) => {
   }
 };
 
-export const allLessons = async (req, res, next) => {
-  const { query, params } = req;
+export const allStudents = async (req, res, next) => {
+  const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
   const { orderBy, direction } = parseOrderParams({
     fields,
     ...query,
   });
 
-  const { studentId, teacherId } = params;
-
   try {
     const [result, total] = await Promise.all([
-      prisma.lesson.findMany({
+      prisma.Student.findMany({
         skip: offset,
         take: limit,
         orderBy: {
           [orderBy]: direction,
         },
         include: {
-          student: {
+          lesson: {
             // Para que solo me traiga estos campos
             select: {
-              name: true,
-              lastname: true,
-              email: true,
+              id: true,
+              subject: true,
             },
           },
-          teacher: {
-            // Para que solo me traiga estos campos
+          _count: {
+            // Contar las clases de este usuario
             select: {
-              name: true,
-              lastname: true,
-              email: true,
+              lesson: true,
             },
           },
-        },
-        where: {
-          studentId, // studentId == studentId
-          teacherId, // teacherId == teacherId
         },
       }),
-      prisma.lesson.count(),
+      prisma.Student.count(),
     ]);
 
     res.json({
@@ -78,36 +69,33 @@ export const allLessons = async (req, res, next) => {
   }
 };
 
-export const idLesson = async (req, res, next) => {
+export const idStudent = async (req, res, next) => {
   const { params = {} } = req;
   try {
-    const result = await prisma.lesson.findUnique({
-      include: {
-        student: {
-          // Para que solo me traiga estos campos
-          select: {
-            name: true,
-            lastname: true,
-            email: true,
-          },
-        },
-        teacher: {
-          // Para que solo me traiga estos campos
-          select: {
-            name: true,
-            lastname: true,
-            email: true,
-          },
-        },
-      },
+    const result = await prisma.Student.findUnique({
       where: {
         id: params.id,
+      },
+      include: {
+        lesson: {
+          // Para que solo me traiga estos campos
+          select: {
+            id: true,
+            subject: true,
+          },
+        },
+        _count: {
+          // Contar las clases de este usuario
+          select: {
+            lesson: true,
+          },
+        },
       },
     });
     if (!result) {
       // (result === null)
       next({
-        message: "Lesson not found",
+        message: "Student not found",
         status: 404,
       });
     } else {
@@ -119,18 +107,18 @@ export const idLesson = async (req, res, next) => {
   }
 };
 
-export const readLesson = async (req, res, next) => {
+export const readStudent = async (req, res, next) => {
   res.json({
     data: req.data,
   });
 };
 
-export const updateLesson = async (req, res, next) => {
+export const updateStudent = async (req, res, next) => {
   const { body = {}, params = {} } = req;
   const { id } = params;
 
   try {
-    const result = await prisma.lesson.update({
+    const result = await prisma.Student.update({
       where: {
         id,
       },
@@ -145,12 +133,12 @@ export const updateLesson = async (req, res, next) => {
   }
 };
 
-export const removeLesson = async (req, res, next) => {
+export const removeStudent = async (req, res, next) => {
   const { params = {} } = req;
   const { id } = params;
 
   try {
-    await prisma.lesson.delete({
+    await prisma.Student.delete({
       where: { id },
     });
     res.status(204);

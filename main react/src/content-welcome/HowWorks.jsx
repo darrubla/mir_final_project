@@ -21,7 +21,7 @@ const evenItems = how_works.filter((_, index) => index % 2 === 1);
 export function HowWorks () {
     return (
         <>
-            <div className='d-flex how-works-container bg-body-secondary flex-row p-4 m-3'>
+            <section className='d-flex how-works-container bg-body-secondary flex-row p-4 m-3'>
                 <div className="d-flex align-items-center how-works-title p-3">
                     <h2 className="d-flex">How does it work?</h2>
                 </div>
@@ -43,7 +43,7 @@ export function HowWorks () {
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     );
 }

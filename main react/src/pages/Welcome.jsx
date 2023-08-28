@@ -49,10 +49,9 @@ export function Welcome() {
       }
       return (
         <>
-          <IndexNavbar handleShow={handleShow}/>
+          {/*<IndexNavbar handleShow={handleShow}/>*/}
           <Presentation handleShow={handleShow}/>
           <Features />
-          <HowWorks />
           <Faq />
         </>
       )
@@ -60,12 +59,16 @@ export function Welcome() {
 
     return (
         <>
-        {navRightOptions()}{/*Navbars*/}
-        <ModalAlert handleClose={handleClose} show={show} onLog={onLog}/>
-        <div className="welcome-content d-flex flex-column mt-5 mx-2 pt-5 px-1">
-          {renderView()}
+        <header>
+          {navRightOptions()}{/*Navbars*/}
+          <ModalAlert handleClose={handleClose} show={show} onLog={onLog}/>
+        </header>
+        <main className="mt-1i welcome-content d-flex flex-column row-gap-1i">
+            {renderView()}
+        </main>
+        <footer>
           <Info />{/*Info section always visible in home page (with and without login)*/}
-        </div>
+        </footer>
       </>
     );
 }

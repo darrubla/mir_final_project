@@ -12,7 +12,7 @@ export function NavigationTab({title, iconClassName, navig}) {
                 : navigate(`/${title.toLowerCase()}`)
             }
             }
-            className='fs-5 m-3 py-3'
+            className='fs-2 p-0 text-nexus-gray-500'
         >
             <IconBar className={`${title!==undefined? "me-2 ": ""}${iconClassName!==undefined? iconClassName: ""}`} />
             {title}

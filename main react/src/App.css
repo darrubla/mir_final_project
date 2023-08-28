@@ -1,8 +1,13 @@
 #root {
-  max-width: 1280px;
+  /*width: 100vw;*/
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding-top: 138px;
+  padding-left: 90px;
+  padding-right: 90px;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .logo {
@@ -76,4 +81,12 @@
 }
 .how-works-text {
   width: 70%;
+}
+
+.custom-font {
+  font-family: 'ClashGrotesk-Regular';
+}
+
+.nav-tab {
+  font-size: 28px;
 }

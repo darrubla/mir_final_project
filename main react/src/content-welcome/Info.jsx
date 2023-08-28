@@ -1,3 +1,5 @@
+import Logo from '../assets/svgs/Logo.svg'
+
 const info_elements = [
     {
         title: "Support",
@@ -15,17 +17,20 @@ const info_elements = [
 export function Info () {
     return (
         <>
-            <div className="d-flex flex-row justify-content-evenly mt-4 mb-0 bg-body-secondary p-4 m-3">
-                {info_elements.map((info_element, index)=> (
-                    <div key= {index} className="d-flex flex-column ">
-                        <strong className="lh-lg mb-3">{info_element.title}</strong>
-                        {info_element.subs.map((sub, index)=>(
-                            <p className="lh-1" key={index}>{sub}</p>
-                        ))}
-                    </div>
-                ))}
+            <ul className="d-flex bg-nexus-gray-700 py-page-v px-page-v mt-1i mb-0 mx-npage-v text-nexus-primary column-gap-gut">
+                    <li className="d-flex flex-grow-1">
+                        <img height="37p" src={Logo} ></img>
+                    </li>
+                        {info_elements.map((info_element, index)=> (
+                    <li key= {index} className="d-flex flex-column flex-grow-1">
+                            <h1 className="fs-3 mb-4">{info_element.title}</h1>
 
-            </div>
+                            {info_element.subs.map((sub, index)=>(
+                            <p className="lh-1 fs-5 text-white-50" key={index}>{sub}</p>
+                        ))}
+                    </li>
+                ))}
+            </ul>
         </>
     )
 }

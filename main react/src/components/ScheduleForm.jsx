@@ -15,6 +15,7 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { useNavigate } from 'react-router-dom';
 import { subjects, locations } from '../text/constants';
+import { formatRelative } from 'date-fns';
 
 const scheduleSchema = z
 .object({
@@ -30,13 +31,13 @@ const scheduleSchema = z
     scheduletime: z.string(),
 })
 export function ScheduleForm() {
-    const navigate = useNavigate()
-    const [dateValue, onDateChange] = useState(new Date());
+    const navigate = useNavigate();
+    const [dateValue, onDateChange] = useState(new Date(new Date().setDate(new Date().getDate() +1)));
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showTime, setShowTime] = useState(false);
-    const [hour, setHour] = useState("12")
-    const [minute, setMinute] = useState("00")
+    const [hour, setHour] = useState("12");
+    const [minute, setMinute] = useState("00");
 
     const handleShowCalendar = () => {
         setShowCalendar(!showCalendar);
@@ -96,7 +97,7 @@ export function ScheduleForm() {
                                             values.scheduledate=`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`;
                                             values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
                                         }}
-                                        minDate={new Date()}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() +1))}
                                     />
                                 )}
                                 

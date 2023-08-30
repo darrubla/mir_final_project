@@ -9,6 +9,7 @@ import {getLessons} from '../api/lessons';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 
+
 export function Schedule() {
     const navigate = useNavigate();
     const { setUser, user } = useContext(UserContext);

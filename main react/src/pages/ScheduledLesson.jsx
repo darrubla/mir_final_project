@@ -4,10 +4,17 @@ import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import { formatRelative } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 import teacherImage from "../img/teacher.png";
 
 export function ScheduledLesson({lessondata}) {
+    const navigate = useNavigate();
+
+    function displayTeacher({id}) {
+        console.log({id})
+        navigate(`/teachers/${id}`);
+    }
 
     return (
         <Accordion defaultActiveKey="0">
@@ -59,7 +66,8 @@ export function ScheduledLesson({lessondata}) {
                                 <div className='d-flex flex-column picture-status justify-content-between px-3'>
                                     <div className='d-flex justify-content-center picture-teacher'>
                                         <Col xs={6} md={4} className='d-flex justify-content-center'>
-                                            <Image src={`${teacherImage}`} width={100} height={100} roundedCircle />
+                                            <Image src={`${teacherImage}`} width={100} height={100} roundedCircle onClick={() => displayTeacher(lesson.teacherId)}/>
+                                            <p>{lesson.teacherId}</p>
                                         </Col>
                                     </div>
                                     <div className='d-flex justify-content-center lesson-status'>

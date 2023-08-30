@@ -11,6 +11,7 @@ import { Signup } from './pages/Signup';
 import { StudentAccountInfo } from './pages/StudentAccountInfo';
 import { NotFound } from './pages/NotFound';
 import { Schedule } from './pages/Schedule';
+import { TeacherView } from './pages/TeacherView';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/signin/*" element={<Signin />} />
           <Route path="/signup/*" element={<Signup/>} />
           <Route path="/schedule" element={<Schedule/>} />
+          <Route path="/teachers/:id" element={<TeacherView/>} />
           <Route path="*" element={<NotFound/>} />
           <Route path="/my_account" element={<StudentAccountInfo />} />
         </Routes>

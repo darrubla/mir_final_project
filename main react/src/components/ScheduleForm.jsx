@@ -15,7 +15,6 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { useNavigate } from 'react-router-dom';
 import { subjects, locations } from '../text/constants';
-import { formatRelative } from 'date-fns';
 
 const scheduleSchema = z
 .object({

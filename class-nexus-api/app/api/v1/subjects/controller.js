@@ -2,11 +2,11 @@ import { prisma } from "../../../database.js";
 import { fields } from "./model.js";
 import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
 
-export const createTeacher = async (req, res, next) => {
+export const createSubject = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
-    const result = await prisma.Teacher.create({
+    const result = await prisma.Subject.create({
       data: body,
     });
 
@@ -19,7 +19,7 @@ export const createTeacher = async (req, res, next) => {
   }
 };
 
-export const allTeachers = async (req, res, next) => {
+export const allSubjects = async (req, res, next) => {
   const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
   const { orderBy, direction } = parseOrderParams({
@@ -29,34 +29,27 @@ export const allTeachers = async (req, res, next) => {
 
   try {
     const [result, total] = await Promise.all([
-      prisma.Teacher.findMany({
+      prisma.Subject.findMany({
         skip: offset,
         take: limit,
         orderBy: {
           [orderBy]: direction,
         },
         include: {
-          lesson: {
-            // Para que solo me traiga estos campos
+          teachers: {
             select: {
               id: true,
-              subject: true,
-            },
-          },
-          subjects: {
-            select: {
-              subjectname: true,
             },
           },
           _count: {
-            // Contar las clases de este usuario
+            // Contar los profesores de esta etiqueta
             select: {
-              lesson: true,
+              teachers: true,
             },
           },
         },
       }),
-      prisma.Teacher.count(),
+      prisma.Subject.count(),
     ]);
 
     res.json({
@@ -74,38 +67,31 @@ export const allTeachers = async (req, res, next) => {
   }
 };
 
-export const idTeacher = async (req, res, next) => {
+export const idSubject = async (req, res, next) => {
   const { params = {} } = req;
   try {
-    const result = await prisma.Teacher.findUnique({
+    const result = await prisma.Subject.findUnique({
       where: {
         id: params.id,
       },
       include: {
-        lesson: {
-          // Para que solo me traiga estos campos
+        teachers: {
           select: {
             id: true,
-            subject: true,
-          },
-        },
-        subjects: {
-          select: {
-            subjectname: true,
           },
         },
         _count: {
-          // Contar las clases de este usuario
+          // Contar los profesores de esta etiqueta
           select: {
-            lesson: true,
+            teachers: true,
           },
         },
-      },
+      }
     });
     if (!result) {
       // (result === null)
       next({
-        message: "Teacher not found",
+        message: "Subject not found",
         status: 404,
       });
     } else {
@@ -117,18 +103,18 @@ export const idTeacher = async (req, res, next) => {
   }
 };
 
-export const readTeacher = async (req, res, next) => {
+export const readSubject = async (req, res, next) => {
   res.json({
     data: req.data,
   });
 };
 
-export const updateTeacher = async (req, res, next) => {
+export const updateSubject = async (req, res, next) => {
   const { body = {}, params = {} } = req;
   const { id } = params;
 
   try {
-    const result = await prisma.Teacher.update({
+    const result = await prisma.Subject.update({
       where: {
         id,
       },
@@ -143,12 +129,12 @@ export const updateTeacher = async (req, res, next) => {
   }
 };
 
-export const removeTeacher = async (req, res, next) => {
+export const removeSubject = async (req, res, next) => {
   const { params = {} } = req;
   const { id } = params;
 
   try {
-    await prisma.Teacher.delete({
+    await prisma.Subject.delete({
       where: { id },
     });
     res.status(204);

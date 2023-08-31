@@ -17,4 +17,4 @@ router
   .patch(controller.updateStudent)
   .delete(controller.removeStudent);
 
-router.use("/:studentId/lessons", lessonsRouter); // Para poder sacar las clases de ese usuario
+router.use("/:studentId/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante

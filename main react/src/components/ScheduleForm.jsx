@@ -15,6 +15,7 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { useNavigate } from 'react-router-dom';
 import { subjects, locations } from '../text/constants';
+import PropTypes from 'prop-types';
 
 const scheduleSchema = z
 .object({
@@ -29,7 +30,7 @@ const scheduleSchema = z
     scheduledate: z.string(),
     scheduletime: z.string(),
 })
-export function ScheduleForm() {
+export function ScheduleForm({ onCreate }) {
     const navigate = useNavigate();
     const [dateValue, onDateChange] = useState(new Date(new Date().setDate(new Date().getDate() +1)));
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
@@ -58,7 +59,6 @@ export function ScheduleForm() {
         scheduletime: `${hour}:${minute}:00`,
         scheduledatetime: (new Date(`${dateSelected}T${hour}:${minute}:00`))
     }
-
       
     return (
         <Formik 
@@ -68,9 +68,10 @@ export function ScheduleForm() {
                 lessonContent.subject=values.subject
                 lessonContent.site=values.location
                 lessonContent.description=values.topicdescription
-                lessonContent.scheculedAt=values.scheduledatetime
-
-                console.log(JSON.stringify(lessonContent, null, 2))
+                lessonContent.scheduledAt=values.scheduledatetime
+                onCreate({
+                    lessonContent,
+                });
                 navigate('/')
                 setSubmitting(false);
             }}
@@ -134,7 +135,14 @@ export function ScheduleForm() {
                             <NavSeparator />
                         </div>
                         <div className='d-flex flex-column justify-content-start'>
-                            <Button variant="success" className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' type="submit" disabled={isSubmitting}>SCHEDULE</Button>
+                            <Button 
+                                variant="success" 
+                                className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' 
+                                type="submit" 
+                                disabled={isSubmitting}
+                            >
+                                SCHEDULE
+                            </Button>
                             <Button variant="danger" className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' type="submit" disabled={isSubmitting}>CANCEL</Button>
                         </div>
                         
@@ -144,3 +152,7 @@ export function ScheduleForm() {
         </Formik>
     )
 }
+
+ScheduleForm.propTypes = {
+    onCreate: PropTypes.func.isRequired,
+};

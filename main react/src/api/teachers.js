@@ -1,10 +1,10 @@
 function transformTeacher(item = {}) {
   return {
     ...item, // Copia todas las propiedades
-    teacher: {
-      name: item.student?.name ?? "Unknown", // retorna valor de la izquierda si no es undefined/null. Si es undefined/null, retorna Unknown
-      email: item.student?.email ?? "Unknown",
-    },
+    /*lesson: {
+      subject: item.lesson?.subject ?? "Unknown", // retorna valor de la izquierda si no es undefined/null. Si es undefined/null, retorna Unknown
+      description: item.lesson?.description ?? "Unknown",
+    },*/
   };
 }
 
@@ -24,14 +24,18 @@ export async function getTeachers() {
 }
 
 export async function getTeacher({ id }) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${id}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/teachers/${id}`
+  );
   if (response.ok) {
     const json = await response.json();
     const data = transformTeacher(json.data);
     return {
       data,
     };
-  } else {
-    return Promise.reject("Network error");
   }
+  if (response.status === 404) {
+    return Promise.reject("Not Found");
+  }
+  return Promise.reject("Network error");
 }

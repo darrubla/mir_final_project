@@ -36,6 +36,7 @@ export function TeacherView() {
                 <div className='teacher-info-container d-flex flex-column align-items-center'>
                     <div className="d-flex personal-info">{data.name}</div>
                     <div className="d-flex personal-info">{data.email}</div>
+                    <div className="d-flex personal-info">{JSON.stringify(data, null, 2)}</div>
                 </div>
             )}
         </>

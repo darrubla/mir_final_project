@@ -17,7 +17,7 @@ model Lesson {
   createdAt   DateTime  @default(now())
   scheduledAt DateTime?
   site        String?
-  status      String // Scheduled, Finished, Canceled
+  status      String? // Scheduled, Finished, Canceled
   teacher     Teacher?  @relation(fields: [teacherId], references: [id])
   teacherId   String?   @db.Uuid
   student     Student   @relation(fields: [studentId], references: [id])

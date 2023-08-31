@@ -1,9 +1,8 @@
 import UserContext from '../containers/UserContext';
-import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 export function StudentAccountInfo() {
-    const { setUser, user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     return (
         <div className="info-recent-teachers d-flex flex-column justify-content-center mx-1">
             <div className="d-flex flex-row section-header align-items-center">

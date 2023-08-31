@@ -25,7 +25,6 @@ export async function getTeachers() {
 
 export async function getTeacher({ id }) {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/${id}`);
-  console.log(id, ": id");
   if (response.ok) {
     const json = await response.json();
     const data = transformTeacher(json.data);

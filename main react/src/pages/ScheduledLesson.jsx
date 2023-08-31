@@ -11,8 +11,7 @@ import teacherImage from "../img/teacher.png";
 export function ScheduledLesson({lessondata}) {
     const navigate = useNavigate();
 
-    function displayTeacher({id}) {
-        console.log({id})
+    function displayTeacher(id) {
         navigate(`/teachers/${id}`);
     }
 
@@ -67,7 +66,6 @@ export function ScheduledLesson({lessondata}) {
                                     <div className='d-flex justify-content-center picture-teacher'>
                                         <Col xs={6} md={4} className='d-flex justify-content-center'>
                                             <Image src={`${teacherImage}`} width={100} height={100} roundedCircle onClick={() => displayTeacher(lesson.teacherId)}/>
-                                            <p>{lesson.teacherId}</p>
                                         </Col>
                                     </div>
                                     <div className='d-flex justify-content-center lesson-status'>

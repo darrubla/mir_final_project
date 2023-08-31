@@ -12,7 +12,9 @@ export function NavigationBar({elements}) {
         <Navbar bg="nexus-base" data-bs-theme="nexus-base" fixed="top" className="welcome-bar d-flex p-0 px-page-v pt-page-h">
             <Container fluid className='p-0'>
                 <Navbar.Brand onClick={() => navigate("/")} className='d-flex' >
-                    <img src={Logo} alt="logo" className='logo-main navbar-brand'/>
+                    <Nav.Link>
+                        <img src={Logo} alt="logo" className='logo-main navbar-brand'/>
+                    </Nav.Link>
                 </Navbar.Brand>
                 <Nav className='d-flex column-gap-gut'>
                     {elements}

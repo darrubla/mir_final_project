@@ -12,21 +12,22 @@ import { Schedule } from './pages/Schedule';
 import { TeacherView } from './pages/TeacherView';
 import { Container } from 'react-bootstrap';
 import { Index } from './pages/Index';
+import { Navigation } from './components/Navigation';
 
 function App() {
-
   return (
     <UserProvider>
-      <Container fluid>
+      <Container fluid className="p-0">
         <Suspense fallback={null}>
-          <Index />
+          {false && <Index />}
+          <Navigation />
           <Routes>
-            <Route path="/" element={<Welcome/>} />
+            <Route path="/" element={<Welcome />} />
             <Route path="/signin/*" element={<Signin />} />
-            <Route path="/signup/*" element={<Signup/>} />
-            <Route path="/schedule" element={<Schedule/>} />
-            <Route path="/teachers/:id" element={<TeacherView/>} />
-            <Route path="*" element={<NotFound/>} />
+            <Route path="/signup/*" element={<Signup />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/teachers/:id" element={<TeacherView />} />
+            <Route path="*" element={<NotFound />} />
             <Route path="/my_account" element={<StudentAccountInfo />} />
           </Routes>
         </Suspense>
@@ -34,4 +35,4 @@ function App() {
     </UserProvider>
   );
 }
-export default App
+export default App;

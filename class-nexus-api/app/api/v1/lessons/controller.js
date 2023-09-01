@@ -46,6 +46,12 @@ export const allLessons = async (req, res, next) => {
               email: true,
             },
           },
+          subject: {
+            // Para que solo me traiga estos campos
+            select: {
+              subjectname: true,
+            },
+          },
           teacher: {
             // Para que solo me traiga estos campos
             select: {
@@ -89,6 +95,12 @@ export const idLesson = async (req, res, next) => {
             name: true,
             lastname: true,
             email: true,
+          },
+        },
+        subject: {
+          // Para que solo me traiga estos campos
+          select: {
+            subjectname: true,
           },
         },
         teacher: {

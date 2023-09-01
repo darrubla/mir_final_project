@@ -43,11 +43,7 @@ export const allTeachers = async (req, res, next) => {
               subject: true,
             },
           },
-          subjects: {
-            select: {
-              subjectname: true,
-            },
-          },
+          subjects: true,
           _count: {
             // Contar las clases de este usuario
             select: {
@@ -89,11 +85,7 @@ export const idTeacher = async (req, res, next) => {
             subject: true,
           },
         },
-        subjects: {
-          select: {
-            subjectname: true,
-          },
-        },
+        subjects: true,
         _count: {
           // Contar las clases de este usuario
           select: {

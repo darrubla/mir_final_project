@@ -36,11 +36,7 @@ export const allSubjects = async (req, res, next) => {
           [orderBy]: direction,
         },
         include: {
-          teachers: {
-            select: {
-              id: true,
-            },
-          },
+          teachers: true,
           _count: {
             // Contar los profesores de esta etiqueta
             select: {
@@ -66,6 +62,36 @@ export const allSubjects = async (req, res, next) => {
     next(error);
   }
 };
+export const getSubjectId = async (req, res, next) => {
+  const { params = {} } = req;
+  try {
+    const result = await prisma.Subject.findFirst({
+      // No puedo usar Unique porque me da error, a pesar de que el campo subjectname está marcado como unique
+      where: {
+        subjectname: params.subjectname,
+      },
+      include: {
+        _count: {
+          // Contar los profesores de esta etiqueta
+          select: {
+            teachers: true,
+          },
+        },
+      },
+    });
+    if (!result) {
+      next({
+        message: "Subject not found",
+        status: 404,
+      });
+    } else {
+      req.data = result;
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const idSubject = async (req, res, next) => {
   const { params = {} } = req;
@@ -75,18 +101,14 @@ export const idSubject = async (req, res, next) => {
         id: params.id,
       },
       include: {
-        teachers: {
-          select: {
-            id: true,
-          },
-        },
+        teachers: true,
         _count: {
           // Contar los profesores de esta etiqueta
           select: {
             teachers: true,
           },
         },
-      }
+      },
     });
     if (!result) {
       // (result === null)

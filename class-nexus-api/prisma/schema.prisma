@@ -12,7 +12,8 @@ datasource db {
 
 model Lesson {
   id          String   @id @default(uuid()) @db.Uuid
-  subject     String?
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  subjectId   String   @db.Uuid
   description String?
   createdAt   DateTime @default(now())
   scheduledAt DateTime
@@ -56,11 +57,12 @@ model Subject {
   id          String               @id @default(uuid()) @db.Uuid
   subjectname String
   teachers    SubjectsOnTeachers[]
+  Lesson      Lesson[]
 }
 
 model LessonStatus {
   id   String @id @default(uuid()) @db.Uuid
-  name String
+  name String @unique
 }
 
 model SubjectsOnTeachers {

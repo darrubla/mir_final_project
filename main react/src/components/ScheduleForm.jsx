@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
 import { NavSeparator } from './NavSeparator';
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
@@ -16,6 +16,8 @@ import 'react-clock/dist/Clock.css';
 import { useNavigate } from 'react-router-dom';
 import { subjects, locations } from '../text/constants';
 import PropTypes from 'prop-types';
+import { useParams} from 'react-router-dom';
+import { getSubjectId } from '../api/subjects';
 
 const scheduleSchema = z
 .object({
@@ -38,6 +40,7 @@ export function ScheduleForm({ onCreate }) {
     const [showTime, setShowTime] = useState(false);
     const [hour, setHour] = useState("12");
     const [minute, setMinute] = useState("00");
+    const [dataSubject, setDataSubject] = useState('');
 
     const handleShowCalendar = () => {
         setShowCalendar(!showCalendar);
@@ -49,7 +52,6 @@ export function ScheduleForm({ onCreate }) {
         setShowCalendar(false);
     }
 
-
     const initialValues = {
         subject: '',
         topicdescription: '',
@@ -59,16 +61,25 @@ export function ScheduleForm({ onCreate }) {
         scheduletime: `${hour}:${minute}:00`,
         scheduledatetime: (new Date(`${dateSelected}T${hour}:${minute}:00`))
     }
-      
+    async function loadSubject({ subjectname }) {
+        try {
+            console.log(subjectname)
+            const response = await getSubjectId({ subjectname });
+            setDataSubject(response.data.id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
     return (
         <Formik 
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
-                let lessonContent={}
-                lessonContent.subject=values.subject
+                const lessonContent={}
                 lessonContent.site=values.location
                 lessonContent.description=values.topicdescription
                 lessonContent.scheduledAt=values.scheduledatetime
+                lessonContent.subjectId=dataSubject
                 onCreate({
                     lessonContent,
                 });
@@ -81,7 +92,15 @@ export function ScheduleForm({ onCreate }) {
                 <div className="form-schedule-container bg-body-secondary justify-content-center m-2 p-5">
                     <Form className='d-flex flex-row' onSubmit={handleSubmit}>
                         <div className='d-flex flex-column justify-content-start'>
-                            <ListSelect optionsList={subjects} fieldName='SUBJECT' handleChange={handleChange} handleBlur={handleBlur} value={values.subject} className={touched.subject && errors.subject ? ' is-invalid' : ''} />
+                            <div className='list-container' onClick={() => {
+                                const subjectname=values.subject
+                                console.log(subjectname)
+                                if (subjectname) {
+                                    loadSubject({subjectname})
+                                }
+                            }}>
+                                <ListSelect optionsList={subjects} fieldName='SUBJECT' handleChange={handleChange} handleBlur={handleBlur} value={values.subject} className={touched.subject && errors.subject ? ' is-invalid' : ''} />
+                            </div>
                             <FormDescription fieldName="topic description" handleChange={handleChange} handleBlur={handleBlur} val={values.topicdescription} classN={touched.topicdescription && errors.topicdescription ? 'is-invalid' : ''}/>
                             <div>
                                 <DateText fieldName='schedule date' handleShow={handleShowCalendar} handleChange={handleChange} handleBlur={handleBlur} value={values.scheduledate} className={touched.scheduledate && errors.scheduledate ? 'is-invalid' : ''}/>

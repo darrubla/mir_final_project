@@ -14,7 +14,9 @@ export function ScheduledLesson({lessondata}) {
     function displayTeacher(id) {
         navigate(`/teachers/${id}`);
     }
-
+    lessondata.map((lesson)=>(
+        console.log(lesson.subject.subjectname)
+    ))
     return (
         <Accordion defaultActiveKey="0">
             {lessondata.map((lesson, key)=>(
@@ -22,7 +24,7 @@ export function ScheduledLesson({lessondata}) {
                     <Accordion.Header>
                         <div className='d-flex flex-column px-5 py-2 justify-content-center'>
                             <div className='d-flex'>
-                                {`${lesson.subject}`}
+                                {`${lesson.subject.subjectname}`}
                             </div>
                             <div className='d-flex'>
                                 <p  className=" d-flex text-muted fw-lighter m-0">{formatRelative(new Date(lesson.scheduledAt), new Date())}</p>
@@ -35,7 +37,7 @@ export function ScheduledLesson({lessondata}) {
                                 <div className='d-flex lesson-info flex-column flex-grow-1 px-5'>
                                     <div className='f-flex subject-topic'>
                                         <div className='d-flex lesson-subject'>
-                                            <p className="fw-semibold">{lesson.subject}</p>
+                                            <p className="fw-semibold">{lesson.subject.subjectname}</p>
                                         </div>
                                         <div className='d-flex lesson-description'>
                                             <p className="fw-light">{lesson.description}</p>

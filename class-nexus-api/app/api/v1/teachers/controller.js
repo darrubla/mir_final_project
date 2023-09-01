@@ -1,6 +1,5 @@
 import { prisma } from "../../../database.js";
-import { fields } from "./model.js";
-import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
+import { parsePaginationParams } from "../../../utils.js";
 
 export const createTeacher = async (req, res, next) => {
   const { body = {} } = req;
@@ -20,35 +19,39 @@ export const createTeacher = async (req, res, next) => {
 };
 
 export const allTeachers = async (req, res, next) => {
-  const { query } = req;
+  const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const { orderBy, direction } = parseOrderParams({
-    fields,
-    ...query,
-  });
-
+  const orderBy = { name: "asc" };
+  const { subjectId } = params;
   try {
     const [result, total] = await Promise.all([
       prisma.Teacher.findMany({
         skip: offset,
         take: limit,
-        orderBy: {
-          [orderBy]: direction,
-        },
+        orderBy,
         include: {
           lesson: {
-            // Para que solo me traiga estos campos
             select: {
               id: true,
               subject: true,
             },
           },
-          subjects: true,
+          subjects: {
+            select: {
+              subject: true,
+            },
+          },
           _count: {
             // Contar las clases de este usuario
             select: {
               lesson: true,
+              subjects: true,
             },
+          },
+        },
+        where: {
+          subjects: {
+            subjectId,
           },
         },
       }),
@@ -62,7 +65,6 @@ export const allTeachers = async (req, res, next) => {
         offset,
         total,
         orderBy,
-        direction,
       },
     });
   } catch (error) {
@@ -79,17 +81,21 @@ export const idTeacher = async (req, res, next) => {
       },
       include: {
         lesson: {
-          // Para que solo me traiga estos campos
           select: {
             id: true,
             subject: true,
           },
         },
-        subjects: true,
+        subjects: {
+          select: {
+            subject: true,
+          },
+        },
         _count: {
           // Contar las clases de este usuario
           select: {
             lesson: true,
+            subjects: true,
           },
         },
       },

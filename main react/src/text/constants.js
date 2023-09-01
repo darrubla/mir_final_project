@@ -19,7 +19,6 @@ export function LoadSubjectsList() {
   }
 }
 
-export const subjects = ["Math", "Science", "Python", "HTML"];
 export const locations = [
   "Teacher's location",
   "Student's location",

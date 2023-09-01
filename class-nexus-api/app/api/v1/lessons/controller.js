@@ -1,6 +1,5 @@
 import { prisma } from "../../../database.js";
-import { fields } from "./model.js";
-import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
+import { parsePaginationParams } from "../../../utils.js";
 
 export const createLesson = async (req, res, next) => {
   const { body = {} } = req;
@@ -22,21 +21,16 @@ export const createLesson = async (req, res, next) => {
 export const allLessons = async (req, res, next) => {
   const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const { orderBy, direction } = parseOrderParams({
-    fields,
-    ...query,
-  });
-
-  const { studentId, teacherId } = params;
+  const orderBy = { scheduledAt: "asc" };
+  const { studentId, teacherId, subjectId } = params;
+  console.log(params);
 
   try {
     const [result, total] = await Promise.all([
       prisma.lesson.findMany({
         skip: offset,
         take: limit,
-        orderBy: {
-          [orderBy]: direction,
-        },
+        orderBy,
         include: {
           student: {
             // Para que solo me traiga estos campos
@@ -64,6 +58,7 @@ export const allLessons = async (req, res, next) => {
         where: {
           studentId, // studentId == studentId
           teacherId, // teacherId == teacherId
+          subjectId,
         },
       }),
       prisma.lesson.count(),
@@ -76,7 +71,6 @@ export const allLessons = async (req, res, next) => {
         offset,
         total,
         orderBy,
-        direction,
       },
     });
   } catch (error) {

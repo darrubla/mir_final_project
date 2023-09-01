@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import * as controller from "./controller.js";
 import { router as lessonsRouter } from "../lessons/routes.js";
-import { router as subjectsRouter } from "../subjects/routes.js";
+import { router as subjectsRouter } from "../subjectsonteachers/routes.js";
 
 // eslint-disable-next-line new-cap
 export const router = Router();

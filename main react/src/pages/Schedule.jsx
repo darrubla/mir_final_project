@@ -42,7 +42,6 @@ export function Schedule() {
         subjectsOptions.map((subjectObject)=> {
             options.push(subjectObject.subjectname)
         })
-        console.log(options)
         return (
             <div className="pt-4 mt-5 d-flex flex-column justify-content-center">
                 <SectionName title="SCHEDULE A CLASS" className="mt-5"/>

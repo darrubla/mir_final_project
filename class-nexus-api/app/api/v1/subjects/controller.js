@@ -1,6 +1,5 @@
 import { prisma } from "../../../database.js";
-import { fields } from "./model.js";
-import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
+import { parsePaginationParams } from "../../../utils.js";
 
 export const createSubject = async (req, res, next) => {
   const { body = {} } = req;
@@ -22,25 +21,30 @@ export const createSubject = async (req, res, next) => {
 export const allSubjects = async (req, res, next) => {
   const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const { orderBy, direction } = parseOrderParams({
-    fields,
-    ...query,
-  });
-
+  const orderBy = { subjectname: "asc" };
   try {
     const [result, total] = await Promise.all([
       prisma.Subject.findMany({
         skip: offset,
         take: limit,
-        orderBy: {
-          [orderBy]: direction,
-        },
+        orderBy,
         include: {
-          teachers: true,
+          teachers: {
+            select: {
+              teacherId: true,
+            },
+          },
+          Lesson: {
+            select: {
+              id: true,
+              description: true,
+            },
+          },
           _count: {
             // Contar los profesores de esta etiqueta
             select: {
               teachers: true,
+              Lesson: true,
             },
           },
         },
@@ -55,7 +59,6 @@ export const allSubjects = async (req, res, next) => {
         offset,
         total,
         orderBy,
-        direction,
       },
     });
   } catch (error) {
@@ -101,11 +104,22 @@ export const idSubject = async (req, res, next) => {
         id: params.id,
       },
       include: {
-        teachers: true,
+        teachers: {
+          select: {
+            teacherId: true,
+          },
+        },
+        Lesson: {
+          select: {
+            id: true,
+            description: true,
+          },
+        },
         _count: {
           // Contar los profesores de esta etiqueta
           select: {
             teachers: true,
+            Lesson: true,
           },
         },
       },

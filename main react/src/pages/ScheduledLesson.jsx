@@ -14,9 +14,9 @@ export function ScheduledLesson({lessondata}) {
     function displayTeacher(id) {
         navigate(`/teachers/${id}`);
     }
-    lessondata.map((lesson)=>(
+    /*lessondata.map((lesson)=>(
         console.log(lesson.subject.subjectname)
-    ))
+    ))*/
     return (
         <Accordion defaultActiveKey="0">
             {lessondata.map((lesson, key)=>(

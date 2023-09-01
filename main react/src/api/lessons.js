@@ -29,7 +29,6 @@ export async function createLesson(payload) {
     ...payload,
     studentId: "b84f6be4-51ec-4b38-9a0e-106e7c5a6685",
   });
-  console.log(payload)
   const response = await fetch(`${import.meta.env.VITE_API_URL}/lessons/`, {
     method: "POST",
     headers: {
@@ -37,7 +36,6 @@ export async function createLesson(payload) {
     },
     body: payload,
   });
-  console.log(payload);
   if (response.ok) {
     const json = await response.json();
     const data = json.data; // transformLesson(json.data);

@@ -41,7 +41,6 @@ export async function getSubject({ id }) {
 }
 
 export async function getSubjectId({ subjectname }) {
-  console.log(subjectname);
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/subjects/n/${subjectname}`
   );

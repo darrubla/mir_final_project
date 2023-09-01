@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
 import { NavSeparator } from './NavSeparator';
-import { useEffect, useState} from 'react';
+import { useState} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
@@ -14,25 +14,26 @@ import { TimePicker } from './TimePicker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { useNavigate } from 'react-router-dom';
-import { subjects, locations } from '../text/constants';
+import { locations } from '../text/constants';
 import PropTypes from 'prop-types';
-import { useParams} from 'react-router-dom';
 import { getSubjectId } from '../api/subjects';
 
-const scheduleSchema = z
-.object({
-    subject: z.enum(subjects, {
-        errorMap: () => ({ message: 'Please select a valid subject' })
-    }),
-    topicdescription: z.string().min(20, { message: "Provide a longer topic description" }),
-    location: z.enum(locations, {
-        errorMap: () => ({ message: 'Please select a valid location' })
-    }),
-    locationdescription: z.string().min(10, { message: "Provide a longer description" }),
-    scheduledate: z.string(),
-    scheduletime: z.string(),
-})
-export function ScheduleForm({ onCreate }) {
+
+
+export function ScheduleForm({ onCreate, options}) {
+    const scheduleSchema = z
+        .object({
+            subject: z.enum(options, {
+                errorMap: () => ({ message: 'Please select a valid subject' })
+            }),
+            topicdescription: z.string().min(20, { message: "Provide a longer topic description" }),
+            location: z.enum(locations, {
+                errorMap: () => ({ message: 'Please select a valid location' })
+            }),
+            locationdescription: z.string().min(10, { message: "Provide a longer description" }),
+            scheduledate: z.string(),
+            scheduletime: z.string(),
+        })
     const navigate = useNavigate();
     const [dateValue, onDateChange] = useState(new Date(new Date().setDate(new Date().getDate() +1)));
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
@@ -63,7 +64,6 @@ export function ScheduleForm({ onCreate }) {
     }
     async function loadSubject({ subjectname }) {
         try {
-            console.log(subjectname)
             const response = await getSubjectId({ subjectname });
             setDataSubject(response.data.id)
         } catch (error) {
@@ -94,12 +94,11 @@ export function ScheduleForm({ onCreate }) {
                         <div className='d-flex flex-column justify-content-start'>
                             <div className='list-container' onClick={() => {
                                 const subjectname=values.subject
-                                console.log(subjectname)
                                 if (subjectname) {
                                     loadSubject({subjectname})
                                 }
                             }}>
-                                <ListSelect optionsList={subjects} fieldName='SUBJECT' handleChange={handleChange} handleBlur={handleBlur} value={values.subject} className={touched.subject && errors.subject ? ' is-invalid' : ''} />
+                                <ListSelect optionsList={options} fieldName='SUBJECT' handleChange={handleChange} handleBlur={handleBlur} value={values.subject} className={touched.subject && errors.subject ? ' is-invalid' : ''} />
                             </div>
                             <FormDescription fieldName="topic description" handleChange={handleChange} handleBlur={handleBlur} val={values.topicdescription} classN={touched.topicdescription && errors.topicdescription ? 'is-invalid' : ''}/>
                             <div>
@@ -174,4 +173,5 @@ export function ScheduleForm({ onCreate }) {
 
 ScheduleForm.propTypes = {
     onCreate: PropTypes.func.isRequired,
+    options: PropTypes.array,
 };

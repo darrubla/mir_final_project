@@ -1,4 +1,25 @@
-export const subjects = ["Math", "Science", "Python"];
+import { useEffect, useState } from "react";
+import { getSubjects } from "../api/subjects";
+
+export function LoadSubjectsList() {
+  const [subjectsList, setSubjectsList] = useState([]);
+  async function loadLessons() {
+    try {
+      const response = await getSubjects();
+      setSubjectsList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    loadLessons();
+  }, []);
+  if (subjectsList) {
+    return subjectsList;
+  }
+}
+
+export const subjects = ["Math", "Science", "Python", "HTML"];
 export const locations = [
   "Teacher's location",
   "Student's location",

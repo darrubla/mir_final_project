@@ -10,7 +10,7 @@ export function NavbarState({handleShow, handleLogout, user}) {
               <IndexNavbar handleShow={handleShow} />
             )
         }
-        if (user?.email) {//if log is true
+        if (user?.email) {
             if (user?.type == "student") {
                 return (
                     <StudentNavbar account_email={user.email} handleLogout={handleLogout} />

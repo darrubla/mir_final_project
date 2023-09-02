@@ -1,6 +1,6 @@
 export function rswitch(param, cases) {
-  if (cases[param]) {
-    return cases[param];
+  if (param.user && param.user?.email) {
+    return cases[param.user.type];
   } else {
     return cases.default;
   }

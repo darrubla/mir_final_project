@@ -52,7 +52,7 @@ export function Navigation() {
             <Col>
               {
                 //
-                rswitch(user?.type, {
+                rswitch({user}, {
                   student: <NavigationTab route="schedule" title="SCHEDULE" />,
                   teacher: <NavigationTab route="bank" title="BANK" />,
                   default: <NavigationTab route="about" title="ABOUT" />,

@@ -112,13 +112,18 @@ export const updateSubjectOnTeacher = async (req, res, next) => {
   }
 };
 
-export const removeSubjectOnTeacher = async (req, res, next) => {
-  const { params = {} } = req;
-  const { id } = params;
+export const deleteSubjectOnTeacher = async (req, res, next) => {
+  const { body = {} } = req;
+  const { subjectId, teacherId } = body;
 
   try {
     await prisma.SubjectsOnTeachers.delete({
-      where: { id },
+      where: {
+        teacherId_subjectId: {
+          subjectId,
+          teacherId,
+        },
+      },
     });
     res.status(204);
     res.end();

@@ -11,18 +11,20 @@ datasource db {
 }
 
 model Lesson {
-  id          String   @id @default(uuid()) @db.Uuid
-  subject     Subject? @relation(fields: [subjectId], references: [id])
-  subjectId   String   @db.Uuid
+  id          String    @id @default(uuid()) @db.Uuid
+  subject     Subject?  @relation(fields: [subjectId], references: [id])
+  subjectId   String    @db.Uuid
   description String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   scheduledAt DateTime
   site        String?
-  status      String   @default("Pending")
-  teacher     Teacher? @relation(fields: [teacherId], references: [id])
-  teacherId   String?  @db.Uuid
-  student     Student  @relation(fields: [studentId], references: [id])
-  studentId   String   @db.Uuid
+  status      String    @default("Pending")
+  teacher     Teacher?  @relation(fields: [teacherId], references: [id])
+  teacherId   String?   @db.Uuid
+  student     Student   @relation(fields: [studentId], references: [id])
+  studentId   String    @db.Uuid
+  finishedAt  DateTime?
+  duration    Int?
 }
 
 model Teacher {
@@ -58,11 +60,6 @@ model Subject {
   subjectname String
   teachers    SubjectsOnTeachers[]
   Lesson      Lesson[]
-}
-
-model LessonStatus {
-  id   String @id @default(uuid()) @db.Uuid
-  name String @unique
 }
 
 model SubjectsOnTeachers {

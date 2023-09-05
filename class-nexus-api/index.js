@@ -20,5 +20,5 @@ server.listen(port, () => {
 });
 
 setInterval(lessonExpiredStatusThread, 30 * 1000); // Every 30 seconds
-lessonFinishedStatusThread();
-// setInterval(lessonFinishedStatusThread, 1000); // Every second, should be avery 5 minutes
+// lessonFinishedStatusThread();
+setInterval(lessonFinishedStatusThread, 1000); // Every second, should be avery 5 minutes

@@ -20,6 +20,6 @@ server.listen(port, () => {
   console.log(`Server running at ${port} port`);
 });
 
-setInterval(lessonExpiredStatusThread, 60 * 2 * 1000); // Every 30 seconds
-setInterval(lessonFinishedStatusThread, 60 * 2 * 1000); // Should be every e minutes
-setInterval(lessonOngoingStatusThread, 60 * 2 * 1000);
+setInterval(lessonExpiredStatusThread, 2 * 1000); // Every 30 seconds
+setInterval(lessonFinishedStatusThread, 2 * 1000); // Should be every e minutes
+setInterval(lessonOngoingStatusThread, 2 * 1000);

@@ -40,7 +40,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
           id: getLesson.id,
         },
         data: {
-          status: "Ongoing",
+          status: "Finished",
           finishedAt: new Date(
             scheduledTime.setMinutes(scheduledTime.getMinutes() + 60)
           ),

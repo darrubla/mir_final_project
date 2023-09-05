@@ -3,16 +3,60 @@ import { parsePaginationParams } from "../../../utils.js";
 
 export const createLesson = async (req, res, next) => {
   const { body = {} } = req;
-
+  const { studentId, scheduledAt } = body;
+  const date = new Date(scheduledAt);
+  console.log(date);
   try {
-    const result = await prisma.lesson.create({
-      data: body,
+    const createdLessons = await prisma.lesson.findMany({
+      include: {
+        student: {
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+        subject: {
+          select: {
+            subjectname: true,
+          },
+        },
+        teacher: {
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+      },
+      where: {
+        studentId, // Clases de este estudiante
+        scheduledAt: {
+          gte: new Date(date.setMinutes(date.getMinutes() - 59)), // Para que no se crucen clases del mismo estudiante
+          gte: new Date(date.setMinutes(date.getMinutes() + 59)),
+        },
+      },
     });
 
-    res.status(201);
-    res.json({
-      data: result,
-    });
+    if (createdLessons.length > 0) {// Si se encontraron clase que pueden cruzarse
+      next({
+        message: "Overlaps in time with another class",
+        status: 400,
+      });
+    } else {
+      try {
+        const result = await prisma.lesson.create({
+          data: body,
+        });
+
+        res.status(201);
+        res.json({
+          data: result,
+        });
+      } catch (error) {
+        next(error);
+      }
+    }
   } catch (error) {
     next(error);
   }

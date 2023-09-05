@@ -5,7 +5,6 @@ export const createLesson = async (req, res, next) => {
   const { body = {} } = req;
   const { studentId, scheduledAt } = body;
   const date = new Date(scheduledAt);
-  console.log(date);
   try {
     const createdLessons = await prisma.lesson.findMany({
       include: {
@@ -31,30 +30,47 @@ export const createLesson = async (req, res, next) => {
       },
       where: {
         studentId, // Clases de este estudiante
-        scheduledAt: {
-          gte: new Date(date.setMinutes(date.getMinutes() - 59)), // Para que no se crucen clases del mismo estudiante
-          gte: new Date(date.setMinutes(date.getMinutes() + 59)),
-        },
+        AND: [
+          // Para que no se crucen clases del mismo estudiante
+          {
+            scheduledAt: {
+              gte: new Date(date.setMinutes(date.getMinutes() - 59)),
+            },
+          },
+          {
+            scheduledAt: {
+              lte: new Date(date.setMinutes(date.getMinutes() + 59)),
+            },
+          },
+        ],
       },
     });
 
-    if (createdLessons.length > 0) {// Si se encontraron clase que pueden cruzarse
+    if (createdLessons.length > 0) {
+      // Si se encontraron clase que pueden cruzarse
       next({
         message: "Overlaps in time with another class",
         status: 400,
       });
     } else {
-      try {
-        const result = await prisma.lesson.create({
-          data: body,
+      if (date < new Date()) {
+        // Si la fecha a programar es menor a la actual
+        next({
+          message: "You cannot schedule a class for a past date",
+          status: 400,
         });
-
-        res.status(201);
-        res.json({
-          data: result,
-        });
-      } catch (error) {
-        next(error);
+      } else {
+        try {
+          const result = await prisma.lesson.create({
+            data: body,
+          });
+          res.status(201);
+          res.json({
+            data: result,
+          });
+        } catch (error) {
+          next(error);
+        }
       }
     }
   } catch (error) {

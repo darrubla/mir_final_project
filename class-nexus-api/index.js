@@ -6,6 +6,7 @@ import { connect } from "./app/database.js";
 import {
   lessonExpiredStatusThread,
   lessonFinishedStatusThread,
+  lessonOngoingStatusThread,
 } from "./app/statusThread.js";
 
 const { port } = configuration.server;
@@ -19,6 +20,6 @@ server.listen(port, () => {
   console.log(`Server running at ${port} port`);
 });
 
-setInterval(lessonExpiredStatusThread, 30 * 1000); // Every 30 seconds
-// lessonFinishedStatusThread();
-setInterval(lessonFinishedStatusThread, 1000); // Every second, should be avery 5 minutes
+setInterval(lessonExpiredStatusThread, 60 * 2 * 1000); // Every 30 seconds
+setInterval(lessonFinishedStatusThread, 60 * 2 * 1000); // Should be every e minutes
+setInterval(lessonOngoingStatusThread, 60 * 2 * 1000);

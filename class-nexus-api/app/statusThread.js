@@ -15,7 +15,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
         status: "Expired",
       },
     });
-    console.log("Updated expired");
+    console.log("Checking for expired lessons");
   } catch (error) {
     console.log(error);
   }
@@ -26,9 +26,9 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
     const currentDate = new Date();
     const getLessons = await prisma.lesson.findMany({
       where: {
-        status: "Scheduled",
+        status: "Ongoing",
         scheduledAt: {
-          lte: new Date(currentDate.setMinutes(currentDate.getMinutes() - 65)),
+          lte: new Date(currentDate.setMinutes(currentDate.getMinutes() - 62)),
         },
       },
     });
@@ -40,7 +40,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
           id: getLesson.id,
         },
         data: {
-          status: "Finished",
+          status: "Ongoing",
           finishedAt: new Date(
             scheduledTime.setMinutes(scheduledTime.getMinutes() + 60)
           ),
@@ -49,6 +49,25 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
       });
     });
     console.log("Checking for unfinished lessons");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const lessonOngoingStatusThread = async (req, res, next) => {
+  try {
+    await prisma.lesson.updateMany({
+      where: {
+        status: "Scheduled",
+        scheduledAt: {
+          lte: new Date(),
+        },
+      },
+      data: {
+        status: "Ongoing",
+      },
+    });
+    console.log("Checking for started lessons");
   } catch (error) {
     console.log(error);
   }

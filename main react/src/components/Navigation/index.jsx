@@ -12,12 +12,11 @@ import { ModalAlert } from '../ModalAlert';
 export function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  //
   const [show, setShow] = useState(false);
   const [logType, setLogType] = useState();
 
   function onSignIn() {
-    handleShow('signin'); //
+    handleShow('signin');
     //navigate('/signin');
   }
 

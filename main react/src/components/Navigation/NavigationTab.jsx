@@ -1,5 +1,6 @@
-import { css, cx } from '@emotion/css';
-import { NavLink } from 'react-router-dom';
+import { css, cx } from '@emotion/css'
+import { NavLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 export function NavigationTab({ route, title }) {
   return (
@@ -17,5 +18,10 @@ export function NavigationTab({ route, title }) {
     >
       {title}
     </NavLink>
-  );
+  )
+}
+
+NavigationTab.propTypes = {
+  route: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 }

@@ -1,6 +1,7 @@
-import { css } from '@emotion/css';
-import { forwardRef } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { css } from '@emotion/css'
+import { forwardRef } from 'react'
+import { Dropdown } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 export function DropdownItemCustom({ children, onClick }) {
   return (
@@ -14,28 +15,51 @@ export function DropdownItemCustom({ children, onClick }) {
     >
       {children}
     </Dropdown.Item>
-  );
+  )
+}
+
+DropdownItemCustom.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 export function DropdownToggleCustom({ children }) {
   return (
-    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+    <Dropdown.Toggle as={CustomToggle} id='dropdown-custom-components'>
       {children}
     </Dropdown.Toggle>
-  );
+  )
+}
+
+DropdownToggleCustom.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 }
 
 const CustomToggle = forwardRef(({ children, onClick }, ref) => (
   <a
-    href=""
+    href=''
     ref={ref}
     onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
+      e.preventDefault()
+      onClick(e)
     }}
   >
     {children}
   </a>
-));
+))
 
-CustomToggle.displayName = 'CustomToggle';
+CustomToggle.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  onClick: PropTypes.func.isRequired,
+}
+
+CustomToggle.displayName = 'CustomToggle'

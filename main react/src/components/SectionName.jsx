@@ -7,7 +7,6 @@ export function SectionName({ title, className }) {
             <hr data-content="AND" className="hr-text" />
         </div>
     )
-    
 }
 
 SectionName.propTypes = {

@@ -1,24 +1,26 @@
 import Button from 'react-bootstrap/Button';
-import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useState} from 'react';
+
+import Calendar from 'react-calendar';
 import Form from 'react-bootstrap/Form';
+
+import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
 import { NavSeparator } from './NavSeparator';
-import { useState} from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import { DateText } from './DateText';
 import { TimePicker } from './TimePicker';
-import 'react-time-picker/dist/TimePicker.css';
-import 'react-clock/dist/Clock.css';
-import { useNavigate } from 'react-router-dom';
 import { locations } from '../text/constants';
-import PropTypes from 'prop-types';
 import { getSubjectId } from '../api/subjects';
 
+import PropTypes from 'prop-types';
 
+import 'react-calendar/dist/Calendar.css';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 
 export function ScheduleForm({ onCreate, options}) {
     const scheduleSchema = z
@@ -70,9 +72,9 @@ export function ScheduleForm({ onCreate, options}) {
             console.log(error)
         }
     }
-    
+
     return (
-        <Formik 
+        <Formik
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
                 const lessonContent={}
@@ -118,7 +120,6 @@ export function ScheduleForm({ onCreate, options}) {
                                         minDate={new Date(new Date().setDate(new Date().getDate() +1))}
                                     />
                                 )}
-                                
                             </div>
                         </div>
                         <div className='d-flex flex-column justify-content-start'>
@@ -130,7 +131,7 @@ export function ScheduleForm({ onCreate, options}) {
                             <div>
                                 <DateText fieldName='schedule time' handleShow={handleShowTime} handleChange={handleChange} handleBlur={handleBlur} value={`${values.scheduletime}`} className={touched.scheduletime && errors.scheduletime ? 'is-invalid' : ''}/>
                                 {showTime && (
-                                    <TimePicker 
+                                    <TimePicker
                                         handleChange={(event) =>{
                                             if (event.target.name==="hour") {
                                                 setHour(event.target.value)
@@ -142,8 +143,8 @@ export function ScheduleForm({ onCreate, options}) {
                                                 values.scheduletime=`${hour}:${event.target.value}:00`
                                                 values.scheduledatetime=(new Date(`${values.scheduledate}T${values.scheduletime}`))
                                             }
-                                        }} 
-                                        valueHour={hour} 
+                                        }}
+                                        valueHour={hour}
                                         valueMinute={minute}
                                     />
                                 )}
@@ -153,17 +154,16 @@ export function ScheduleForm({ onCreate, options}) {
                             <NavSeparator />
                         </div>
                         <div className='d-flex flex-column justify-content-start'>
-                            <Button 
-                                variant="success" 
-                                className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' 
-                                type="submit" 
+                            <Button
+                                variant="success"
+                                className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center'
+                                type="submit"
                                 disabled={isSubmitting}
                             >
                                 SCHEDULE
                             </Button>
                             <Button variant="danger" className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' type="submit" disabled={isSubmitting}>CANCEL</Button>
                         </div>
-                        
                     </Form>
                 </div>
             )}

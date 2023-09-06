@@ -29,9 +29,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
       where: {
         status: "Ongoing",
         startedAt: {
-          lte: new Date(
-            currentDate.setMinutes(currentDate.getMinutes() - defaultDuration)
-          ),
+          lte: new Date(currentDate.getTime() - defaultDuration * 60000),
         },
       },
     });
@@ -43,9 +41,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
         },
         data: {
           status: "Finished",
-          finishedAt: new Date(
-            startedTime.setMinutes(startedTime.getMinutes() + defaultDuration)
-          ),
+          finishedAt: new Date(startedTime.getTime() + defaultDuration * 60000),
           duration: defaultDuration,
         },
       });
@@ -59,14 +55,12 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
 export const lessonNotStartedStatusThread = async (req, res, next) => {
   try {
     const currentDate = new Date();
-    const cancelTime = 20;
+    const cancelTime = 20; // minutes
     await prisma.lesson.updateMany({
       where: {
         status: "Scheduled",
         scheduledAt: {
-          lte: new Date(
-            currentDate.setMinutes(currentDate.getMinutes() - cancelTime)
-          ),
+          lte: new Date(currentDate.getTime() - cancelTime * 60000),
         },
       },
       data: {

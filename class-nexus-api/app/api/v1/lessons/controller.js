@@ -5,7 +5,9 @@ export const createLesson = async (req, res, next) => {
   const { body = {} } = req;
   const { studentId, scheduledAt } = body;
   const date = new Date(scheduledAt);
+  console.log(date);
   try {
+    const defaultTime = 60;
     const createdLessons = await prisma.lesson.findMany({
       include: {
         student: {
@@ -29,18 +31,59 @@ export const createLesson = async (req, res, next) => {
         },
       },
       where: {
-        studentId, // Clases de este estudiante
+        // Clases de este estudiante, para no cruzarse
         AND: [
-          // Para que no se crucen clases del mismo estudiante
           {
-            scheduledAt: {
-              gte: new Date(date.setMinutes(date.getMinutes() - 59)),
-            },
+            studentId,
           },
           {
-            scheduledAt: {
-              lte: new Date(date.setMinutes(date.getMinutes() + 59)),
-            },
+            OR: [
+              {
+                AND: [
+                  { status: "Scheduled" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Ongoing" },
+                  {
+                    startedAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                  {
+                    startedAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Pending" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -54,7 +97,8 @@ export const createLesson = async (req, res, next) => {
       });
     } else {
       if (date < new Date()) {
-        // Si la fecha a programar es menor a la actual
+        console.log(date);
+        console.log(new Date());
         next({
           message: "You cannot schedule a class for a past date",
           status: 400,

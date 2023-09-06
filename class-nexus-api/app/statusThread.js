@@ -12,7 +12,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
         },
       },
       data: {
-        status: "Expired",
+        status: "Canceled",
       },
     });
     console.log("Checking for expired lessons");
@@ -23,18 +23,20 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
 
 export const lessonFinishedStatusThread = async (req, res, next) => {
   try {
+    const defaultDuration = 65;
     const currentDate = new Date();
     const getLessons = await prisma.lesson.findMany({
       where: {
         status: "Ongoing",
-        scheduledAt: {
-          lte: new Date(currentDate.setMinutes(currentDate.getMinutes() - 62)),
+        startedAt: {
+          lte: new Date(
+            currentDate.setMinutes(currentDate.getMinutes() - defaultDuration)
+          ),
         },
       },
     });
     getLessons.map(async (getLesson) => {
-      console.log(getLesson);
-      const scheduledTime = getLesson.scheduledAt;
+      const startedTime = getLesson.startedAt;
       await prisma.lesson.update({
         where: {
           id: getLesson.id,
@@ -42,9 +44,9 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
         data: {
           status: "Finished",
           finishedAt: new Date(
-            scheduledTime.setMinutes(scheduledTime.getMinutes() + 60)
+            startedTime.setMinutes(startedTime.getMinutes() + defaultDuration)
           ),
-          duration: 60,
+          duration: defaultDuration,
         },
       });
     });
@@ -54,17 +56,21 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
   }
 };
 
-export const lessonOngoingStatusThread = async (req, res, next) => {
+export const lessonNotStartedStatusThread = async (req, res, next) => {
   try {
+    const currentDate = new Date();
+    const cancelTime = 20;
     await prisma.lesson.updateMany({
       where: {
         status: "Scheduled",
         scheduledAt: {
-          lte: new Date(),
+          lte: new Date(
+            currentDate.setMinutes(currentDate.getMinutes() - cancelTime)
+          ),
         },
       },
       data: {
-        status: "Ongoing",
+        status: "Canceled",
       },
     });
     console.log("Checking for started lessons");

@@ -76,6 +76,9 @@ export function ScheduledLesson({lessondata}) {
                                 </div>
                             </div>
                             <div className="d-flex flex-row cancel-button justify-content-center">
+                                {
+                                    
+                                }
                                 <Button variant="danger" className="d-flex m-2 px-5 rounded-5">Cancel</Button>
                             </div>
                         </div>

@@ -23,6 +23,7 @@ model Lesson {
   teacherId   String?   @db.Uuid
   student     Student   @relation(fields: [studentId], references: [id])
   studentId   String    @db.Uuid
+  startedAt   DateTime?
   finishedAt  DateTime?
   duration    Int?
 }

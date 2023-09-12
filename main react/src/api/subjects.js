@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function transformSubject(item = {}) {
   return {
     ...item, // Copia todas las propiedades
@@ -10,49 +12,47 @@ function transformSubject(item = {}) {
 
 //API Agent
 export async function getSubjects() {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/subjects/`);
-  if (response.ok) {
-    const json = await response.json();
-    const data = json.data.map(transformSubject);
+  try {
+    const { data: response } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/subjects/`
+    );
+    const data = response.data.map(transformSubject);
+
     return {
       data,
-      meta: json.meta,
+      meta: response.meta,
     };
-  } else {
-    return Promise.reject("Network error");
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
 }
 
 export async function getSubject({ id }) {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/subjects/${id}`
-  );
-  if (response.ok) {
-    const json = await response.json();
-    const data = transformSubject(json.data);
+  try {
+    const { data: response } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/subjects/${id}`
+    );
+    const data = transformSubject(response.data);
+
     return {
       data,
     };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
-  if (response.status === 404) {
-    return Promise.reject("Not Found");
-  }
-  return Promise.reject("Network error");
 }
 
 export async function getSubjectId({ subjectname }) {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/subjects/n/${subjectname}`
-  );
-  if (response.ok) {
-    const json = await response.json();
-    const data = transformSubject(json.data);
+  try {
+    const { data: response } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/subjects/n/${subjectname}`
+    );
+    const data = transformSubject(response.data);
+
     return {
       data,
     };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
-  if (response.status === 404) {
-    return Promise.reject("Not Found");
-  }
-  return Promise.reject("Network error");
 }

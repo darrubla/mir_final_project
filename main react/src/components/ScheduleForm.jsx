@@ -76,7 +76,7 @@ export function ScheduleForm({ onCreate, options}) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
                 const lessonContent={}
                 lessonContent.site=values.location
                 lessonContent.description=values.topicdescription
@@ -85,12 +85,21 @@ export function ScheduleForm({ onCreate, options}) {
                 onCreate({
                     lessonContent,
                 });
-                navigate('/')
+                setHour("12");
+                setMinute("00");
+                resetForm({
+                    subject: '',
+                    topicdescription: '',
+                    location: '',
+                    locationdescription: '',
+                    scheduledate: new Date(new Date().setDate(new Date().getDate() +1)),
+                    scheduletime: `${hour}:${minute}:00`
+                })
                 setSubmitting(false);
             }}
             validationSchema={toFormikValidationSchema(scheduleSchema)}
         >
-            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting,}) => (
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, handleReset}) => (
                 <div className="form-schedule-container bg-body-secondary justify-content-center m-2 p-5">
                     <Form className='d-flex flex-row' onSubmit={handleSubmit}>
                         <div className='d-flex flex-column justify-content-start'>
@@ -162,7 +171,12 @@ export function ScheduleForm({ onCreate, options}) {
                             >
                                 SCHEDULE
                             </Button>
-                            <Button variant="danger" className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' type="submit" disabled={isSubmitting}>CANCEL</Button>
+                            <Button 
+                                variant="danger" 
+                                className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' 
+                                handleRes
+                                onClick={handleReset}>
+                                CANCEL</Button>
                         </div>
                     </Form>
                 </div>

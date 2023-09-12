@@ -7,7 +7,7 @@ export const configuration = {
     port: process.env.PORT,
   },
   pagination: {
-    limit: 20,
+    limit: 50,
     offset: 0,
   },
   order: {

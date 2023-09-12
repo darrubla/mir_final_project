@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function transformTeacher(item = {}) {
   return {
     ...item, // Copia todas las propiedades
@@ -10,32 +12,49 @@ function transformTeacher(item = {}) {
 
 //API Agent
 export async function getTeachers() {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/teachers/`);
-  if (response.ok) {
-    const json = await response.json();
-    const data = json.data.map(transformTeacher);
+  try {
+    const { data: response } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/teachers/`
+    );
+    const data = response.data.map(transformTeacher);
+
     return {
       data,
-      meta: json.meta,
+      meta: response.meta,
     };
-  } else {
-    return Promise.reject("Network error");
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
 }
 
 export async function getTeacher({ id }) {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/teachers/${id}`
-  );
-  if (response.ok) {
-    const json = await response.json();
-    const data = transformTeacher(json.data);
+  try {
+    const { data: response } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/teachers/${id}`
+    );
+    const data = transformTeacher(response.data);
+
     return {
       data,
     };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
-  if (response.status === 404) {
-    return Promise.reject("Not Found");
+}
+export async function createTeacher(payload) {
+  try {
+    // payload = payload.lessonContent;
+    const { data: response } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/teachers/`,
+      {
+        payload,
+      }
+    );
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
   }
-  return Promise.reject("Network error");
 }

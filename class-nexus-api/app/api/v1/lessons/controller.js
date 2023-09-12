@@ -92,7 +92,7 @@ export const createLesson = async (req, res, next) => {
     if (createdLessons.length > 0) {
       // Si se encontraron clase que pueden cruzarse
       next({
-        message: "Overlaps in time with another class",
+        message: "Overlaps in time with another class :(",
         status: 400,
       });
     } else {

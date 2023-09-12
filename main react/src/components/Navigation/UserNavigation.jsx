@@ -27,7 +27,6 @@ export function UserNavigation({ handleSignOut }) {
             <Dropdown.Menu>
               <DropdownItemCustom>Profile</DropdownItemCustom>
               <DropdownItemCustom>Settings</DropdownItemCustom>
-
               <DropdownItemCustom onClick={handleSignOut}>
                 Log Out
               </DropdownItemCustom>

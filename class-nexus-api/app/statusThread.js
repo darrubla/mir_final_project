@@ -15,7 +15,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
         status: "Canceled",
       },
     });
-    console.log("Checking for expired lessons");
+    // console.log("Checking for expired lessons");
   } catch (error) {
     console.log(error);
   }
@@ -46,7 +46,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
         },
       });
     });
-    console.log("Checking for unfinished lessons");
+    // console.log("Checking for unfinished lessons");
   } catch (error) {
     console.log(error);
   }
@@ -67,7 +67,7 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
         status: "Canceled",
       },
     });
-    console.log("Checking for started lessons");
+    // console.log("Checking for started lessons");
   } catch (error) {
     console.log(error);
   }

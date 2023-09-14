@@ -3,9 +3,9 @@ import { SectionName } from "../components/SectionName";
 import { ScheduleForm } from "../components/ScheduleForm";
 import { ScheduledLesson } from "./ScheduledLesson";
 import {createLesson, getLessons} from '../api/lessons';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
+import { Loading } from '../animation/loading';
 
 export function Schedule() {
 
@@ -57,10 +57,10 @@ export function Schedule() {
             <div className="pt-4 mt-5 d-flex flex-column justify-content-center">
                 <SectionName title="SCHEDULE A CLASS" className="mt-5"/>
                 <ScheduleForm onCreate={onCreate} options={options}/>
-                {loadingCreate && <Spinner animation="grow" variant="secondary" />}
+                {<Loading />}
                 {errorCreate && <Alert variant='danger'>{errorCreate}</Alert>}
                 <SectionName title="SCHEDULED" className="mt-5"/>
-                {loadingList && <Spinner animation="grow" variant="secondary" />}
+                {loadingList && <Loading />}
                 {errorLoad && <Alert variant='danger'>{errorLoad}</Alert>}
                 <ScheduledLesson lessondata={data} />
             </div>

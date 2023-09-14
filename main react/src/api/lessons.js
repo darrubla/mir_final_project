@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from "./http";
 
 function transformLesson(item = {}) {
   return {
@@ -13,9 +13,7 @@ function transformLesson(item = {}) {
 //API Agent
 export async function getLessons() {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/lessons/`
-    );
+    const { data: response } = await http.get(`/lessons/`);
     const data = response.data.map(transformLesson);
 
     return {
@@ -30,13 +28,10 @@ export async function getLessons() {
 export async function createLesson(payload) {
   try {
     payload = payload.lessonContent;
-    const { data: response } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/lessons/`,
-      {
-        ...payload,
-        studentId: "b84f6be4-51ec-4b38-9a0e-106e7c5a6685",
-      }
-    );
+    const { data: response } = await http.post(`/lessons/`, {
+      ...payload,
+      studentId: "b84f6be4-51ec-4b38-9a0e-106e7c5a6685",
+    });
     const data = transformLesson(response.data);
     return {
       data,

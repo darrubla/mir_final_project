@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useState} from 'react';
 
 import Calendar from 'react-calendar';
@@ -36,7 +36,7 @@ export function ScheduleForm({ onCreate, options}) {
             scheduledate: z.string(),
             scheduletime: z.string(),
         })
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [dateValue, onDateChange] = useState(new Date(new Date().setDate(new Date().getDate() +1)));
     const [dateSelected, setDateSelected] = useState(`${dateValue.getFullYear()}-${(dateValue.getMonth()+1).toString().padStart(2, '0')}-${dateValue.getDate().toString().padStart(2, '0')}`);
     const [showCalendar, setShowCalendar] = useState(false);
@@ -101,7 +101,7 @@ export function ScheduleForm({ onCreate, options}) {
         >
             {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, handleReset}) => (
                 <div className="form-schedule-container bg-body-secondary justify-content-center m-2 p-5">
-                    <Form className='d-flex flex-row' onSubmit={handleSubmit}>
+                    <Form className='d-flex flex-row justify-content-center' onSubmit={handleSubmit}>
                         <div className='d-flex flex-column justify-content-start'>
                             <div className='list-container' onClick={() => {
                                 const subjectname=values.subject
@@ -174,7 +174,6 @@ export function ScheduleForm({ onCreate, options}) {
                             <Button 
                                 variant="danger" 
                                 className='rounded-5 d-flex btn-register mb-1 px-5 py-2 justify-content-center' 
-                                handleRes
                                 onClick={handleReset}>
                                 CANCEL</Button>
                         </div>

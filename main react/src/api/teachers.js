@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from "./http.js";
 
 function transformTeacher(item = {}) {
   return {
@@ -13,9 +13,7 @@ function transformTeacher(item = {}) {
 //API Agent
 export async function getTeachers() {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/teachers/`
-    );
+    const { data: response } = await http.get(`/teachers/`);
     const data = response.data.map(transformTeacher);
 
     return {
@@ -29,9 +27,7 @@ export async function getTeachers() {
 
 export async function getTeacher({ id }) {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/teachers/${id}`
-    );
+    const { data: response } = await http.get(`/teachers/${id}`);
     const data = transformTeacher(response.data);
 
     return {
@@ -44,12 +40,9 @@ export async function getTeacher({ id }) {
 export async function createTeacher(payload) {
   try {
     // payload = payload.lessonContent;
-    const { data: response } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/teachers/`,
-      {
-        payload,
-      }
-    );
+    const { data: response } = await http.post(`/teachers/`, {
+      payload,
+    });
     const data = transformTeacher(response.data);
     return {
       data,

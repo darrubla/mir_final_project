@@ -1,4 +1,5 @@
-import axios from "axios";
+import http from "./http";
+
 function transformStudent(item = {}) {
   return {
     ...item, // Copia todas las propiedades
@@ -12,9 +13,7 @@ function transformStudent(item = {}) {
 //API Agent
 export async function getStudents() {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/students/`
-    );
+    const { data: response } = await http.get(`/students/`);
     const data = response.data.map(transformStudent);
 
     return {
@@ -28,9 +27,7 @@ export async function getStudents() {
 
 export async function getStudent({ id }) {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/students/${id}`
-    );
+    const { data: response } = await http.get(`/students/${id}`);
     const data = transformStudent(response.data);
     return {
       data,
@@ -42,12 +39,9 @@ export async function getStudent({ id }) {
 export async function createStudent(payload) {
   try {
     // payload = payload.lessonContent;
-    const { data: response } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/students/`,
-      {
-        payload,
-      }
-    );
+    const { data: response } = await http.post(`/students/`, {
+      payload,
+    });
     const data = transformStudent(response.data);
     return {
       data,

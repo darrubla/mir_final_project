@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from "./http";
 
 function transformSubject(item = {}) {
   return {
@@ -13,9 +13,7 @@ function transformSubject(item = {}) {
 //API Agent
 export async function getSubjects() {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/subjects/`
-    );
+    const { data: response } = await http.get(`/subjects/`);
     const data = response.data.map(transformSubject);
 
     return {
@@ -29,9 +27,7 @@ export async function getSubjects() {
 
 export async function getSubject({ id }) {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/subjects/${id}`
-    );
+    const { data: response } = await http.get(`/subjects/${id}`);
     const data = transformSubject(response.data);
 
     return {
@@ -44,9 +40,7 @@ export async function getSubject({ id }) {
 
 export async function getSubjectId({ subjectname }) {
   try {
-    const { data: response } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/subjects/n/${subjectname}`
-    );
+    const { data: response } = await http.get(`/subjects/n/${subjectname}`);
     const data = transformSubject(response.data);
 
     return {

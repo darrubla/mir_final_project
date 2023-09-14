@@ -73,11 +73,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   /*width: fit-content;*/
-  min-width: 320px;
-  min-height: 100vh;
+  /*min-width: 320px;*/
+  /*min-height: 100vh;*/
 }
 
 h1 {
@@ -116,3 +115,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.logo-animate {
+  width: 50%;
+  overflow: visible;
+  stroke: rgba(97,97,97,255);
+  /*stroke: rgba(97,97,97,255);*/
+  stroke-width: 2;/*
+  stroke-linejoin: arcs;
+  stroke-linecap: arcs;*/
+}
+

@@ -2,9 +2,14 @@ import { prisma } from "../../../database.js";
 import { parsePaginationParams } from "../../../utils.js";
 
 export const createLesson = async (req, res, next) => {
-  const { body = {} } = req;
-  const { studentId, scheduledAt } = body;
+  const { body = {}, decoded = {} } = req;
+  const { id: studentId } = decoded;
+  // const { studentId, scheduledAt } = body;
+  const { scheduledAt } = body;
   const date = new Date(scheduledAt);
+  console.log(decoded);
+  console.log("...");
+  console.log(studentId);
   console.log(date);
   try {
     const defaultTime = 60;
@@ -106,7 +111,10 @@ export const createLesson = async (req, res, next) => {
       } else {
         try {
           const result = await prisma.lesson.create({
-            data: body,
+            data: {
+              ...body,
+              studentId,
+            },
           });
           res.status(201);
           res.json({

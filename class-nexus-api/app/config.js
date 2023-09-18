@@ -15,4 +15,8 @@ export const configuration = {
     direction: "desc",
     orderBy: "id", // "scheduledAt",
   },
+  token: {
+    secret: process.env.TOKEN_SECRET,
+    expires: process.env.TOKEN_EXPIRES,
+  },
 };

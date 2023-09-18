@@ -62,7 +62,7 @@ export function Navigation() {
               <NavigationTab route="explore" title="EXPLORE" />
             </Col>
             <Col className="col-6 d-flex justify-content-end">
-              {user ? (
+              {user?.email ? (
                 <UserNavigation handleSignOut={onSignOut} />
               ) : (
                 <>

@@ -1,3 +1,4 @@
+//import * as http from "../api/http";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
@@ -5,16 +6,16 @@ import { getSubjects } from "../api/subjects";
 
 export function LoadSubjectsList() {
   const [subjectsList, setSubjectsList] = useState([]);
-  async function loadLessons() {
+  async function loadSubjects() {
     try {
       const response = await getSubjects();
       setSubjectsList(response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   }
   useEffect(() => {
-    loadLessons();
+    loadSubjects();
   }, []);
   if (subjectsList) {
     return subjectsList;

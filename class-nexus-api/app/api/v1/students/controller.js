@@ -1,5 +1,6 @@
 import { prisma } from "../../../database.js";
 import { parsePaginationParams } from "../../../utils.js";
+import { signToken } from "../auth.js";
 import { encryptPassword, verifyPassword } from "./model.js";
 
 export const signup = async (req, res, next) => {
@@ -38,6 +39,7 @@ export const signin = async (req, res, next) => {
         email,
       },
       select: {
+        id: true,
         name: true,
         email: true,
         password: true,
@@ -58,10 +60,16 @@ export const signin = async (req, res, next) => {
         status: 401, // Unauthorized
       });
     }
+    const { id } = student;
+    const token = signToken({ id });
     res.json({
       data: {
         ...student,
+        id: undefined,
         password: undefined,
+      },
+      meta: {
+        token,
       },
     });
   } catch (error) {

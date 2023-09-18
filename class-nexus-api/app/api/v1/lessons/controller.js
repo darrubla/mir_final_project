@@ -7,10 +7,6 @@ export const createLesson = async (req, res, next) => {
   // const { studentId, scheduledAt } = body;
   const { scheduledAt } = body;
   const date = new Date(scheduledAt);
-  console.log(decoded);
-  console.log("...");
-  console.log(studentId);
-  console.log(date);
   try {
     const defaultTime = 60;
     const createdLessons = await prisma.lesson.findMany({

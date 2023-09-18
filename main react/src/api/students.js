@@ -10,6 +10,21 @@ function transformStudent(item = {}) {
   };
 }
 
+export async function signIn({ email, password }) {
+  try {
+    const { data: response } = await http.post("/students/signin/student", {
+      email,
+      password,
+    });
+    const { data } = response;
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
 //API Agent
 export async function getStudents() {
   try {

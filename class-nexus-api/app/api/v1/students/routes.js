@@ -6,7 +6,9 @@ import { router as lessonsRouter } from "../lessons/routes.js";
 // eslint-disable-next-line new-cap
 export const router = Router();
 
-router.route("/").get(controller.allStudents).post(controller.createStudent);
+router.route("/signup/student").post(controller.signup);
+router.route("/signin/student").post(controller.signin);
+router.route("/").get(controller.allStudents); // .post(controller.createStudent);
 
 router.param("id", controller.idStudent);
 

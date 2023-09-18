@@ -41,6 +41,7 @@ export function Signin() {
                 initialValues={initialValues}
                 onSubmit={async (values, { setSubmitting }) => {
                     const { data } = await signIn(values)
+
                     // setUser({ type: type, email: values.email});
                     const logInData = {
                         ...data,

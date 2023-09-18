@@ -1,4 +1,5 @@
 import http from "./http";
+import { getSession } from "./session";
 
 function transformLesson(item = {}) {
   return {
@@ -27,10 +28,12 @@ export async function getLessons() {
 
 export async function createLesson(payload) {
   try {
+    const token = getSession();
     payload = payload.lessonContent;
-    const { data: response } = await http.post(`/lessons/`, {
-      ...payload,
-      studentId: "b84f6be4-51ec-4b38-9a0e-106e7c5a6685",
+    const { data: response } = await http.post(`/lessons/`, payload, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     });
     const data = transformLesson(response.data);
     return {

@@ -1,4 +1,5 @@
 import http from "./http";
+import { setSession } from "./session";
 
 function transformStudent(item = {}) {
   return {
@@ -16,8 +17,10 @@ export async function signIn({ email, password }) {
       email,
       password,
     });
-    const { data } = response;
+    const { data, meta } = response;
+    const { token = "" } = meta;
 
+    setSession(token);
     return {
       data,
     };

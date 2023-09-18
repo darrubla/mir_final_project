@@ -43,6 +43,7 @@ export const signin = async (req, res, next) => {
         name: true,
         email: true,
         password: true,
+        joined: true,
       },
     });
     if (student === null) {

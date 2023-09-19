@@ -5,7 +5,7 @@ import { ScheduledLesson } from "./ScheduledLesson";
 import {createLesson, getLessons} from '../api/lessons';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
-import { Loading } from '../animation/loading';
+import { Loading } from '../animation/Loading';
 
 export function Schedule() {
 

@@ -11,7 +11,7 @@ function transformStudent(item = {}) {
   };
 }
 
-export async function signIn({ email, password }) {
+export async function signInStudent({ email, password }) {
   try {
     const { data: response } = await http.post("/students/signin/student", {
       email,

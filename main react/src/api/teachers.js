@@ -1,4 +1,5 @@
 import http from "./http.js";
+import { setSession } from "./session";
 
 function transformTeacher(item = {}) {
   return {
@@ -10,6 +11,23 @@ function transformTeacher(item = {}) {
   };
 }
 
+export async function signInTeacher({ email, password }) {
+  try {
+    const { data: response } = await http.post("/teachers/signin/teacher", {
+      email,
+      password,
+    });
+    const { data, meta } = response;
+    const { token = "" } = meta;
+
+    setSession(token);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
 //API Agent
 export async function getTeachers() {
   try {

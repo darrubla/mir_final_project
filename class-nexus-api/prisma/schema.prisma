@@ -12,43 +12,62 @@ datasource db {
 
 model Lesson {
   id          String    @id @default(uuid()) @db.Uuid
-  subject     String?
+  subject     Subject?  @relation(fields: [subjectId], references: [id])
+  subjectId   String    @db.Uuid
   description String?
   createdAt   DateTime  @default(now())
-  scheduledAt DateTime?
+  scheduledAt DateTime
   site        String?
-  status      String // Scheduled, Finished, Canceled
+  status      String    @default("Pending")
   teacher     Teacher?  @relation(fields: [teacherId], references: [id])
   teacherId   String?   @db.Uuid
   student     Student   @relation(fields: [studentId], references: [id])
   studentId   String    @db.Uuid
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  duration    Int?
 }
 
 model Teacher {
-  id        String    @id @default(uuid()) @db.Uuid
-  email     String    @unique
+  id        String               @id @default(uuid()) @db.Uuid
+  status    String               @default("active")
+  email     String               @unique
+  points    Int                  @default(0)
   name      String?
   lastname  String?
   age       Int?
   password  String?
-  createdAt DateTime  @default(now())
+  joined    DateTime             @default(now())
   updatedAt DateTime?
   lesson    Lesson[]
+  subjects  SubjectsOnTeachers[]
 }
 
 model Student {
   id        String    @id @default(uuid()) @db.Uuid
+  status    String    @default("active")
   email     String    @unique
   name      String
   lastname  String
   age       Int
   password  String?
-  createdAt DateTime  @default(now())
+  joined    DateTime  @default(now())
   updatedAt DateTime?
   lesson    Lesson[]
 }
 
 model Subject {
-  id          String @id @default(uuid()) @db.Uuid
+  id          String               @id @default(uuid()) @db.Uuid
   subjectname String
+  teachers    SubjectsOnTeachers[]
+  Lesson      Lesson[]
+}
+
+model SubjectsOnTeachers {
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+  teacherId String  @db.Uuid
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String  @db.Uuid
+
+  @@id([teacherId, subjectId])
 }

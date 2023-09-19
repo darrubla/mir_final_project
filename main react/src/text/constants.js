@@ -1,31 +1,27 @@
-export const subjects = [
-  "Anatomy",
-  "Math",
-  "Science",
-  "Spanish",
-  "History",
-  "English",
-  "Art",
-  "Music",
-  "Physical Education",
-  "Biology",
-  "Chemistry",
-  "Physics",
-  "Geography",
-  "Computer Science",
-  "Economics",
-  "Psychology",
-  "Sociology",
-  "Political Science",
-  "Literature",
-  "Philosophy",
-  "Foreign Languages",
-  "Health Education",
-  "Environmental Science",
-  "Civics",
-  "Engineering",
-  "Astronomy",
-];
+//import * as http from "../api/http";
+import axios from "axios";
+
+import { useEffect, useState } from "react";
+import { getSubjects } from "../api/subjects";
+
+export function LoadSubjectsList() {
+  const [subjectsList, setSubjectsList] = useState([]);
+  async function loadSubjects() {
+    try {
+      const response = await getSubjects();
+      setSubjectsList(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  useEffect(() => {
+    loadSubjects();
+  }, []);
+  if (subjectsList) {
+    return subjectsList;
+  }
+}
+
 export const locations = [
   "Teacher's location",
   "Student's location",

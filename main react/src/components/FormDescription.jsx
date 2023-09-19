@@ -25,7 +25,6 @@ export function FormDescription ({fieldName, handleChange, handleBlur, val, clas
             </InputGroup>
         </Form.Group>
     );
-    
 }
 
 FormDescription.propTypes = {

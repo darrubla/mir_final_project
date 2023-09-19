@@ -1,43 +1,70 @@
-import { StudentNavbar } from "../components/StudentNavbar";
-import { useNavigate } from 'react-router-dom';
-import UserContext from '../containers/UserContext';
-import { useContext, useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import { SectionName } from "../components/SectionName";
 import { ScheduleForm } from "../components/ScheduleForm";
 import { ScheduledLesson } from "./ScheduledLesson";
+import {createLesson, getLessons} from '../api/lessons';
+import Alert from 'react-bootstrap/Alert';
+import { LoadSubjectsList } from '../text/constants';
+import { Loading } from '../animation/Loading';
 
 export function Schedule() {
-    const navigate = useNavigate();
-    const { setUser, user } = useContext(UserContext);
-    const [data, setData] = useState([]);
 
+    const [data, setData] = useState([]);
+    const [loadingList, setLoadingList] = useState(false);
+    const [loadingCreate, setLoadingCreate] = useState(false);
+    const [errorLoad, setErrorLoad] = useState('');
+    const [errorCreate, setErrorCreate] = useState('');
+
+    async function onCreate(payload) {
+        setLoadingCreate(true);
+        setErrorCreate('');
+        try {
+            console.log(payload)
+            await createLesson(payload)
+            loadLessons()
+        } catch (error) {
+            setErrorCreate(error)
+        } finally {
+            setLoadingCreate(false)
+        }
+        
+    }
     async function loadLessons() {
-        const response = await fetch ('http://localhost:3000/api/lessons');
-        const json = await response.json()
-        setData(json.data);
+        setLoadingList(true);
+        setErrorLoad('');
+        try {
+            const response = await getLessons();
+            setData(response.data);
+        } catch (error) {
+            setErrorLoad(error)
+        } finally {
+            setLoadingList(false)
+        }
+        
     }
     useEffect(()=> {
         loadLessons();
     }, []);
     
-    if (user?.type == "student" && user?.email) {
+    const subjectsOptions=LoadSubjectsList();
+
+    if (subjectsOptions.length>0) { // Renderizo la página Schedule, cuando obtenga la lista de materias
+        const options = []
+        subjectsOptions.map((subjectObject)=> {
+            options.push(subjectObject.subjectname)
+        })
         return (
-            <>
-            <StudentNavbar account_email={user.email} handleLogout={()=>{
-                        setUser(null)
-                        navigate("/")
-                    }}/>
-            <div className="pt-4 mt-5">
-                <SectionName title="SCHEDULE" className="mt-5"/>
-                <ScheduleForm />
+            <div className="pt-4 mt-5 d-flex flex-column justify-content-center">
+                <SectionName title="SCHEDULE A CLASS" className="mt-5"/>
+                <ScheduleForm onCreate={onCreate} options={options}/>
+                {<Loading />}
+                {errorCreate && <Alert variant='danger'>{errorCreate}</Alert>}
                 <SectionName title="SCHEDULED" className="mt-5"/>
+                {loadingList && <Loading />}
+                {errorLoad && <Alert variant='danger'>{errorLoad}</Alert>}
                 <ScheduledLesson lessondata={data} />
             </div>
-                
-            </>
         )
     }
-    else {
-        navigate ("/");
-    }
+    
 }

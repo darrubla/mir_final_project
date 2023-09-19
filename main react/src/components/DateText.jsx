@@ -27,7 +27,6 @@ export function DateText ({fieldName, handleShow, handleChange, handleBlur, valu
             </InputGroup>
         </Form.Group>
     );
-    
 }
 
 DateText.propTypes = {

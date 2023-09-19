@@ -9,6 +9,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 import UserContext from '../containers/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { signIn } from '../api/students';
 
 
 const signInSchema = z
@@ -38,8 +39,16 @@ export function Signin() {
         <>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values, { setSubmitting }) => {
-                    setUser({ type: type, email: values.email});
+                onSubmit={async (values, { setSubmitting }) => {
+                    const { data } = await signIn(values)
+
+                    // setUser({ type: type, email: values.email});
+                    const logInData = {
+                        ...data,
+                        type,
+                    }
+                    console.log(logInData)
+                    setUser(logInData);
                     setSubmitting(false);
                     navigate(`/`);
                 }}

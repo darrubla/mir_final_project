@@ -7,12 +7,16 @@ export const configuration = {
     port: process.env.PORT,
   },
   pagination: {
-    limit: 10,
+    limit: 50,
     offset: 0,
   },
   order: {
     options: ["asc", "desc"],
     direction: "desc",
-    orderBy: "id",
+    orderBy: "id", // "scheduledAt",
+  },
+  token: {
+    secret: process.env.TOKEN_SECRET,
+    expires: process.env.TOKEN_EXPIRES,
   },
 };

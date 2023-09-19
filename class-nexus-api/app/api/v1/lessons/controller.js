@@ -1,19 +1,126 @@
 import { prisma } from "../../../database.js";
-import { fields } from "./model.js";
-import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
+import { parsePaginationParams } from "../../../utils.js";
 
 export const createLesson = async (req, res, next) => {
-  const { body = {} } = req;
-
+  const { body = {}, decoded = {} } = req;
+  const { id: studentId } = decoded;
+  // const { studentId, scheduledAt } = body;
+  const { scheduledAt } = body;
+  const date = new Date(scheduledAt);
   try {
-    const result = await prisma.lesson.create({
-      data: body,
+    const defaultTime = 60;
+    const createdLessons = await prisma.lesson.findMany({
+      include: {
+        student: {
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+        subject: {
+          select: {
+            subjectname: true,
+          },
+        },
+        teacher: {
+          select: {
+            name: true,
+            lastname: true,
+            email: true,
+          },
+        },
+      },
+      where: {
+        // Clases de este estudiante, para no cruzarse
+        AND: [
+          {
+            studentId,
+          },
+          {
+            OR: [
+              {
+                AND: [
+                  { status: "Scheduled" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Ongoing" },
+                  {
+                    startedAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                  {
+                    startedAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Pending" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     });
 
-    res.status(201);
-    res.json({
-      data: result,
-    });
+    if (createdLessons.length > 0) {
+      // Si se encontraron clase que pueden cruzarse
+      next({
+        message: "Overlaps in time with another class :(",
+        status: 400,
+      });
+    } else {
+      if (date < new Date()) {
+        console.log(date);
+        console.log(new Date());
+        next({
+          message: "You cannot schedule a class for a past date",
+          status: 400,
+        });
+      } else {
+        try {
+          const result = await prisma.lesson.create({
+            data: {
+              ...body,
+              studentId,
+            },
+          });
+          res.status(201);
+          res.json({
+            data: result,
+          });
+        } catch (error) {
+          next(error);
+        }
+      }
+    }
   } catch (error) {
     next(error);
   }
@@ -22,21 +129,16 @@ export const createLesson = async (req, res, next) => {
 export const allLessons = async (req, res, next) => {
   const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const { orderBy, direction } = parseOrderParams({
-    fields,
-    ...query,
-  });
-
-  const { studentId, teacherId } = params;
+  const orderBy = { scheduledAt: "asc" };
+  const { studentId, teacherId, subjectId } = params;
+  console.log(params);
 
   try {
     const [result, total] = await Promise.all([
       prisma.lesson.findMany({
         skip: offset,
         take: limit,
-        orderBy: {
-          [orderBy]: direction,
-        },
+        orderBy,
         include: {
           student: {
             // Para que solo me traiga estos campos
@@ -44,6 +146,12 @@ export const allLessons = async (req, res, next) => {
               name: true,
               lastname: true,
               email: true,
+            },
+          },
+          subject: {
+            // Para que solo me traiga estos campos
+            select: {
+              subjectname: true,
             },
           },
           teacher: {
@@ -58,6 +166,7 @@ export const allLessons = async (req, res, next) => {
         where: {
           studentId, // studentId == studentId
           teacherId, // teacherId == teacherId
+          subjectId,
         },
       }),
       prisma.lesson.count(),
@@ -70,7 +179,6 @@ export const allLessons = async (req, res, next) => {
         offset,
         total,
         orderBy,
-        direction,
       },
     });
   } catch (error) {
@@ -89,6 +197,12 @@ export const idLesson = async (req, res, next) => {
             name: true,
             lastname: true,
             email: true,
+          },
+        },
+        subject: {
+          // Para que solo me traiga estos campos
+          select: {
+            subjectname: true,
           },
         },
         teacher: {

@@ -1,13 +1,24 @@
 import { prisma } from "../../../database.js";
-import { fields } from "./model.js";
-import { parseOrderParams, parsePaginationParams } from "../../../utils.js";
+import { parsePaginationParams } from "../../../utils.js";
+import { signToken } from "../auth.js";
+import { encryptPassword, verifyPassword } from "./model.js";
 
-export const createStudent = async (req, res, next) => {
+export const signup = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
+    const password = await encryptPassword(body.password);
     const result = await prisma.Student.create({
-      data: body,
+      data: {
+        ...body,
+        password,
+      },
+      select: {
+        name: true,
+        email: true,
+        password: true,
+        joined: true,
+      },
     });
 
     res.status(201);
@@ -18,24 +29,69 @@ export const createStudent = async (req, res, next) => {
     next(error);
   }
 };
+export const signin = async (req, res, next) => {
+  const { body } = req;
+  const { email, password } = body;
+
+  try {
+    const student = await prisma.Student.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        joined: true,
+      },
+    });
+    if (student === null) {
+      return next({
+        message: "Invalid email or password",
+        status: 401, // Unauthorized
+      });
+    }
+    const passwordMatch = await verifyPassword(password, student.password);
+
+    if (!passwordMatch) {
+      return next({
+        message: "Invalid email or password",
+        status: 401, // Unauthorized
+      });
+    }
+    const { id } = student;
+    const token = signToken({ id });
+    res.json({
+      data: {
+        ...student,
+        id: undefined,
+        password: undefined,
+      },
+      meta: {
+        token,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const allStudents = async (req, res, next) => {
   const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const { orderBy, direction } = parseOrderParams({
-    fields,
-    ...query,
-  });
+  const orderBy = { joined: "asc" };
 
   try {
     const [result, total] = await Promise.all([
       prisma.Student.findMany({
         skip: offset,
         take: limit,
-        orderBy: {
-          [orderBy]: direction,
-        },
-        include: {
+        orderBy,
+        select: {
+          name: true,
+          email: true,
+          joined: true,
           lesson: {
             // Para que solo me traiga estos campos
             select: {
@@ -61,7 +117,6 @@ export const allStudents = async (req, res, next) => {
         offset,
         total,
         orderBy,
-        direction,
       },
     });
   } catch (error) {

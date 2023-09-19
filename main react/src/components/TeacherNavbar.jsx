@@ -4,8 +4,6 @@ import { NavigationBar } from "./NavigationBar";
 import { NavigationTab } from "./NavigationTab";
 import PropTypes from 'prop-types';
 
-
-
 export function TeacherNavbar({account_email, handleLogout}) {
     return (
         <NavigationBar elements={

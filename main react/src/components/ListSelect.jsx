@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 export function ListSelect({optionsList, fieldName, handleChange, handleBlur, value, className}) {
     return (
         <>
-            <Form.Select 
+            <Form.Select
                 aria-label={fieldName.toLowerCase()}
-                name={fieldName.toLowerCase().replace(/ /g, '')} 
-                onChange={handleChange} 
-                onBlur={handleBlur} 
-                value={value} 
+                name={fieldName.toLowerCase().replace(/ /g, '')}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={value}
                 className={`rounded-5${className}`}>
                 <option>{`--Select ${fieldName.toLowerCase()}--`}</option>
                 {optionsList.map((optionList, key)=>(

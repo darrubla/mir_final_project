@@ -5,23 +5,22 @@ import { TeacherNavbar } from "./TeacherNavbar"
 import PropTypes from 'prop-types';
 
 export function NavbarState({handleShow, handleLogout, user}) {
-        if (!user?.email) {//If log is false, show welcome index bar
+    if (user?.email) {
+        if (user?.type == "student") {
             return (
-              <IndexNavbar handleShow={handleShow} />
+                <StudentNavbar account_email={user.email} handleLogout={handleLogout} />
             )
         }
-        if (user?.email) {//if log is true
-            if (user?.type == "student") {
-                return (
-                    <StudentNavbar account_email={user.email} handleLogout={handleLogout} />
-                )
-            }
-            if (user?.type == "teacher") {
-                return (
-                    <TeacherNavbar account_email={user.email} handleLogout={handleLogout} />
-                )
-            }
+        if (user?.type == "teacher") {
+            return (
+                <TeacherNavbar account_email={user.email} handleLogout={handleLogout} />
+            )
         }
+    }
+    //If log is false, show welcome index bar
+    return (
+        <IndexNavbar handleShow={handleShow} />
+    )
 }
 NavbarState.propTypes = {
     handleShow: PropTypes.func.isRequired,

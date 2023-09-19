@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export function IndexNavbar({handleShow}) {
     return (
-            <NavigationBar elements={
+        <NavigationBar elements={
             <>
                 <NavigationTab title="ABOUT" />
                 <NavigationTab title="EXPLORE" />

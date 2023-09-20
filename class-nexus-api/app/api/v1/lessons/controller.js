@@ -125,7 +125,69 @@ export const createLesson = async (req, res, next) => {
     next(error);
   }
 };
+// ----------- lessons by student:
+export const myLessons = async (req, res, next) => {
+  const { query, params, decoded = {} } = req;
+  const { teacherId, subjectId } = params;
+  const { id: studentId } = decoded;
+  console.log(decoded);
+  console.log("...");
+  const { offset, limit } = parsePaginationParams(query);
+  const orderBy = { scheduledAt: "asc" };
+  // const { emailStudent, emailTeacher } = params;
 
+  try {
+    const [result, total] = await Promise.all([
+      prisma.lesson.findMany({
+        skip: offset,
+        take: limit,
+        orderBy,
+        include: {
+          student: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+          subject: {
+            // Para que solo me traiga estos campos
+            select: {
+              subjectname: true,
+            },
+          },
+          teacher: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+        },
+        where: {
+          studentId, // studentId == studentId
+          teacherId, // teacherId == teacherId
+          subjectId,
+        },
+      }),
+      prisma.lesson.count(),
+    ]);
+
+    res.json({
+      data: result,
+      meta: {
+        limit,
+        offset,
+        total,
+        orderBy,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const allLessons = async (req, res, next) => {
   const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);

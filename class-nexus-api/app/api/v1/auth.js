@@ -27,7 +27,7 @@ export const auth = (req, res, next) => {
   jwt.verify(token, secret, function (err, decoded) {
     if (err) {
       return next({
-        message: "Forbidden",
+        message: "Forbidden token invalid",
         status: 403,
       });
     }
@@ -43,7 +43,7 @@ export const me = (req, res, next) => {
   const { id } = params;
   if (studentId !== id) {
     return next({
-      message: "Forbidden",
+      message: "Forbidden me",
       status: 403,
     });
   }
@@ -54,10 +54,12 @@ export const owner = (req, res, next) => {
   const { decoded = {}, data = {} } = req;
   const { id: studentOwnerId } = decoded;
   const { studentId } = data;
+  console.log(":::");
+  console.log(decoded);
 
   if (studentOwnerId !== studentId) {
     return next({
-      message: "Forbidden",
+      message: "Forbidden owner",
       status: 403,
     });
   }

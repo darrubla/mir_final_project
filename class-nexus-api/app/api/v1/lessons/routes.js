@@ -9,14 +9,14 @@ export const router = Router({
 
 router
   .route("/")
-  .get(controller.allLessons)
+  .get(auth, controller.myLessons)
   .post(auth, controller.createLesson);
 
 router.param("id", controller.idLesson);
 
 router
   .route("/:id")
-  .get(controller.readLesson)
+  .get(auth, owner, controller.readLesson)
   .put(auth, owner, controller.updateLesson)
   .patch(auth, owner, controller.updateLesson)
   .delete(auth, owner, controller.removeLesson);

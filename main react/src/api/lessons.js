@@ -1,5 +1,4 @@
 import http from "./http";
-import { getSession } from "./session";
 
 function transformLesson(item = {}) {
   return {
@@ -25,16 +24,26 @@ export async function getLessons() {
     return Promise.reject(error.response.data.error.message);
   }
 }
+export async function getMyLessons() {
+  try {
+    const { data: response } = await http.get(
+      `/students/bcbbbffc-69c9-4435-937c-4889c61c82d5/lessons`
+    );
+    const data = response.data.map(transformLesson);
+
+    return {
+      data,
+      meta: response.meta,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
 
 export async function createLesson(payload) {
   try {
-    const token = getSession();
     payload = payload.lessonContent;
-    const { data: response } = await http.post(`/lessons/`, payload, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const { data: response } = await http.post(`/lessons/`, payload);
     const data = transformLesson(response.data);
     return {
       data,

@@ -8,6 +8,7 @@ import { UserNavigation } from './UserNavigation';
 import { rswitch } from '../../utils/rswitch';
 import { NavigationTab } from './NavigationTab';
 import { ModalAlert } from '../ModalAlert';
+import { clearSession } from '../../api/session';
 
 export function Navigation() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export function Navigation() {
   }
 
   function onSignOut() {
+    clearSession();
     setUser(null);
     navigate('/');
   }

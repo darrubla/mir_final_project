@@ -1,19 +1,24 @@
 import axios from "axios";
+import { getSession } from "./session";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 // Add a request interceptor
 
-axios.interceptors.request.use(
+instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+    const token = getSession();
+    if (token && config.method !== "GET") {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   function (error) {
     // Do something with request error
-    // return Promise.reject(error.message);
-    console.log(JSON.stringify(error, null, 2));
+    return Promise.reject(error);
   }
 );
 

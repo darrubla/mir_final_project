@@ -2,7 +2,7 @@ import { useEffect, useState} from 'react';
 import { SectionName } from "../components/SectionName";
 import { ScheduleForm } from "../components/ScheduleForm";
 import { ScheduledLesson } from "./ScheduledLesson";
-import {createLesson, getLessons} from '../api/lessons';
+import {createLesson, getMyLessons} from '../api/lessons';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
@@ -33,7 +33,7 @@ export function Schedule() {
         setLoadingList(true);
         setErrorLoad('');
         try {
-            const response = await getLessons();
+            const response = await getMyLessons();
             setData(response.data);
         } catch (error) {
             setErrorLoad(error)
@@ -57,7 +57,7 @@ export function Schedule() {
             <div className="pt-4 mt-5 d-flex flex-column justify-content-center">
                 <SectionName title="SCHEDULE A CLASS" className="mt-5"/>
                 <ScheduleForm onCreate={onCreate} options={options}/>
-                {<Loading />}
+                {loadingCreate && <Loading />}
                 {errorCreate && <Alert variant='danger'>{errorCreate}</Alert>}
                 <SectionName title="SCHEDULED" className="mt-5"/>
                 {loadingList && <Loading />}

@@ -8,15 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 import teacherImage from "../img/teacher.png";
 
-export function ScheduledLesson({lessondata}) {
+export function ScheduledLesson({lessondata, onCancel}) {
     const navigate = useNavigate();
 
     function displayTeacher(id) {
         navigate(`/teachers/${id}`);
     }
-    /*lessondata.map((lesson)=>(
-        console.log(lesson.subject.subjectname)
-    ))*/
     return (
         <Accordion defaultActiveKey="0">
             {lessondata.map((lesson, key)=>(
@@ -76,10 +73,13 @@ export function ScheduledLesson({lessondata}) {
                                 </div>
                             </div>
                             <div className="d-flex flex-row cancel-button justify-content-center">
-                                {
-                                    
-                                }
-                                <Button variant="danger" className="d-flex m-2 px-5 rounded-5">Cancel</Button>
+                            {
+                                (lesson.status === "Pending" || lesson.status === "Cancel") && (
+                                <Button variant="danger" className="d-flex m-2 px-5 rounded-5" onClick={() => onCancel(lesson.id)}>
+                                    Cancel
+                                </Button>
+                                )
+                            }
                             </div>
                         </div>
                         

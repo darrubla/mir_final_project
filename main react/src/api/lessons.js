@@ -26,9 +26,7 @@ export async function getLessons() {
 }
 export async function getMyLessons() {
   try {
-    const { data: response } = await http.get(
-      `/students/bcbbbffc-69c9-4435-937c-4889c61c82d5/lessons`
-    );
+    const { data: response } = await http.get(`/lessons/`);
     const data = response.data.map(transformLesson);
 
     return {
@@ -44,6 +42,21 @@ export async function createLesson(payload) {
   try {
     payload = payload.lessonContent;
     const { data: response } = await http.post(`/lessons/`, payload);
+    const data = transformLesson(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+export async function cancelClass(id) {
+  try {
+    console.log(id);
+    const { data: response } = await http.put(`/lessons/${id}`, {
+      status: "Canceled",
+      teacherId: null,
+    });
     const data = transformLesson(response.data);
     return {
       data,

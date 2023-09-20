@@ -2,7 +2,7 @@ import { useEffect, useState} from 'react';
 import { SectionName } from "../components/SectionName";
 import { ScheduleForm } from "../components/ScheduleForm";
 import { ScheduledLesson } from "./ScheduledLesson";
-import {createLesson, getMyLessons} from '../api/lessons';
+import {cancelClass, createLesson, getMyLessons} from '../api/lessons';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
@@ -14,7 +14,7 @@ export function Schedule() {
     const [loadingCreate, setLoadingCreate] = useState(false);
     const [errorLoad, setErrorLoad] = useState('');
     const [errorCreate, setErrorCreate] = useState('');
-
+    const [errorCancel, setErrorCancel] = useState('');
     async function onCreate(payload) {
         setLoadingCreate(true);
         setErrorCreate('');
@@ -26,6 +26,15 @@ export function Schedule() {
             setErrorCreate(error)
         } finally {
             setLoadingCreate(false)
+        }
+        
+    }
+    async function onCancel(id) {
+        try {
+            await cancelClass(id)
+            loadLessons()
+        } catch (error) {
+            setErrorCancel(error)
         }
         
     }
@@ -62,7 +71,8 @@ export function Schedule() {
                 <SectionName title="SCHEDULED" className="mt-5"/>
                 {loadingList && <Loading />}
                 {errorLoad && <Alert variant='danger'>{errorLoad}</Alert>}
-                <ScheduledLesson lessondata={data} />
+                <ScheduledLesson lessondata={data} onCancel={onCancel} errorCancel={errorCancel}/>
+                {errorLoad && <Alert variant='danger'>{errorCancel}</Alert>}
             </div>
         )
     }

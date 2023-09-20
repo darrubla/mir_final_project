@@ -25,13 +25,13 @@ export function Signin() {
     const lastUrlPart = parts[parts.length - 1];
     const navigate = useNavigate();
     let type = "";
+    const { setUser } = useContext(UserContext);
     if (lastUrlPart==="student" || lastUrlPart==="teacher") {
         type = lastUrlPart;
     }
     else {
         navigate("/notFound");
     }
-    const { setUser } = useContext(UserContext);
     const initialValues = {
         email: '',
         password: '',

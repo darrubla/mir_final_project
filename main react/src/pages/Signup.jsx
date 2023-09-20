@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { FormUsername } from '../components/FormUsername';
 import { FormPassword } from '../components/FormPassword';
@@ -8,9 +7,9 @@ import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
-import UserContext from '../containers/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { FormRange } from '../components/FormRange';
+import { signUpStudent } from '../api/students';
 
 const signUpSchema = z
     .object({
@@ -39,13 +38,12 @@ export function Signup() {
     else {
         navigate("/notFound");
     }
-    const { setUser } = useContext(UserContext);
+
     const initialValues = {
         name: '',
         lastname: '',
         age: 18,
         email: '',
-        type: type,
         password: '',
         confirmpassword: '',
       }
@@ -53,17 +51,24 @@ export function Signup() {
         <>
             <Formik 
                 initialValues={initialValues}
-                onSubmit={(values, { setSubmitting }) => {
-                    console.log(JSON.stringify(values, null, 2));
-                    setUser({ 
-                        type: type, 
-                        email: values.email, 
-                        name: values.name, 
-                        lastname: values.lastname,
-                        password: values.password,
-                    });
-                    setSubmitting(false);
-                    navigate(`/`);
+                onSubmit={async (values, { setSubmitting }) => {
+                    if (type === "student") {
+                        const { data } = await signUpStudent(values)
+                        setSubmitting(false);
+                        navigate(`/signin/${type}`);
+                    }
+                    /* if (type === "teacher") {
+                        const { data } = await signUpTeacher(values)
+                        const logInData = {
+                            ...data,
+                            type,
+                        }
+                        setUser(logInData);
+                        setSubmitting(false);
+                        navigate(`/`);
+                    }*/
+
+                    
                 }}
                 validationSchema={toFormikValidationSchema(signUpSchema)}
             >

@@ -41,6 +41,7 @@ export async function getMyLessons() {
 export async function createLesson(payload) {
   try {
     payload = payload.lessonContent;
+    console.log(payload);
     const { data: response } = await http.post(`/lessons/`, payload);
     const data = transformLesson(response.data);
     return {

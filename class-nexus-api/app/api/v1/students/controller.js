@@ -1,4 +1,5 @@
 import { prisma } from "../../../database.js";
+import { Prisma } from "@prisma/client";
 import { parsePaginationParams } from "../../../utils.js";
 import { signToken } from "../auth.js";
 import { encryptPassword, verifyPassword } from "./model.js";
@@ -26,6 +27,14 @@ export const signup = async (req, res, next) => {
       data: result,
     });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return next({
+          message: "A student account already exists with this email",
+          status: 409, // Unauthorized
+        });
+      }
+    }
     next(error);
   }
 };

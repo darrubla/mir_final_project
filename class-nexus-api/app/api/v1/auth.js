@@ -39,11 +39,11 @@ export const auth = (req, res, next) => {
 
 export const me = (req, res, next) => {
   const { decoded = {}, params = {} } = req;
-  const { id: studentId } = decoded;
+  const { id: userId } = decoded;
   const { id } = params;
-  if (studentId !== id) {
+  if (userId !== id) {
     return next({
-      message: "Forbidden me",
+      message: `Forbidden me ${userId}, ${id}`,
       status: 403,
     });
   }
@@ -52,14 +52,20 @@ export const me = (req, res, next) => {
 
 export const owner = (req, res, next) => {
   const { decoded = {}, data = {} } = req;
-  const { id: studentOwnerId } = decoded;
-  const { studentId } = data;
+  const { id: ownerId } = decoded;
+  const { studentId, teacherId } = data;
   console.log(":::");
   console.log(decoded);
 
-  if (studentOwnerId !== studentId) {
+  if (ownerId !== studentId) {
     return next({
-      message: "Forbidden owner",
+      message: "Forbidden student owner",
+      status: 403,
+    });
+  }
+  if (ownerId !== teacherId) {
+    return next({
+      message: "Forbidden teacher owner",
       status: 403,
     });
   }

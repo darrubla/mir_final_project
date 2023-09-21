@@ -55,15 +55,32 @@ export async function getTeacher({ id }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
-export async function createTeacher(payload) {
+
+export async function signUpTeacher({ name, lastname, email, age, password }) {
   try {
-    // payload = payload.lessonContent;
-    const { data: response } = await http.post(`/teachers/`, {
-      payload,
+    const { data: response } = await http.post(`/teachers/signup/teacher`, {
+      name,
+      lastname,
+      email,
+      age,
+      password,
     });
     const data = transformTeacher(response.data);
     return {
       data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function getMe() {
+  try {
+    const { data: response } = await http.get(`/teachers/me`);
+    const data = transformTeacher(response.data);
+    return {
+      data,
+      //meta: response.meta,
     };
   } catch (error) {
     return Promise.reject(error.response.data.error.message);

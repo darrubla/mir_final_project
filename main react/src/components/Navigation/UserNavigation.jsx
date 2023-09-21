@@ -2,7 +2,7 @@ import { Col, Dropdown, Nav } from 'react-bootstrap'
 import { DropdownItemCustom, DropdownToggleCustom } from './DropdownCustom'
 import PropTypes from 'prop-types'
 
-export function UserNavigation({ handleSignOut }) {
+export function UserNavigation({ handleSignOut, email }) {
   return (
     <>
       <Col className='col-6'>
@@ -21,6 +21,7 @@ export function UserNavigation({ handleSignOut }) {
 
           <Dropdown>
             <DropdownToggleCustom>
+              <p className="fs-6">{email}</p>
               <i className='bi bi-circle-fill text-nexus-gray-500'></i>
             </DropdownToggleCustom>
 
@@ -40,4 +41,5 @@ export function UserNavigation({ handleSignOut }) {
 
 UserNavigation.propTypes = {
   handleSignOut: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
 }

@@ -50,22 +50,36 @@ export function Navigation() {
             <Col>
               <Logo />
             </Col>
-            <Col>
+
               {
                 //
                 rswitch({user}, {
-                  student: <NavigationTab route="schedule" title="SCHEDULE" />,
-                  teacher: <NavigationTab route="bank" title="BANK" />,
-                  default: <NavigationTab route="about" title="ABOUT" />,
+                  student: 
+                    <Col className='d-flex justify-content-center'>
+                      <NavigationTab route="schedule" title="SCHEDULE" />
+                    </Col>,
+                  teacher: 
+                    <>
+                      <Col className='d-flex justify-content-center'>
+                        <NavigationTab route="bank" title="BANK" />
+                      </Col>
+                      <Col className='d-flex justify-content-center'>
+                        <NavigationTab route="overview" title="OVERVIEW" />
+                      </Col>
+                    </>,
+                  default: 
+                    <Col className='d-flex justify-content-center'>
+                      <NavigationTab route="about" title="ABOUT" />
+                    </Col>,
                 })
               }
-            </Col>
-            <Col>
+
+            <Col className='d-flex justify-content-center'x >
               <NavigationTab route="explore" title="EXPLORE" />
             </Col>
             <Col className="col-6 d-flex justify-content-end">
               {user?.email ? (
-                <UserNavigation handleSignOut={onSignOut} />
+                <UserNavigation handleSignOut={onSignOut} email={user.email}/>
               ) : (
                 <>
                   <span className="me-3 fs-1">Already member?</span>

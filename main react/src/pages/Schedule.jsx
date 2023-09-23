@@ -27,7 +27,6 @@ export function Schedule() {
         } finally {
             setLoadingCreate(false)
         }
-        
     }
     async function onCancel(id) {
         try {

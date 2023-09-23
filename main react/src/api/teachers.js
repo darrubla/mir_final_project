@@ -13,13 +13,14 @@ function transformTeacher(item = {}) {
 
 export async function signInTeacher({ email, password }) {
   try {
+    console.log(email, password);
     const { data: response } = await http.post("/teachers/signin/teacher", {
       email,
       password,
     });
     const { data, meta } = response;
     const { token = "" } = meta;
-
+    console.log(data);
     setSession(token);
     return {
       data,
@@ -81,6 +82,20 @@ export async function getMe() {
     return {
       data,
       //meta: response.meta,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+export async function addSubject({ subjectId }) {
+  try {
+    //console.log({ subjectId });
+    const { data: response } = await http.post(`/subjectsonteachers/`, {
+      subjectId,
+    });
+    const data = transformTeacher(response.data);
+    return {
+      data,
     };
   } catch (error) {
     return Promise.reject(error.response.data.error.message);

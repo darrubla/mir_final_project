@@ -1,8 +1,26 @@
 import { prisma } from "../../../database.js";
 
 export const createSubjectOnTeacher = async (req, res, next) => {
-  const { body = {} } = req;
+  const { body = {}, decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  try {
+    const result = await prisma.SubjectsOnTeachers.create({
+      data: {
+        ...body,
+        teacherId,
+      },
+    });
+    res.status(201);
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
+export const createRelation = async (req, res, next) => {
+  const { body = {} } = req;
   try {
     const result = await prisma.SubjectsOnTeachers.create({
       data: body,
@@ -117,13 +135,16 @@ export const deleteSubjectOnTeacher = async (req, res, next) => {
   const { subjectId, teacherId } = body;
 
   try {
-    await prisma.SubjectsOnTeachers.delete({
+    const result = await prisma.SubjectsOnTeachers.delete({
       where: {
         teacherId_subjectId: {
           subjectId,
           teacherId,
         },
       },
+    });
+    res.json({
+      data: result,
     });
     res.status(204);
     res.end();

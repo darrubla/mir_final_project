@@ -101,3 +101,16 @@ export async function addSubject({ subjectId }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+export async function deleteSubject({ subjectId }) {
+  try {
+    const { data: response } = await http.delete(
+      `/subjectsonteachers/${subjectId}`
+    );
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

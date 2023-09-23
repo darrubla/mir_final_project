@@ -10,8 +10,7 @@ import { getSubjectId } from '../api/subjects';
 
 import PropTypes from 'prop-types';
 
-
-export function AddSubject({ onAdd, options }) {
+export function DeleteSubject({ onDelete, options }) {
     const scheduleSchema = z
         .object({
             subject: z.enum(options, {
@@ -38,7 +37,7 @@ export function AddSubject({ onAdd, options }) {
                 const payload={}
                 payload.subjectId=dataSubject
                 console.log("id:: ", payload);
-                onAdd(payload);
+                onDelete(payload);
                 resetForm({
                     subject: '',
                 })
@@ -69,7 +68,7 @@ export function AddSubject({ onAdd, options }) {
                                 type="submit"
                                 disabled={isSubmitting}
                             >
-                                ADD SUBJECT
+                                DELETE SUBJECT
                             </Button>
                             <Button 
                                 variant="danger" 
@@ -84,7 +83,7 @@ export function AddSubject({ onAdd, options }) {
     )
 }
 
-AddSubject.propTypes = {
-    onAdd: PropTypes.func.isRequired,
+DeleteSubject.propTypes = {
+    onDelete: PropTypes.func.isRequired,
     options: PropTypes.array,
 };

@@ -1,10 +1,11 @@
 import { useEffect, useState} from 'react';
 import { SectionName } from '../components/SectionName';
-import { addSubject, getMe } from '../api/teachers';
+import { addSubject, deleteSubject, getMe } from '../api/teachers';
 import { Alert } from 'react-bootstrap';
 import { Loading } from '../animation/Loading';
 import { LoadSubjectsList } from '../text/constants';
 import { AddSubject } from '../components/AddSubject';
+import { DeleteSubject } from '../components/DeleteSubject';
 
 export function Overview() {
 
@@ -13,7 +14,8 @@ export function Overview() {
     const [errorLoadT, setErrorLoadT] = useState('');
     const [loadAddSub, setLoadAddSub] = useState(false);
     const [errorAddSub, setErrorAddSub] = useState('');
-
+    const [loadDelSub, setLoadDelSub] = useState(false);
+    const [errorDelSub, setErrorDelSub] = useState('');
     async function onAddSubject(payload) {
         setLoadAddSub(true);
         setErrorAddSub('');
@@ -25,6 +27,19 @@ export function Overview() {
             setErrorAddSub(error)
         } finally {
             setLoadAddSub(false)
+        }
+    }
+    async function onDeleteSubject(payload) {
+        setLoadDelSub(true);
+        setErrorDelSub('');
+        try {
+            console.log(payload)
+            await deleteSubject(payload)
+            loadMyInfo()
+        } catch (error) {
+            setErrorDelSub(error)
+        } finally {
+            setLoadDelSub(false)
         }
     }
     async function loadMyInfo() {
@@ -42,15 +57,26 @@ export function Overview() {
     }
     useEffect(()=> {
         loadMyInfo();
+
     }, []);
 
     const subjectsOptions=LoadSubjectsList();
 
-    if (subjectsOptions.length>0) { // Renderizo la página Overview, cuando obtenga la lista de materias
-        const options = []
+    const options = []
+    const teacherSubjects=[]
+
+    if (subjectsOptions.length>0) {
         subjectsOptions.map((subjectObject)=> {
             options.push(subjectObject.subjectname)
         })
+        if (teacher?.subjects.length>0) {
+            teacher.subjects.map((item) => (
+                teacherSubjects.push(item.subject.subjectname)
+            )
+        )}
+    }
+    console.log(options)
+    console.log(teacherSubjects)
         return (
             <>
                 <div className="pt-4 mt-3 d-flex flex-column justify-content-center">
@@ -67,23 +93,34 @@ export function Overview() {
                         <div className='d-flex flex-column teacher-subjects'>
                             <SectionName title="SUBJECTS" className="mt-5"/>
                             {
-                                teacher?.subjects.length > 0 ? (
+                                teacher?.subjects.length>0 ? (
                                     teacher.subjects.map((item, index) => (
-                                    <div className="teacher-subject" key={index}>{item.subject.subjectname}</div>
+                                        <div className="teacher-subject" key={index}>{item.subject.subjectname}</div>
                                     ))
-                                ) : (
-                                <div>Please add subjects to your profile to receive request</div>
+                                ):(
+                                    <div>Please add subjects to your profile to receive request</div>
                                 )
                             }
                         </div>
                         <div className='d-flex flex-column teacher-add-subject'>
-                            <AddSubject onAdd={onAddSubject} options={options}/>
+                            <SectionName title="Add Subjects" className="mt-5"/>
+                            <AddSubject onAdd={onAddSubject} options={options.filter(item =>!teacherSubjects.some(element => element === item))}/>
                             {loadAddSub && <Loading />}
                             {errorAddSub && <Alert variant='danger'>{errorAddSub}</Alert>}
+                            {
+                                teacherSubjects?.length>0? (
+                                    <>
+                                        <SectionName title="Delete Subjects" className="mt-5"/>
+                                        <DeleteSubject onDelete={onDeleteSubject} options={teacherSubjects}/>
+                                        {loadDelSub && <Loading />}
+                                        {errorDelSub && <Alert variant='danger'>{errorDelSub}</Alert>}
+                                    </>
+                                        
+                                ): null
+                            }
                         </div>
                     </div>
                 </div>
             </>
         )
-    }
 }

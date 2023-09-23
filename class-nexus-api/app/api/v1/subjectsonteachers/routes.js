@@ -7,17 +7,20 @@ import { auth, me } from "../auth.js";
 export const router = Router({
   mergeParams: true,
 });
-router.route("/s").post(controller.createRelation);
+router
+  .route("/s")
+  .post(controller.createRelation)
+  .delete(controller.deleteRelation);
 router
   .route("/")
   .get(auth, controller.allSubjectsOnTeachers)
-  .post(auth, controller.createSubjectOnTeacher)
-  .delete(controller.deleteSubjectOnTeacher);
+  .post(auth, controller.createSubjectOnTeacher);
 
-router.param("id", controller.idSubjectOnTeacher);
+router.param("id", auth, controller.idSubjectOnTeacher);
 
 router
   .route("/:id")
   .get(controller.readSubjectOnTeacher)
   .put(controller.updateSubjectOnTeacher)
-  .patch(controller.updateSubjectOnTeacher);
+  .patch(controller.updateSubjectOnTeacher)
+  .delete(auth, controller.deleteSubjectOnTeacher);

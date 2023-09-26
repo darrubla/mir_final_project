@@ -6,7 +6,7 @@ import { auth, owner } from "../auth.js";
 export const router = Router({
   mergeParams: true,
 });
-
+router.route("")
 router.route("/s").get(auth, controller.availableLessons);
 router
   .route("/")
@@ -21,3 +21,5 @@ router
   .put(auth, owner, controller.updateLesson)
   .patch(auth, owner, controller.updateLesson)
   .delete(auth, owner, controller.removeLesson);
+
+router.route("/:id/s").put(auth, controller.assignLesson);

@@ -168,9 +168,7 @@ export const myLessons = async (req, res, next) => {
           },
         },
         where: {
-          studentId: userId,
-          teacherId: userId,
-          subjectId,
+          OR: [{ studentId: userId }, { teacherId: userId }, { subjectId }],
         },
       }),
       prisma.lesson.count(),
@@ -249,8 +247,9 @@ export const availableLessons = async (req, res, next) => {
         data: matchingClass,
       });
     } else {
-      res.json({
-        data: "No available classes",
+      next({
+        message: "No available classes",
+        status: "404",
       });
     }
   } catch (error) {
@@ -400,6 +399,31 @@ export const removeLesson = async (req, res, next) => {
     });
     res.status(204);
     res.end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const assignLesson = async (req, res, next) => {
+  const { body = {}, params = {}, decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  const { id } = params;
+
+  try {
+    const result = await prisma.lesson.update({
+      where: {
+        id,
+      },
+      data: {
+        ...body,
+        status: "Scheduled",
+        teacherId,
+      },
+    });
+
+    res.json({
+      data: result,
+    });
   } catch (error) {
     next(error);
   }

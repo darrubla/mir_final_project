@@ -8,14 +8,13 @@ import { useNavigate } from 'react-router-dom';
 
 import studentImage from "../img/avatar.png";
 
-export function AvailableLessons({lessondata, onAccept}) {
+export function TeacherLessons({lessondata, onCancel}) {
     const navigate = useNavigate();
 
     function displayStudent(id) {
         navigate(`/students/${id}`);
     }
     if (lessondata.length>0) {
-        console.log(lessondata[0])
         return (
             <Accordion defaultActiveKey="0">
                 {lessondata.map((lesson, key)=>(
@@ -75,8 +74,8 @@ export function AvailableLessons({lessondata, onAccept}) {
                                     </div>
                                 </div>
                                 <div className="d-flex flex-row cancel-button justify-content-center">
-                                <Button variant="danger" className="d-flex m-2 px-5 rounded-5" onClick={() => onAccept(lesson?.id)}>
-                                    Accept
+                                <Button variant="danger" className="d-flex m-2 px-5 rounded-5" onClick={() => onCancel(lesson?.id)}>
+                                    Cancel
                                 </Button>
                                 </div>
                             </div>
@@ -90,7 +89,7 @@ export function AvailableLessons({lessondata, onAccept}) {
     }
 }
 
-AvailableLessons.propTypes = {
+TeacherLessons.propTypes = {
     lessondata: PropTypes.array.isRequired,
-    onAccept: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 }

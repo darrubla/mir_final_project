@@ -54,18 +54,13 @@ export const owner = (req, res, next) => {
   const { decoded = {}, data = {} } = req;
   const { id: ownerId } = decoded;
   const { studentId, teacherId } = data;
-  console.log(":::");
+  console.log("::: owner");
   console.log(decoded);
+  console.log(data);
 
-  if (ownerId !== studentId) {
+  if (ownerId !== studentId && ownerId !== teacherId) {
     return next({
       message: "Forbidden student owner",
-      status: 403,
-    });
-  }
-  if (ownerId !== teacherId) {
-    return next({
-      message: "Forbidden teacher owner",
       status: 403,
     });
   }

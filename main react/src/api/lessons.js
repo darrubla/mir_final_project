@@ -80,3 +80,14 @@ export async function getAvailableLessons() {
     return Promise.reject(error.response.data.error.message);
   }
 }
+export async function assignClass(id) {
+  try {
+    const { data: response } = await http.put(`/lessons/${id}/s`);
+    const data = transformLesson(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

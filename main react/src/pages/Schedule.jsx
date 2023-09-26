@@ -24,6 +24,7 @@ export function Schedule() {
             loadLessons()
         } catch (error) {
             setErrorCreate(error)
+            console.log(error);
         } finally {
             setLoadingCreate(false)
         }

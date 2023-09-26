@@ -410,20 +410,96 @@ export const assignLesson = async (req, res, next) => {
   const { id } = params;
 
   try {
-    const result = await prisma.lesson.update({
+    const currentLesson = await prisma.lesson.findUnique({
       where: {
         id,
       },
-      data: {
-        ...body,
-        status: "Scheduled",
-        teacherId,
+    });
+    const { scheduledAt } = currentLesson;
+    console.log("ScheduledAt", scheduledAt);
+    const date = new Date(scheduledAt);
+    const defaultTime = 65;
+    const acceptedLessons = await prisma.lesson.findMany({
+      include: {
+        student: {
+          select: {
+            email: true,
+          },
+        },
+        subject: {
+          select: {
+            subjectname: true,
+          },
+        },
+        teacher: {
+          select: {
+            email: true,
+          },
+        },
+      },
+      where: {
+        AND: [
+          {
+            teacherId,
+          },
+          {
+            OR: [
+              {
+                AND: [
+                  { status: "Scheduled" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Ongoing" },
+                  {
+                    startedAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                  {
+                    startedAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
     });
+    if (acceptedLessons.length > 0) {
+      next({
+        message: "Overlaps in time with another class :(",
+        status: 400,
+      });
+    } else {
+      const result = await prisma.lesson.update({
+        where: {
+          id,
+        },
+        data: {
+          ...body,
+          status: "Scheduled",
+          teacherId,
+        },
+      });
 
-    res.json({
-      data: result,
-    });
+      res.json({
+        data: result,
+      });
+    }
   } catch (error) {
     next(error);
   }

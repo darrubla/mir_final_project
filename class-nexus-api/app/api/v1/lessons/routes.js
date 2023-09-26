@@ -7,6 +7,7 @@ export const router = Router({
   mergeParams: true,
 });
 
+router.route("/s").get(auth, controller.availableLessons);
 router
   .route("/")
   .get(auth, controller.myLessons)

@@ -66,3 +66,17 @@ export async function cancelClass(id) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
+export async function getAvailableLessons() {
+  try {
+    const { data: response } = await http.get(`/lessons/s`);
+    const data = response.data.map(transformLesson);
+
+    return {
+      data,
+      meta: response.meta,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

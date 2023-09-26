@@ -30,7 +30,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "g": "^2.0.1",
     "jsonwebtoken": "^9.0.2",
+    "netlify-cli": "^16.4.2",
     "swagger-ui-express": "^5.0.0"
   }
 }

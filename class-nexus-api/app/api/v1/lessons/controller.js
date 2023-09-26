@@ -128,8 +128,9 @@ export const createLesson = async (req, res, next) => {
 // ----------- lessons by student:
 export const myLessons = async (req, res, next) => {
   const { query, params, decoded = {} } = req;
-  const { teacherId, subjectId } = params;
-  const { id: studentId } = decoded;
+  const { subjectId } = params;
+  // const { id: studentId } = decoded;
+  const { id: userId } = decoded;
   console.log(decoded);
   console.log("...");
   const { offset, limit } = parsePaginationParams(query);
@@ -167,8 +168,8 @@ export const myLessons = async (req, res, next) => {
           },
         },
         where: {
-          studentId, // studentId == studentId
-          teacherId, // teacherId == teacherId
+          studentId: userId,
+          teacherId: userId,
           subjectId,
         },
       }),
@@ -184,6 +185,74 @@ export const myLessons = async (req, res, next) => {
         orderBy,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+export const availableLessons = async (req, res, next) => {
+  const { decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  console.log(decoded);
+  console.log("...");
+
+  try {
+    const teacher = await prisma.Teacher.findUnique({
+      include: {
+        subjects: {
+          select: {
+            subject: true,
+          },
+        },
+      },
+      where: {
+        id: teacherId,
+      },
+    });
+    const teacherSubjectsArray = teacher?.subjects;
+    const matchingClass = [];
+    for (const teacherSubject of teacherSubjectsArray) {
+      const lessonsMatch = await prisma.lesson.findMany({
+        where: {
+          teacherId: null,
+          subjectId: teacherSubject.subject.id,
+          // status: "Canceled",
+        },
+        include: {
+          student: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+          subject: {
+            // Para que solo me traiga estos campos
+            select: {
+              subjectname: true,
+            },
+          },
+          teacher: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+        },
+      });
+      matchingClass.push(...lessonsMatch);
+    }
+    if (matchingClass.length > 0) {
+      res.json({
+        data: matchingClass,
+      });
+    } else {
+      res.json({
+        data: "No available classes",
+      });
+    }
   } catch (error) {
     next(error);
   }

@@ -7,6 +7,7 @@ import UserContext from '../containers/UserContext';
 import SubjectsCarousell from '../components/SubjectsCarousell/SubjectsCarousell';
 import { ModalAlert } from '../components/ModalAlert';
 import { useNavigate } from 'react-router-dom';
+import TeacherHome from './TeacherHome';
 
 export function Welcome() {
   const { setUser, user } = useContext(UserContext);
@@ -37,7 +38,7 @@ export function Welcome() {
   if (user?.type == 'teacher' && user?.email) {
     return (
       <>
-        <SubjectsCarousell />
+        <TeacherHome />
         <Info />
       </>
     );

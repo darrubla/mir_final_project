@@ -128,8 +128,9 @@ export const createLesson = async (req, res, next) => {
 // ----------- lessons by student:
 export const myLessons = async (req, res, next) => {
   const { query, params, decoded = {} } = req;
-  const { teacherId, subjectId } = params;
-  const { id: studentId } = decoded;
+  const { subjectId } = params;
+  // const { id: studentId } = decoded;
+  const { id: userId } = decoded;
   console.log(decoded);
   console.log("...");
   const { offset, limit } = parsePaginationParams(query);
@@ -167,9 +168,7 @@ export const myLessons = async (req, res, next) => {
           },
         },
         where: {
-          studentId, // studentId == studentId
-          teacherId, // teacherId == teacherId
-          subjectId,
+          OR: [{ studentId: userId }, { teacherId: userId }, { subjectId }],
         },
       }),
       prisma.lesson.count(),
@@ -184,6 +183,75 @@ export const myLessons = async (req, res, next) => {
         orderBy,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+export const availableLessons = async (req, res, next) => {
+  const { decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  console.log(decoded);
+  console.log("...");
+
+  try {
+    const teacher = await prisma.Teacher.findUnique({
+      include: {
+        subjects: {
+          select: {
+            subject: true,
+          },
+        },
+      },
+      where: {
+        id: teacherId,
+      },
+    });
+    const teacherSubjectsArray = teacher?.subjects;
+    const matchingClass = [];
+    for (const teacherSubject of teacherSubjectsArray) {
+      const lessonsMatch = await prisma.lesson.findMany({
+        where: {
+          teacherId: null,
+          subjectId: teacherSubject.subject.id,
+          // status: "Canceled",
+        },
+        include: {
+          student: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+          subject: {
+            // Para que solo me traiga estos campos
+            select: {
+              subjectname: true,
+            },
+          },
+          teacher: {
+            // Para que solo me traiga estos campos
+            select: {
+              name: true,
+              lastname: true,
+              email: true,
+            },
+          },
+        },
+      });
+      matchingClass.push(...lessonsMatch);
+    }
+    if (matchingClass.length > 0) {
+      res.json({
+        data: matchingClass,
+      });
+    } else {
+      next({
+        message: "No available classes",
+        status: "404",
+      });
+    }
   } catch (error) {
     next(error);
   }
@@ -331,6 +399,107 @@ export const removeLesson = async (req, res, next) => {
     });
     res.status(204);
     res.end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const assignLesson = async (req, res, next) => {
+  const { body = {}, params = {}, decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  const { id } = params;
+
+  try {
+    const currentLesson = await prisma.lesson.findUnique({
+      where: {
+        id,
+      },
+    });
+    const { scheduledAt } = currentLesson;
+    console.log("ScheduledAt", scheduledAt);
+    const date = new Date(scheduledAt);
+    const defaultTime = 65;
+    const acceptedLessons = await prisma.lesson.findMany({
+      include: {
+        student: {
+          select: {
+            email: true,
+          },
+        },
+        subject: {
+          select: {
+            subjectname: true,
+          },
+        },
+        teacher: {
+          select: {
+            email: true,
+          },
+        },
+      },
+      where: {
+        AND: [
+          {
+            teacherId,
+          },
+          {
+            OR: [
+              {
+                AND: [
+                  { status: "Scheduled" },
+                  {
+                    scheduledAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                  {
+                    scheduledAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+              {
+                AND: [
+                  { status: "Ongoing" },
+                  {
+                    startedAt: {
+                      lte: new Date(date.getTime() + defaultTime * 60000),
+                    },
+                  },
+                  {
+                    startedAt: {
+                      gte: new Date(date.getTime() - defaultTime * 60000),
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    });
+    if (acceptedLessons.length > 0) {
+      next({
+        message: "Overlaps in time with another class :(",
+        status: 400,
+      });
+    } else {
+      const result = await prisma.lesson.update({
+        where: {
+          id,
+        },
+        data: {
+          ...body,
+          status: "Scheduled",
+          teacherId,
+        },
+      });
+
+      res.json({
+        data: result,
+      });
+    }
   } catch (error) {
     next(error);
   }

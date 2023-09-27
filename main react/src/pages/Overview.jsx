@@ -20,7 +20,6 @@ export function Overview() {
         setLoadAddSub(true);
         setErrorAddSub('');
         try {
-            console.log(payload)
             await addSubject(payload)
             loadMyInfo()
         } catch (error) {
@@ -33,7 +32,6 @@ export function Overview() {
         setLoadDelSub(true);
         setErrorDelSub('');
         try {
-            console.log(payload)
             await deleteSubject(payload)
             loadMyInfo()
         } catch (error) {
@@ -75,8 +73,7 @@ export function Overview() {
             )
         )}
     }
-    console.log(options)
-    console.log(teacherSubjects)
+    
         return (
             <>
                 <div className="pt-4 mt-3 d-flex flex-column justify-content-center">

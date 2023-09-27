@@ -93,4 +93,5 @@ export function ScheduledLesson({lessondata, onCancel}) {
 
 ScheduledLesson.propTypes = {
     lessondata: PropTypes.array.isRequired,
+    onCancel: PropTypes.func.isRequired,
 }

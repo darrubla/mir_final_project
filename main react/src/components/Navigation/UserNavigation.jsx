@@ -8,12 +8,9 @@ export function UserNavigation({ handleSignOut, email }) {
       <Nav className="justify-content-between align-items-center">
         <Dropdown>
           <DropdownToggleCustom>
-            <div className="d-flex ">
-              <i className="bi bi-circle-fill text-nexus-gray-500"></i>
-              <div className="fs-6 ms-2">{email}</div>
-            </div>
+            <i className="bi bi-circle-fill text-nexus-gray-500"></i>
+            <span className="ms-2">{email}</span>
           </DropdownToggleCustom>
-
           <Dropdown.Menu>
             <DropdownItemCustom>Profile</DropdownItemCustom>
             <DropdownItemCustom>Settings</DropdownItemCustom>

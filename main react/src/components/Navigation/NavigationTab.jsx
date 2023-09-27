@@ -8,11 +8,12 @@ export function NavigationTab({ route, title }) {
       className={cx(
         css`
           display: inline;
+          font-size: 1.125rem;
           &.active {
-            border-bottom: 1px solid var(--bs-nexus-gray-500);
+            border-bottom: 1px solid var(--bs-secondary);
           }
         `,
-        'nav-link fs-5 fw-light text-opacity-100'
+        'nav-link fw-light text-opacity-100'
       )}
       to={route}
     >

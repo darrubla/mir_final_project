@@ -6,6 +6,7 @@ import { cancelClass, createLesson, getMyLessons } from '../api/lessons';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
+import { Col, Container, Row } from 'react-bootstrap';
 
 export function Schedule() {
   const [data, setData] = useState([]);
@@ -60,21 +61,29 @@ export function Schedule() {
       options.push(subjectObject.subjectname);
     });
     return (
-      <div className="pt-4 mt-1nav d-flex flex-column justify-content-center">
-        <SectionName title="SCHEDULE A CLASS" className="mt-5" />
-        <ScheduleForm onCreate={onCreate} options={options} />
-        {loadingCreate && <Loading />}
-        {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
-        <SectionName title="SCHEDULED" className="mt-5" />
-        {loadingList && <Loading />}
-        {errorLoad && <Alert variant="danger">{errorLoad}</Alert>}
-        <ScheduledLesson
-          lessondata={data}
-          onCancel={onCancel}
-          errorCancel={errorCancel}
-        />
-        {errorLoad && <Alert variant="danger">{errorCancel}</Alert>}
-      </div>
+      <main className="pt-2nav bg-nexus-white vh-100">
+        <Container fluid="xxl">
+          <Row>
+            <Col>
+              <SectionName title="Schedule a class" className="mt-5" />
+              <ScheduleForm onCreate={onCreate} options={options} />
+              {loadingCreate && <Loading />}
+              {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
+            </Col>
+            <Col>
+              <SectionName title="Current Clases" className="mt-5" />
+              {loadingList && <Loading />}
+              {errorLoad && <Alert variant="danger">{errorLoad}</Alert>}
+              <ScheduledLesson
+                lessondata={data}
+                onCancel={onCancel}
+                errorCancel={errorCancel}
+              />
+              {errorLoad && <Alert variant="danger">{errorCancel}</Alert>}
+            </Col>
+          </Row>
+        </Container>
+      </main>
     );
   }
 }

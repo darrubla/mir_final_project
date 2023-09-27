@@ -76,7 +76,7 @@ export function Overview() {
     
         return (
             <>
-                <div className="pt-4 mt-3 d-flex flex-column justify-content-center">
+                <div className="pt-4 mt-1nav d-flex flex-column justify-content-center">
                     <SectionName title="MY INFO" className="mt-5"/>
                     {loadTData && <Loading />}
                     {errorLoadT&& <Alert variant='danger'>{errorLoadT}</Alert>}

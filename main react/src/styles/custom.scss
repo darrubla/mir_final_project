@@ -5,6 +5,7 @@
 $nexus-base: #c2c2c2;
 $nexus-primary: #dedede;
 $nexus-accent: #00e022;
+$nexus-accent-subtle: #278635;
 $nexus-altbase: #001f10;
 $nexus-white: #f5f5f5;
 
@@ -13,6 +14,7 @@ $nexus-colors: (
   'nexus-base': $nexus-base,
   'nexus-primary': $nexus-primary,
   'nexus-accent': $nexus-accent,
+  'nexus-accent-subtle': $nexus-accent-subtle,
   'nexus-altbase': $nexus-altbase,
   'nexus-white': $nexus-white,
 );
@@ -39,11 +41,15 @@ $nexus-vertical-spacers: (
   '9': 1rem * 8,
   '10': 1rem * 9.5,
 
+  '1u': 1.125rem,
+  '2u': 1.25rem,
+
   '1i': $nexus-vertical-unit * 1,
   '2i': $nexus-vertical-unit * 2,
   '3i': $nexus-vertical-unit * 3,
 
   '1nav': 99px,
+  '2nav': 99px * 2,
 
   'gut': $nexus-vertical-gutter-unit,
   'page-v': $nexus-vertical-page-padding-unit,
@@ -65,7 +71,7 @@ $nexus-display-font-sizes: (
 $enable-negative-margins: true;
 
 //body bg colors
-$body-bg: $nexus-base;
+$body-bg: #ffffff;
 $body-secondary-bg: $nexus-primary;
 
 //custom typography

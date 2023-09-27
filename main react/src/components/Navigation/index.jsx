@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import UserContext from '../../containers/UserContext';
@@ -9,6 +9,8 @@ import { rswitch } from '../../utils/rswitch';
 import { NavigationTab } from './NavigationTab';
 import { ModalAlert } from '../ModalAlert';
 import { clearSession } from '../../api/session';
+import { NLogo } from '../../assets/icons/NLogo';
+import { css, cx } from '@emotion/css';
 
 export function Navigation() {
   const navigate = useNavigate();
@@ -42,66 +44,137 @@ export function Navigation() {
   //------------------------------------------------------------------
   return (
     <>
-      <nav className="pt-page-h px-page-v fixed-top bg-nexus-base">
-        <Container fluid className="fs-2 text-nexus-gray-500 fw-light">
-          {' '}
-          {/* add px-0 when navbar is not fixed */}
-          <Row>
-            <Col>
-              <Logo />
-            </Col>
-
-              {
-                //
-                rswitch({user}, {
-                  student: 
-                    <Col className='d-flex justify-content-center'>
-                      <NavigationTab route="schedule" title="SCHEDULE" />
-                    </Col>,
-                  teacher: 
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        variant={user?.type ? 'light' : 'dark'}
+        fixed="top"
+        className={cx(
+          css`
+            padding-top: 48px;
+            padding-bottom: 3px;
+          `,
+          `text-white ${
+            user?.type && 'bg-nexus-white border-bottom border-dark'
+          }`
+        )}
+      >
+        <Container>
+          <Navbar.Brand href="#home">
+            <NLogo />
+          </Navbar.Brand>
+          <Navbar.Toggle
+            aria-controls="responsive-navbar-nav"
+            className="border-white"
+          />
+          <Navbar.Collapse id="responsive-navbar-nav fw-light fs-5">
+            <Nav className="ms-auto w-50 justify-content-between">
+              <NavigationTab route="Home" title="Home" />
+              {rswitch(
+                { user },
+                {
+                  student: (
+                    <Col className="d-flex justify-content-center">
+                      <NavigationTab route="schedule" title="Schedule" />
+                    </Col>
+                  ),
+                  teacher: (
                     <>
-                      <Col className='d-flex justify-content-center'>
-                        <NavigationTab route="bank" title="BANK" />
-                      </Col>
-                      <Col className='d-flex justify-content-center'>
-                        <NavigationTab route="overview" title="OVERVIEW" />
-                      </Col>
-                    </>,
-                  default: 
-                    <Col className='d-flex justify-content-center'>
-                      <NavigationTab route="about" title="ABOUT" />
-                    </Col>,
-                })
-              }
+                      <NavigationTab route="bank" title="Bank" />
 
-            <Col className='d-flex justify-content-center'x >
-              <NavigationTab route="explore" title="EXPLORE" />
-            </Col>
-            <Col className="col-6 d-flex justify-content-end">
-              {user?.email ? (
-                <UserNavigation handleSignOut={onSignOut} email={user.email}/>
-              ) : (
-                <>
-                  <span className="me-3 fs-1">Already member?</span>
-
-                  <Col className="col-3 my-auto">
-                    <div className="d-grid">
-                      <Button
-                        className="p-0 border-nexus-gray-500 border-2 fs-5"
-                        variant="none"
-                        onClick={onSignIn}
-                      >
-                        LOG IN
-                      </Button>
-                    </div>
-                  </Col>
-                </>
+                      <NavigationTab route="overview" title="Overview" />
+                    </>
+                  ),
+                  default: <NavigationTab route="about" title="About" />,
+                }
               )}
-            </Col>
-          </Row>
+              <NavigationTab route="Explore" title="Explore" />
+
+              {user?.email ? (
+                <UserNavigation handleSignOut={onSignOut} email={user.email} />
+              ) : (
+                <Button
+                  variant="outline-nexus-accent"
+                  className="border-2 px-5"
+                  onClick={() => handleShow('signin')}
+                >
+                  Log In
+                </Button>
+              )}
+            </Nav>
+          </Navbar.Collapse>
         </Container>
-      </nav>
+      </Navbar>
       <ModalAlert handleClose={handleClose} show={show} onLog={onLog} />
     </>
   );
 }
+/*
+const a = (
+  <nav className="pt-page-h px-page-v fixed-top bg-nexus-base">
+    <Container fluid className="fs-2 text-nexus-gray-500 fw-light">
+      {' '}
+      {/* add px-0 when navbar is not fixed }
+      <Row>
+        <Col>
+          <Logo />
+        </Col>
+
+        {
+          //
+          rswitch(
+            { user },
+            {
+              student: (
+                <Col className="d-flex justify-content-center">
+                  <NavigationTab route="schedule" title="SCHEDULE" />
+                </Col>
+              ),
+              teacher: (
+                <>
+                  <Col className="d-flex justify-content-center">
+                    <NavigationTab route="bank" title="BANK" />
+                  </Col>
+                  <Col className="d-flex justify-content-center">
+                    <NavigationTab route="overview" title="OVERVIEW" />
+                  </Col>
+                </>
+              ),
+              default: (
+                <Col className="d-flex justify-content-center">
+                  <NavigationTab route="about" title="ABOUT" />
+                </Col>
+              ),
+            }
+          )
+        }
+
+        <Col className="d-flex justify-content-center" x>
+          <NavigationTab route="explore" title="EXPLORE" />
+        </Col>
+        <Col className="col-6 d-flex justify-content-end">
+          {user?.email ? (
+            <UserNavigation handleSignOut={onSignOut} email={user.email} />
+          ) : (
+            <>
+              <span className="me-3 fs-1">Already member?</span>
+
+              <Col className="col-3 my-auto">
+                <div className="d-grid">
+                  <Button
+                    className="p-0 border-nexus-gray-500 border-2 fs-5"
+                    variant="none"
+                    onClick={onSignIn}
+                  >
+                    LOG IN
+                  </Button>
+                </div>
+              </Col>
+            </>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  </nav>
+);
+*/

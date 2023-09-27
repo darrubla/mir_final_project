@@ -14,6 +14,7 @@ import { TeacherView } from './pages/TeacherView';
 import { Container } from 'react-bootstrap';
 import { Index } from './pages/Index';
 import { Navigation } from './components/Navigation';
+import { Landing } from './pages/Landing';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           {false && <Index />}
           <Navigation />
           <Routes>
-            <Route path="/" element={<Welcome />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/signin/*" element={<Signin />} />
             <Route path="/signup/*" element={<Signup />} />
             <Route path="/schedule" element={<Schedule />} />

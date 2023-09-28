@@ -6,6 +6,9 @@ import { useContext, useState } from 'react';
 import UserContext from '../../containers/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { ModalAlert } from '../../components/ModalAlert';
+import SubjectsCarousell from '../../components/SubjectsCarousell/SubjectsCarousell';
+import { Info } from '../../content-welcome/Info';
+import TeacherHome from '../TeacherHome';
 
 export function Landing() {
   const { setUser, user } = useContext(UserContext);
@@ -27,7 +30,22 @@ export function Landing() {
     setShow(false);
     navigate(`${logType}/${val}`);
   }
-
+  if (user?.type == 'student' && user?.email) {
+    return (
+      <>
+        <SubjectsCarousell />
+        <Info />
+      </>
+    );
+  }
+  if (user?.type == 'teacher' && user?.email) {
+    return (
+      <>
+        <TeacherHome />
+        <Info />
+      </>
+    );
+  }
   return (
     <main className="bg-image">
       <ModalAlert handleClose={handleClose} show={show} onLog={onLog} />

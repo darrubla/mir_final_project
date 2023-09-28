@@ -1,8 +1,26 @@
 import { prisma } from "../../../database.js";
 
 export const createSubjectOnTeacher = async (req, res, next) => {
-  const { body = {} } = req;
+  const { body = {}, decoded = {} } = req;
+  const { id: teacherId } = decoded;
+  try {
+    const result = await prisma.SubjectsOnTeachers.create({
+      data: {
+        ...body,
+        teacherId,
+      },
+    });
+    res.status(201);
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
+export const createRelation = async (req, res, next) => {
+  const { body = {} } = req;
   try {
     const result = await prisma.SubjectsOnTeachers.create({
       data: body,
@@ -52,11 +70,17 @@ export const allSubjectsOnTeachers = async (req, res, next) => {
 };
 
 export const idSubjectOnTeacher = async (req, res, next) => {
-  const { params = {} } = req;
+  const { params = {}, decoded = {} } = req;
+  const { subjectId } = params;
+  const { id: teacherId } = decoded;
+
   try {
     const result = await prisma.SubjectsOnTeachers.findUnique({
       where: {
-        id: params.id,
+        teacherId_subjectId: {
+          subjectId,
+          teacherId,
+        },
       },
       include: {
         subject: {
@@ -112,12 +136,12 @@ export const updateSubjectOnTeacher = async (req, res, next) => {
   }
 };
 
-export const deleteSubjectOnTeacher = async (req, res, next) => {
+export const deleteRelation = async (req, res, next) => {
   const { body = {} } = req;
   const { subjectId, teacherId } = body;
 
   try {
-    await prisma.SubjectsOnTeachers.delete({
+    const result = await prisma.SubjectsOnTeachers.delete({
       where: {
         teacherId_subjectId: {
           subjectId,
@@ -125,8 +149,33 @@ export const deleteSubjectOnTeacher = async (req, res, next) => {
         },
       },
     });
+    res.json({
+      data: result,
+    });
     res.status(204);
     res.end();
+  } catch (error) {
+    next(error);
+  }
+};
+export const deleteSubjectOnTeacher = async (req, res, next) => {
+  const { decoded = {}, params = {} } = req;
+  const { id: teacherId } = decoded;
+  const { id: subjectId } = params;
+
+  try {
+    const result = await prisma.SubjectsOnTeachers.delete({
+      where: {
+        teacherId_subjectId: {
+          subjectId,
+          teacherId,
+        },
+      },
+    });
+    res.status(201);
+    res.json({
+      data: result,
+    });
   } catch (error) {
     next(error);
   }

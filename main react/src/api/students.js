@@ -28,6 +28,7 @@ export async function signInStudent({ email, password }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
 //API Agent
 export async function getStudents() {
   try {
@@ -54,11 +55,14 @@ export async function getStudent({ id }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
-export async function createStudent(payload) {
+export async function signUpStudent({ name, lastname, email, age, password }) {
   try {
-    // payload = payload.lessonContent;
-    const { data: response } = await http.post(`/students/`, {
-      payload,
+    const { data: response } = await http.post(`/students/signup/student`, {
+      name,
+      lastname,
+      email,
+      age,
+      password,
     });
     const data = transformStudent(response.data);
     return {

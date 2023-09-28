@@ -13,13 +13,14 @@ function transformTeacher(item = {}) {
 
 export async function signInTeacher({ email, password }) {
   try {
+    console.log(email, password);
     const { data: response } = await http.post("/teachers/signin/teacher", {
       email,
       password,
     });
     const { data, meta } = response;
     const { token = "" } = meta;
-
+    console.log(data);
     setSession(token);
     return {
       data,
@@ -55,12 +56,56 @@ export async function getTeacher({ id }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
-export async function createTeacher(payload) {
+
+export async function signUpTeacher({ name, lastname, email, age, password }) {
   try {
-    // payload = payload.lessonContent;
-    const { data: response } = await http.post(`/teachers/`, {
-      payload,
+    const { data: response } = await http.post(`/teachers/signup/teacher`, {
+      name,
+      lastname,
+      email,
+      age,
+      password,
     });
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function getMe() {
+  try {
+    const { data: response } = await http.get(`/teachers/me`);
+    const data = transformTeacher(response.data);
+    return {
+      data,
+      //meta: response.meta,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+export async function addSubject({ subjectId }) {
+  try {
+    //console.log({ subjectId });
+    const { data: response } = await http.post(`/subjectsonteachers/`, {
+      subjectId,
+    });
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+export async function deleteSubject({ subjectId }) {
+  try {
+    const { data: response } = await http.delete(
+      `/subjectsonteachers/${subjectId}`
+    );
     const data = transformTeacher(response.data);
     return {
       data,

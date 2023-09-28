@@ -2,49 +2,68 @@
 
 // NEXUS CUSTOM COLOR VARIABLES
 
-$nexus-base: #C2C2C2;
-$nexus-primary: #DEDEDE;
-$nexus-accent: #27CE7E;
+$nexus-base: #c2c2c2;
+$nexus-primary: #dedede;
+$nexus-accent: #00e022;
+$nexus-accent-subtle: #278635;
+$nexus-altbase: #001f10;
+$nexus-white: #f5f5f5;
 
 // NEXUS COLORS MAP
 $nexus-colors: (
-    'nexus-base': $nexus-base ,
-    'nexus-primary': $nexus-primary ,
-    'nexus-accent': $nexus-accent,
+  'nexus-base': $nexus-base,
+  'nexus-primary': $nexus-primary,
+  'nexus-accent': $nexus-accent,
+  'nexus-accent-subtle': $nexus-accent-subtle,
+  'nexus-altbase': $nexus-altbase,
+  'nexus-white': $nexus-white,
 );
 
 $nexus-grays: (
-    'nexus-gray-500': #616161 , 
-    'nexus-gray-600': #515050 , 
-    'nexus-gray-700': #484848 ,
+  'nexus-gray-500': #616161,
+  'nexus-gray-600': #515050,
+  'nexus-gray-700': #484848,
 );
 
 // NEXUS SPACERS // This measuments come from our figma design file
-$nexus-vertical-unit: 8.625rem; // 138px 
+$nexus-vertical-unit: 8.625rem; // 138px
 
-$nexus-vertical-gutter-unit: 2.5rem; // 40px 
+$nexus-vertical-gutter-unit: 2.5rem; // 40px
 
 $nexus-vertical-page-padding-unit: 5.625rem; // 90px
 
 $nexus-horizontal-page-padding-unit: 3.75rem; // 60px // ONLY TOP PADDING!
 
 $nexus-vertical-spacers: (
-    '1i' : $nexus-vertical-unit * 1 ,
-    '2i' : $nexus-vertical-unit * 2 ,
-    '3i' : $nexus-vertical-unit * 3 ,
-    'gut' : $nexus-vertical-gutter-unit,
-    'page-v' : $nexus-vertical-page-padding-unit,
-    'page-h' : $nexus-horizontal-page-padding-unit,
+  '6': 1rem * 4,
+  '7': 1rem * 5.5,
+  '8': 1rem * 6.5,
+  '9': 1rem * 8,
+  '10': 1rem * 9.5,
+
+  '1u': 1.125rem,
+  '2u': 1.25rem,
+
+  '1i': $nexus-vertical-unit * 1,
+  '2i': $nexus-vertical-unit * 2,
+  '3i': $nexus-vertical-unit * 3,
+
+  '1nav': 99px,
+  '2nav': 99px * 2,
+
+  'gut': $nexus-vertical-gutter-unit,
+  'page-v': $nexus-vertical-page-padding-unit,
+  'page-h': $nexus-horizontal-page-padding-unit,
 );
 
 $nexus-display-font-1: 6rem;
 
 $nexus-display-font-sizes: (
-    'n-1': $nexus-display-font-1,
+  'n-1': $nexus-display-font-1,
 );
 
 // BOOTSTRAP FUNCTIONS
-@import "../node_modules/bootstrap/scss/functions";
+@import '../node_modules/bootstrap/scss/functions';
 
 // HERE SHOULD BE OUR BOOTSTRAP VARIABLE OVERRIDES
 
@@ -52,84 +71,100 @@ $nexus-display-font-sizes: (
 $enable-negative-margins: true;
 
 //body bg colors
-$body-bg: $nexus-base;
+$body-bg: #ffffff;
 $body-secondary-bg: $nexus-primary;
 
 //custom typography
 //$font-family-sans-serif: "ClashGrotesk-" , system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-family-sans-serif: "ClashGrotesk";
+$font-family-sans-serif: 'Outfit', sans-serif; /*"ClashGrotesk";*/
 
 // -------------------------------------------------------
 
 // BOOTSTRAP VARS
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/variables-dark";
+@import '../node_modules/bootstrap/scss/variables';
+@import '../node_modules/bootstrap/scss/variables-dark';
 
-// HERE SHOULD BE OUR BOOTSTRAP MAP OVERRIDES 
+// HERE SHOULD BE OUR BOOTSTRAP MAP OVERRIDES
 
-$theme-colors:map-merge($theme-colors , $nexus-colors );
-$theme-colors:map-merge($theme-colors, $nexus-grays );
-$spacers:map-merge($spacers , $nexus-vertical-spacers );
-$display-font-sizes:map-merge($display-font-sizes , $nexus-display-font-sizes );
+$theme-colors: map-merge($theme-colors, $nexus-colors);
+$theme-colors: map-merge($theme-colors, $nexus-grays);
+$spacers: map-merge($spacers, $nexus-vertical-spacers);
+$display-font-sizes: map-merge($display-font-sizes, $nexus-display-font-sizes);
 
 // -------------------------------------------------------
 
 // BOOTSTRAP REQUIRES THIS
-@import "../node_modules/bootstrap/scss/maps";
-@import "../node_modules/bootstrap/scss/mixins";
-@import "../node_modules/bootstrap/scss/root";
+@import '../node_modules/bootstrap/scss/maps';
+@import '../node_modules/bootstrap/scss/mixins';
+@import '../node_modules/bootstrap/scss/root';
 
 // IMPORTING OPTIONAL REMAINING STYLES JUST TO BE SAFE :)
-@import "../node_modules/bootstrap/scss/utilities";
-@import "../node_modules/bootstrap/scss/reboot";
-@import "../node_modules/bootstrap/scss/type";
-@import "../node_modules/bootstrap/scss/images";
-@import "../node_modules/bootstrap/scss/containers";
-@import "../node_modules/bootstrap/scss/grid";
-@import "../node_modules/bootstrap/scss/tables";
-@import "../node_modules/bootstrap/scss/forms";
-@import "../node_modules/bootstrap/scss/buttons";
-@import "../node_modules/bootstrap/scss/transitions";
-@import "../node_modules/bootstrap/scss/dropdown";
-@import "../node_modules/bootstrap/scss/button-group";
-@import "../node_modules/bootstrap/scss/nav";
-@import "../node_modules/bootstrap/scss/navbar";
-@import "../node_modules/bootstrap/scss/card";
-@import "../node_modules/bootstrap/scss/accordion";
-@import "../node_modules/bootstrap/scss/breadcrumb";
-@import "../node_modules/bootstrap/scss/pagination";
-@import "../node_modules/bootstrap/scss/badge";
-@import "../node_modules/bootstrap/scss/alert";
-@import "../node_modules/bootstrap/scss/progress";
-@import "../node_modules/bootstrap/scss/list-group";
-@import "../node_modules/bootstrap/scss/close";
-@import "../node_modules/bootstrap/scss/toasts";
-@import "../node_modules/bootstrap/scss/modal";
-@import "../node_modules/bootstrap/scss/tooltip";
-@import "../node_modules/bootstrap/scss/popover";
-@import "../node_modules/bootstrap/scss/carousel";
-@import "../node_modules/bootstrap/scss/spinners";
-@import "../node_modules/bootstrap/scss/offcanvas";
-@import "../node_modules/bootstrap/scss/placeholders";
-@import "../node_modules/bootstrap/scss/helpers";
+@import '../node_modules/bootstrap/scss/utilities';
+@import '../node_modules/bootstrap/scss/reboot';
+@import '../node_modules/bootstrap/scss/type';
+@import '../node_modules/bootstrap/scss/images';
+@import '../node_modules/bootstrap/scss/containers';
+@import '../node_modules/bootstrap/scss/grid';
+@import '../node_modules/bootstrap/scss/tables';
+@import '../node_modules/bootstrap/scss/forms';
+@import '../node_modules/bootstrap/scss/buttons';
+@import '../node_modules/bootstrap/scss/transitions';
+@import '../node_modules/bootstrap/scss/dropdown';
+@import '../node_modules/bootstrap/scss/button-group';
+@import '../node_modules/bootstrap/scss/nav';
+@import '../node_modules/bootstrap/scss/navbar';
+@import '../node_modules/bootstrap/scss/card';
+@import '../node_modules/bootstrap/scss/accordion';
+@import '../node_modules/bootstrap/scss/breadcrumb';
+@import '../node_modules/bootstrap/scss/pagination';
+@import '../node_modules/bootstrap/scss/badge';
+@import '../node_modules/bootstrap/scss/alert';
+@import '../node_modules/bootstrap/scss/progress';
+@import '../node_modules/bootstrap/scss/list-group';
+@import '../node_modules/bootstrap/scss/close';
+@import '../node_modules/bootstrap/scss/toasts';
+@import '../node_modules/bootstrap/scss/modal';
+@import '../node_modules/bootstrap/scss/tooltip';
+@import '../node_modules/bootstrap/scss/popover';
+@import '../node_modules/bootstrap/scss/carousel';
+@import '../node_modules/bootstrap/scss/spinners';
+@import '../node_modules/bootstrap/scss/offcanvas';
+@import '../node_modules/bootstrap/scss/placeholders';
+@import '../node_modules/bootstrap/scss/helpers';
 //utilities API last to generate classes based on the Sass map in `_utilities.scss`
-
-
 
 $utilities: map-merge(
   $utilities,
   (
-    "flex-basis": (
-    responsive: true,
-    property: flex-basis,
-    class: flex,
-        values: (
-            basis-0: 0,
-            basis-1: 1,
-        )
-    )
+    'flex-basis': (
+      responsive: true,
+      property: flex-basis,
+      class: flex,
+      values: (
+        basis-0: 0,
+        basis-1: 1,
+      ),
+    ),
   )
 );
 
-@import "../node_modules/bootstrap/scss/utilities/api";
+$utilities: map-merge(
+  $utilities,
+  (
+    'bg-opacity':
+      map-merge(
+        map-get($utilities, 'bg-opacity'),
+        (
+          values:
+            map-merge(
+              map-get(map-get($utilities, 'bg-opacity'), 'values'),
+              (
+                85: 0.85,
+              )
+            ),
+        )
+      ),
+  )
+);
 
+@import '../node_modules/bootstrap/scss/utilities/api';

@@ -21,3 +21,4 @@ router
   .delete(auth, me, controller.removeStudent);
 
 router.use("/:studentId/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante
+// router.use("/:emailStudent/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante

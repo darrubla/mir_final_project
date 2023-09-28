@@ -11,21 +11,21 @@ datasource db {
 }
 
 model Lesson {
-  id          String    @id @default(uuid()) @db.Uuid
-  subject     Subject?  @relation(fields: [subjectId], references: [id])
-  subjectId   String    @db.Uuid
-  description String?
-  createdAt   DateTime  @default(now())
-  scheduledAt DateTime
-  site        String?
-  status      String    @default("Pending")
-  teacher     Teacher?  @relation(fields: [teacherId], references: [id])
-  teacherId   String?   @db.Uuid
-  student     Student   @relation(fields: [studentId], references: [id])
-  studentId   String    @db.Uuid
-  startedAt   DateTime?
-  finishedAt  DateTime?
-  duration    Int?
+  id           String        @id @default(uuid()) @db.Uuid
+  subject      Subject?      @relation(fields: [subjectId], references: [id])
+  subjectId    String        @db.Uuid
+  description  String?
+  createdAt    DateTime      @default(now())
+  scheduledAt  DateTime
+  site         String?
+  status       String        @default("Pending")
+  teacher      Teacher?      @relation(fields: [teacherId], references: [id])
+  teacherId    String?       @db.Uuid
+  student      Student       @relation(fields: [studentId], references: [id])
+  studentId    String        @db.Uuid
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  duration     Int?
 }
 
 model Teacher {
@@ -71,3 +71,9 @@ model SubjectsOnTeachers {
 
   @@id([teacherId, subjectId])
 }
+
+//model LessonEvents {
+//  id String @id @default(uuid()) @db.Uuid
+//  lesson Lesson
+//  lessonId Strin
+//}

@@ -40,10 +40,20 @@ export async function getMyLessons() {
 
 export async function createLesson(payload) {
   try {
+    const eventdate = new Date();
     payload = payload.lessonContent;
     console.log(payload);
     const { data: response } = await http.post(`/lessons/`, payload);
     const data = transformLesson(response.data);
+    if (data?.id) {
+      console.log(data.id);
+      await http.post(`/lessonevents/`, {
+        lessonId: data.id,
+        date: eventdate,
+        eventdesc: `Lesson ${data.id} was created`,
+      });
+    }
+
     return {
       data,
     };
@@ -53,12 +63,17 @@ export async function createLesson(payload) {
 }
 export async function cancelClass(id) {
   try {
-    console.log(id);
+    const eventdate = new Date();
     const { data: response } = await http.put(`/lessons/${id}`, {
       status: "Canceled",
       teacherId: null,
     });
     const data = transformLesson(response.data);
+    await http.post(`/lessonevents/`, {
+      lessonId: id,
+      date: eventdate,
+      eventdesc: `Lesson ${id} was canceled, status: 'Canceled'`,
+    });
     return {
       data,
     };
@@ -82,8 +97,14 @@ export async function getAvailableLessons() {
 }
 export async function assignClass(id) {
   try {
+    const eventdate = new Date();
     const { data: response } = await http.put(`/lessons/${id}/s`);
     const data = transformLesson(response.data);
+    await http.post(`/lessonevents/`, {
+      lessonId: id,
+      date: eventdate,
+      eventdesc: `Lesson ${id} was acepted, status: 'Scheduled'`,
+    });
     return {
       data,
     };

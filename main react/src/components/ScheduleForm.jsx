@@ -202,7 +202,7 @@ export function ScheduleForm({ onCreate, options }) {
                         );
                       }}
                       minDate={
-                        new Date(new Date().setDate(new Date().getDate() + 1))
+                        new Date(new Date().setDate(new Date().getDate() + 0))
                       }
                     />
                   )}

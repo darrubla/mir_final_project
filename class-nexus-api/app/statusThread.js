@@ -4,18 +4,35 @@ export const prisma = new PrismaClient();
 
 export const lessonExpiredStatusThread = async (req, res, next) => {
   try {
-    await prisma.lesson.updateMany({
+    const lessonsToCancel = await prisma.lesson.findMany({
       where: {
         status: "Pending",
         scheduledAt: {
           lte: new Date(),
         },
       },
-      data: {
-        status: "Canceled",
-      },
     });
-    // console.log("Checking for expired lessons");
+    lessonsToCancel.map(async (lessonToCancel) => {
+      await prisma.lesson.update({
+        where: {
+          id: lessonToCancel.id,
+        },
+        data: {
+          status: "Canceled",
+        },
+      });
+    });
+    lessonsToCancel.map(async (lessonToCancel) => {
+      await prisma.LessonEvents.create({
+        data: {
+          lessonId: lessonToCancel.id,
+          date: currentDate,
+          eventdesc: `Lesson ${lessonToCancel.id} was finished by the System`,
+          author: "SYSTEM",
+        },
+      });
+    });
+    console.log("Checking for expired lessons");
   } catch (error) {
     console.log(error);
   }
@@ -46,7 +63,17 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
         },
       });
     });
-    // console.log("Checking for unfinished lessons");
+    getLessons.map(async (lessonToFinish) => {
+      await prisma.LessonEvents.create({
+        data: {
+          lessonId: lessonToFinish.id,
+          date: currentDate,
+          eventdesc: `Lesson ${lessonToFinish.id} was finished by the System`,
+          author: "SYSTEM",
+        },
+      });
+    });
+    console.log("Checking for unfinished lessons");
   } catch (error) {
     console.log(error);
   }
@@ -56,7 +83,7 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
   try {
     const currentDate = new Date();
     const cancelTime = 20; // minutes
-    await prisma.lesson.updateMany({
+    const lessonsToCancel = await prisma.lesson.findMany({
       where: {
         status: "Scheduled",
         scheduledAt: {
@@ -67,7 +94,27 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
         status: "Canceled",
       },
     });
-    // console.log("Checking for started lessons");
+    lessonsToCancel.map(async (lessonsToCancel) => {
+      await prisma.lesson.update({
+        where: {
+          id: lessonsToCancel - id,
+        },
+        data: {
+          status: "Canceled",
+        },
+      });
+    });
+    lessonsToCancel.map(async (lessonToCancel) => {
+      await prisma.LessonEvents.create({
+        data: {
+          lessonId: lessonToCancel.id,
+          date: currentDate,
+          eventdesc: `Lesson ${lessonToCancel.id} was canceled by the System`,
+          author: "SYSTEM",
+        },
+      });
+    });
+    console.log("Checking for started lessons");
   } catch (error) {
     console.log(error);
   }

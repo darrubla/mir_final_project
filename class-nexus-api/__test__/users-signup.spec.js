@@ -5,6 +5,8 @@ import { getStudent } from './fixtures/student.fixture.js';
 import { getLesson } from './fixtures/lesson.fixture.js';
 import { resetDb } from './helpers/reset-db.js';
 import { beforeEach, expect } from 'vitest';
+import { getSubject } from './fixtures/subject.fixture.js';
+import { getTeacher } from './fixtures/teacher.fixture.js';
 
 describe('Users Sign Up', () => {
   beforeEach(async () => {
@@ -13,26 +15,42 @@ describe('Users Sign Up', () => {
   test('signed successfully', async () => {
     const agent = request(app);
 
-    const { name, lastname, email, age } = getStudent();
-    const password = '12345678';
-    const { description, scheduledAt, site, subjectId } = getLesson();
+    const {
+      name: names,
+      lastname: lastnames,
+      email: emails,
+      age: ages,
+    } = getStudent();
+
+    const passwords = '12345678';
+    const { description, scheduledAt, site } = getLesson();
+    const { subjectname } = getSubject();
+
     const student = await agent.post('/api/students/signup/student').send({
-      name,
-      lastname,
-      email,
-      age,
-      password,
+      name: names,
+      lastname: lastnames,
+      email: emails,
+      age: ages,
+      password: passwords,
     });
     expect(student.status).toBe(201);
 
-    const login = await agent.post('/api/students/signin/student').send({
-      email,
-      password,
+    const loginS = await agent.post('/api/students/signin/student').send({
+      email: emails,
+      password: passwords,
     });
 
-    expect(login.status).toBe(200);
+    expect(loginS.status).toBe(200);
 
-    const token = login.body.meta.token;
+    const subject = await agent.post('/api/subjects').send({
+      subjectname,
+    });
+
+    expect(subject.status).toBe(201);
+
+    const { id: subjectId } = subject.body.data;
+
+    const tokenS = loginS.body.meta.token;
 
     const lesson = await agent
       .post('/api/lessons')
@@ -42,7 +60,7 @@ describe('Users Sign Up', () => {
         site,
         subjectId,
       })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${tokenS}`);
 
     expect(lesson.status).toBe(201);
 
@@ -50,13 +68,57 @@ describe('Users Sign Up', () => {
 
     const singleLesson = await agent
       .get(`/api/lessons/${lessonId}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${tokenS}`);
 
     expect(singleLesson.status).toBe(200);
     console.log('Lesson created:', singleLesson.body.data);
+
+    const {
+      name: namet,
+      lastname: lastnamet,
+      email: emailt,
+      age: aget,
+      points,
+    } = getTeacher();
+    const passwordt = '12345678';
+
+    const teacher = await agent.post('/api/teachers/signup/teacher').send({
+      name: namet,
+      lastname: lastnamet,
+      email: emailt,
+      age: aget,
+      password: passwordt,
+      points,
+    });
+    expect(teacher.status).toBe(201);
+
+    const loginT = await agent.post('/api/teachers/signin/teacher').send({
+      email: emailt,
+      password: passwordt,
+    });
+
+    expect(loginT.status).toBe(200);
+
+    const tokenT = loginT.body.meta.token;
+
+    const assign = await agent
+      .put(`/api/lessons/${lessonId}/s`)
+      .send({
+        status: 'Scheduled',
+      })
+      .set('Authorization', `Bearer ${tokenT}`);
+
+    expect(assign.status).toBe(200);
+    const singleLessonUpdated = await agent
+      .get(`/api/lessons/${lessonId}`)
+      .set('Authorization', `Bearer ${tokenS}`);
+
+    expect(singleLessonUpdated.status).toBe(200);
+    console.log('Lesson updated:', singleLessonUpdated.body.data);
+
     const lessons = await agent
       .get('/api/lessons/')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${tokenS}`);
     expect(lessons.status).toBe(200);
   });
 });

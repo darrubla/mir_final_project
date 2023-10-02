@@ -1,5 +1,5 @@
-import { prisma } from "../../../database.js";
-import { parsePaginationParams } from "../../../utils.js";
+import { prisma } from '../../../database.js';
+import { parsePaginationParams } from '../../../utils.js';
 
 export const createEvent = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;
@@ -25,8 +25,9 @@ export const createEvent = async (req, res, next) => {
 export const allEvents = async (req, res, next) => {
   const { query, params = {} } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const orderBy = { date: "asc" };
-  console.log(params, ":lessonId");
+  const orderBy = { date: 'asc' };
+  console.log(params, ':lessonId');
+  // List the given lesson events
   try {
     const [result, total] = await Promise.all([
       prisma.LessonEvents.findMany({
@@ -55,6 +56,7 @@ export const allEvents = async (req, res, next) => {
 
 export const idEvent = async (req, res, next) => {
   const { params = {} } = req;
+  // id of an specific event
   try {
     const result = await prisma.LessonEvents.findUnique({
       where: {
@@ -64,7 +66,7 @@ export const idEvent = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Event not found",
+        message: 'Event not found',
         status: 404,
       });
     } else {

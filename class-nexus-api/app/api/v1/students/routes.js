@@ -1,24 +1,31 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import * as controller from "./controller.js";
-import { auth, me } from "../auth.js";
-import { router as lessonsRouter } from "../lessons/routes.js";
+import * as controller from './controller.js';
+import { auth, me } from '../auth.js';
+import { router as lessonsRouter } from '../lessons/routes.js';
 
 // eslint-disable-next-line new-cap
 export const router = Router();
+/**
+ * /api/v1/students/signin/student      POST   -   SignIn with credentials
+ * /api/v1/students/signup/student      POST   -   Create student account
+ * /api/v1/students                     GET    -   list all the students
+ * /api/v1/students/:id                 GET    -   Read one student
+ * /api/v1/students/:id                 PUT    -   Update one student
+ * /api/v1/students/:id/lessons                -   The student's lessons
+ */
+router.route('/signup/student').post(controller.signup);
+router.route('/signin/student').post(controller.signin);
+router.route('/').get(controller.allStudents); // .post(controller.createStudent);
 
-router.route("/signup/student").post(controller.signup);
-router.route("/signin/student").post(controller.signin);
-router.route("/").get(controller.allStudents); // .post(controller.createStudent);
-
-router.param("id", controller.idStudent);
+router.param('id', controller.idStudent);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(auth, me, controller.readStudent)
   .put(auth, me, controller.updateStudent)
   .patch(auth, me, controller.updateStudent)
   .delete(auth, me, controller.removeStudent);
 
-router.use("/:studentId/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante
+router.use('/:studentId/lessons', lessonsRouter); // Para poder sacar las clases de ese estudiante
 // router.use("/:emailStudent/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante

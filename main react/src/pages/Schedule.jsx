@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { SectionName } from '../components/SectionName';
 import { ScheduleForm } from '../components/ScheduleForm';
 import { ScheduledLesson } from './ScheduledLesson';
-import { cancelClass, createLesson, getMyLessons } from '../api/lessons';
+import { cancelClass, createLesson, finishClass, getMyLessons, startClass } from '../api/lessons';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
@@ -15,6 +15,9 @@ export function Schedule() {
   const [errorLoad, setErrorLoad] = useState('');
   const [errorCreate, setErrorCreate] = useState('');
   const [errorCancel, setErrorCancel] = useState('');
+  const [errorStart, setErrorStart] = useState('');
+  const [errorFinish, setErrorFinish] = useState('');
+
   async function onCreate(payload) {
     setLoadingCreate(true);
     setErrorCreate('');
@@ -34,6 +37,22 @@ export function Schedule() {
       loadLessons();
     } catch (error) {
       setErrorCancel(error);
+    }
+  }
+  async function onStart(id) {
+    try {
+      await startClass(id);
+      loadLessons();
+    } catch (error) {
+      setErrorStart(error);
+    }
+  }
+  async function onFinish(id) {
+    try {
+      await finishClass(id);
+      loadLessons();
+    } catch (error) {
+      setErrorFinish(error);
     }
   }
   async function loadLessons() {
@@ -77,9 +96,13 @@ export function Schedule() {
               <ScheduledLesson
                 lessondata={data}
                 onCancel={onCancel}
+                onFinish={onFinish}
+                onStart={onStart}
                 errorCancel={errorCancel}
               />
-              {errorLoad && <Alert variant="danger">{errorCancel}</Alert>}
+              {errorCancel && <Alert variant="danger">{errorCancel}</Alert>}
+              {errorStart && <Alert variant="danger">{errorStart}</Alert>}
+              {errorFinish && <Alert variant="danger">{errorFinish}</Alert>}
             </Col>
           </Row>
         </Container>

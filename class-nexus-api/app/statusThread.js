@@ -1,5 +1,5 @@
 // import { prisma } from "./database";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 export const prisma = new PrismaClient();
 
 export const lessonExpiredStatusThread = async (req, res, next) => {
@@ -7,7 +7,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
     const currentDate = new Date();
     const lessonsToCancel = await prisma.lesson.findMany({
       where: {
-        status: "Pending",
+        status: 'Pending',
         scheduledAt: {
           lte: new Date(),
         },
@@ -19,7 +19,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
           id: lessonToCancel.id,
         },
         data: {
-          status: "Canceled",
+          status: 'Canceled',
         },
       });
     });
@@ -29,7 +29,7 @@ export const lessonExpiredStatusThread = async (req, res, next) => {
           lessonId: lessonToCancel.id,
           date: currentDate,
           eventdesc: `Lesson ${lessonToCancel.id} was canceled by the System. Before: Pending`,
-          author: "SYSTEM",
+          author: 'SYSTEM',
         },
       });
     });
@@ -45,7 +45,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
     const currentDate = new Date();
     const getLessons = await prisma.lesson.findMany({
       where: {
-        status: "Ongoing",
+        status: 'Ongoing',
         startedAt: {
           lte: new Date(currentDate.getTime() - defaultDuration * 60000),
         },
@@ -59,7 +59,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
           id: getLesson.id,
         },
         data: {
-          status: "Finished",
+          status: 'Finished',
           finishedAt: new Date(startedTime.getTime() + defaultDuration * 60000),
           duration: defaultDuration,
         },
@@ -71,7 +71,7 @@ export const lessonFinishedStatusThread = async (req, res, next) => {
           lessonId: lessonToFinish.id,
           date: currentDate,
           eventdesc: `Lesson ${lessonToFinish.id} was finished by the System. `,
-          author: "SYSTEM",
+          author: 'SYSTEM',
         },
       });
     });
@@ -87,7 +87,7 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
     const cancelTime = 20; // minutes
     const lessonsToCancel = await prisma.lesson.findMany({
       where: {
-        status: "Scheduled",
+        status: 'Scheduled',
         scheduledAt: {
           lte: new Date(currentDate.getTime() - cancelTime * 60000),
         },
@@ -99,7 +99,7 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
           id: lessonsToCancel.id,
         },
         data: {
-          status: "Canceled",
+          status: 'Canceled',
         },
       });
     });
@@ -109,11 +109,37 @@ export const lessonNotStartedStatusThread = async (req, res, next) => {
           lessonId: lessonToCancel.id,
           date: currentDate,
           eventdesc: `Lesson ${lessonToCancel.id} was canceled by the System. Before: Scheduled`,
-          author: "SYSTEM",
+          author: 'SYSTEM',
         },
       });
     });
     // console.log("Checking for started lessons");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const lessonDurationThread = async (req, res, next) => {
+  try {
+    const getLessons = await prisma.lesson.findMany({
+      where: {
+        status: 'Finished',
+        duration: null,
+      },
+    });
+    getLessons.map(async (getLesson) => {
+      const startTime = new Date(getLesson.startedAt);
+      const finishTime = new Date(getLesson.finishedAt);
+      await prisma.lesson.update({
+        where: {
+          id: getLesson.id,
+        },
+        data: {
+          duration: (finishTime - startTime) / 60000,
+        },
+      });
+    });
+    // console.log('Checking for finished classes');
   } catch (error) {
     console.log(error);
   }

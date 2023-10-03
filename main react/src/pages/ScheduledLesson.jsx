@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import teacherImage from '../img/teacher.png';
 
-export function ScheduledLesson({ lessondata, onCancel }) {
+export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
   const navigate = useNavigate();
 
   function displayTeacher(id) {
@@ -93,13 +93,31 @@ export function ScheduledLesson({ lessondata, onCancel }) {
               </div>
               <div className="d-flex flex-row cancel-button justify-content-center">
                 {(lesson.status === 'Pending' ||
-                  lesson.status === 'Cancel') && (
+                  lesson.status === 'Scheduled') && (
                   <Button
                     variant="danger"
                     className="d-flex m-2 px-5 rounded-5"
                     onClick={() => onCancel(lesson.id)}
                   >
                     Cancel
+                  </Button>
+                )}
+                {(lesson.status === 'Scheduled' ) && (
+                  <Button
+                    variant="warning"
+                    className="d-flex m-2 px-5 rounded-5"
+                    onClick={() => onStart(lesson.id)}
+                  >
+                    Start
+                  </Button>
+                )}
+                {(lesson.status === 'Ongoing') && (
+                  <Button
+                    variant="warning"
+                    className="d-flex m-2 px-5 rounded-5"
+                    onClick={() => onFinish(lesson.id)}
+                  >
+                    Finish
                   </Button>
                 )}
               </div>
@@ -114,4 +132,6 @@ export function ScheduledLesson({ lessondata, onCancel }) {
 ScheduledLesson.propTypes = {
   lessondata: PropTypes.array.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onStart: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
 };

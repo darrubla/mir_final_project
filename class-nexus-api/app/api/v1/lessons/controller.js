@@ -1,5 +1,6 @@
 import { prisma } from '../../../database.js';
 import { parsePaginationParams } from '../../../utils.js';
+import { LessonSchema } from './model.js';
 
 export const createLesson = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;
@@ -8,6 +9,16 @@ export const createLesson = async (req, res, next) => {
   const { scheduledAt } = body;
   const date = new Date(scheduledAt);
   try {
+    const { success, data, error } = await LessonSchema.safeParseAsync({
+      ...body,
+    });
+    if (!success) {
+      return next({
+        message: 'Validation error',
+        status: 400,
+        error,
+      });
+    }
     const defaultTime = 60;
     const createdLessons = await prisma.lesson.findMany({
       include: {
@@ -108,7 +119,7 @@ export const createLesson = async (req, res, next) => {
         try {
           const result = await prisma.lesson.create({
             data: {
-              ...body,
+              ...data,
               studentId,
             },
           });

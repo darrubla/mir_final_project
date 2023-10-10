@@ -1,17 +1,30 @@
-import { prisma } from "../../../database.js";
-import { Prisma } from "@prisma/client";
-import { parsePaginationParams } from "../../../utils.js";
-import { signToken } from "../auth.js";
-import { encryptPassword, verifyPassword } from "./model.js";
+import { prisma } from '../../../database.js';
+import { Prisma } from '@prisma/client';
+import { parsePaginationParams } from '../../../utils.js';
+import { signToken } from '../auth.js';
+import {
+  LoginStSchema,
+  UserStSchema,
+  encryptPassword,
+  verifyPassword,
+} from './model.js';
 
 export const signup = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
-    const password = await encryptPassword(body.password);
+    const { success, data, error } = await UserStSchema.safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
+    const password = await encryptPassword(data.password);
     const result = await prisma.Student.create({
       data: {
-        ...body,
+        ...data,
         password,
       },
       select: {
@@ -28,9 +41,9 @@ export const signup = async (req, res, next) => {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
+      if (error.code === 'P2002') {
         return next({
-          message: "A student account already exists with this email",
+          message: 'A student account already exists with this email',
           status: 409, // Unauthorized
         });
       }
@@ -40,9 +53,17 @@ export const signup = async (req, res, next) => {
 };
 export const signin = async (req, res, next) => {
   const { body } = req;
-  const { email, password } = body;
 
   try {
+    const { success, data, error } = await LoginStSchema.safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
+    const { email, password } = data;
     const student = await prisma.Student.findUnique({
       where: {
         email,
@@ -57,7 +78,7 @@ export const signin = async (req, res, next) => {
     });
     if (student === null) {
       return next({
-        message: "Invalid email or password",
+        message: 'Invalid email or password',
         status: 401, // Unauthorized
       });
     }
@@ -65,7 +86,7 @@ export const signin = async (req, res, next) => {
 
     if (!passwordMatch) {
       return next({
-        message: "Invalid email or password",
+        message: 'Invalid email or password',
         status: 401, // Unauthorized
       });
     }
@@ -89,7 +110,7 @@ export const signin = async (req, res, next) => {
 export const allStudents = async (req, res, next) => {
   const { query } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const orderBy = { joined: "asc" };
+  const orderBy = { joined: 'asc' };
 
   try {
     const [result, total] = await Promise.all([
@@ -159,7 +180,7 @@ export const idStudent = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Student not found",
+        message: 'Student not found',
         status: 404,
       });
     } else {
@@ -182,11 +203,23 @@ export const updateStudent = async (req, res, next) => {
   const { id } = params;
 
   try {
+    const { success, data, error } =
+      await UserStSchema.partial().safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
     const result = await prisma.Student.update({
       where: {
         id,
       },
-      data: body,
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
     });
 
     res.json({

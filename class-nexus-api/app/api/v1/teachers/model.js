@@ -1,15 +1,38 @@
-import { hash, compare } from "bcrypt";
+import { hash, compare } from 'bcrypt';
+import { z } from 'zod';
+import escape from 'validator/lib/escape.js';
 
-export const fields = [
-  "id",
-  "email",
-  "name",
-  "lastname",
-  "age",
-  "password",
-  "createdAt",
-  "updatedAt",
-];
+export const TeacherSchema = z
+  .object({
+    email: z.string().email().trim().toLowerCase(),
+    name: z
+      .string()
+      .trim()
+      .max(128)
+      .transform(function (value) {
+        return escape(value);
+      }),
+    lastname: z
+      .string()
+      .trim()
+      .max(128)
+      .transform(function (value) {
+        return escape(value);
+      }),
+    age: z.number(),
+  })
+  .strict();
+
+export const LoginThSchema = z
+  .object({
+    email: z.string().email().trim().max(256),
+    password: z.string().trim().min(6).max(16),
+  })
+  .strict();
+
+export const UserThSchema = TeacherSchema.merge(LoginThSchema);
+
+export const fields = ['id', 'password', 'createdAt', 'updatedAt'];
 
 export const encryptPassword = (password) => {
   return hash(password, 10);

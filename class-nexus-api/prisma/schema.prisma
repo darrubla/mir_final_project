@@ -15,6 +15,7 @@ model Lesson {
   subject      Subject?       @relation(fields: [subjectId], references: [id])
   subjectId    String         @db.Uuid
   description  String?
+  locInfo      String?
   createdAt    DateTime       @default(now())
   scheduledAt  DateTime
   site         String?

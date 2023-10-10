@@ -1,17 +1,30 @@
-import { prisma } from "../../../database.js";
-import { Prisma } from "@prisma/client";
-import { parsePaginationParams } from "../../../utils.js";
-import { signToken } from "../auth.js";
-import { encryptPassword, verifyPassword } from "./model.js";
+import { prisma } from '../../../database.js';
+import { Prisma } from '@prisma/client';
+import { parsePaginationParams } from '../../../utils.js';
+import { signToken } from '../auth.js';
+import {
+  LoginThSchema,
+  UserThSchema,
+  encryptPassword,
+  verifyPassword,
+} from './model.js';
 
 export const signup = async (req, res, next) => {
   const { body = {} } = req;
 
   try {
-    const password = await encryptPassword(body.password);
+    const { success, data, error } = await UserThSchema.safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
+    const password = await encryptPassword(data.password);
     const result = await prisma.Teacher.create({
       data: {
-        ...body,
+        ...data,
         password,
       },
       select: {
@@ -28,9 +41,9 @@ export const signup = async (req, res, next) => {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
+      if (error.code === 'P2002') {
         return next({
-          message: "A teacher account already exists with this email",
+          message: 'A teacher account already exists with this email',
           status: 409, // Unauthorized
         });
       }
@@ -40,9 +53,17 @@ export const signup = async (req, res, next) => {
 };
 export const signin = async (req, res, next) => {
   const { body } = req;
-  const { email, password } = body;
 
   try {
+    const { success, data, error } = await LoginThSchema.safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
+    const { email, password } = data;
     const teacher = await prisma.Teacher.findUnique({
       where: {
         email,
@@ -57,7 +78,7 @@ export const signin = async (req, res, next) => {
     });
     if (teacher === null) {
       return next({
-        message: "Invalid email or password",
+        message: 'Invalid email or password',
         status: 401, // Unauthorized
       });
     }
@@ -65,7 +86,7 @@ export const signin = async (req, res, next) => {
 
     if (!passwordMatch) {
       return next({
-        message: "Invalid email or password",
+        message: 'Invalid email or password',
         status: 401, // Unauthorized
       });
     }
@@ -89,7 +110,7 @@ export const signin = async (req, res, next) => {
 export const allTeachers = async (req, res, next) => {
   const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const orderBy = { name: "asc" };
+  const orderBy = { name: 'asc' };
   const { subjectId } = params;
   try {
     const [result, total] = await Promise.all([
@@ -171,7 +192,7 @@ export const idTeacher = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Teacher not found",
+        message: 'Teacher not found',
         status: 404,
       });
     } else {
@@ -187,7 +208,7 @@ export const myInfo = async (req, res, next) => {
   const { decoded = {} } = req;
   const { id: teacherId } = decoded;
   console.log(decoded);
-  console.log("...");
+  console.log('...');
   try {
     const result = await prisma.Teacher.findUnique({
       include: {
@@ -234,11 +255,23 @@ export const updateTeacher = async (req, res, next) => {
   const { id } = params;
 
   try {
+    const { success, data, error } =
+      await UserThSchema.partial().safeParseAsync(body);
+    if (!success) {
+      return next({
+        message: 'Validator error',
+        status: 400,
+        error,
+      });
+    }
     const result = await prisma.Teacher.update({
       where: {
         id,
       },
-      data: body,
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
     });
 
     res.json({

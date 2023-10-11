@@ -79,7 +79,13 @@ export function Signup() {
                         setLoadSignUp(true);
                         setErrorSignUp('');
                         try {
-                            const { data } = await signUpTeacher(values)
+                            const formData = new FormData();
+                            for (const value in values) {
+                                formData.append(value, values[value]);
+                            }
+
+                            const { data } = await signUpTeacher(formData);
+                            // const { data } = await signUpTeacher(values)
                             setSubmitting(false);
                             navigate(`/signin/${type}`);
                         } catch (error) {

@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import * as controller from './controller.js';
 import { auth, me } from '../auth.js';
+import { upload } from '../upload.js';
 import { router as lessonsRouter } from '../lessons/routes.js';
 import { router as subjectsRouter } from '../subjectsonteachers/routes.js';
 

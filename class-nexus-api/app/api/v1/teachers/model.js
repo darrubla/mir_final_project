@@ -4,7 +4,6 @@ import escape from 'validator/lib/escape.js';
 
 export const TeacherSchema = z
   .object({
-    email: z.string().email().trim().toLowerCase(),
     name: z
       .string()
       .trim()
@@ -20,12 +19,13 @@ export const TeacherSchema = z
         return escape(value);
       }),
     age: z.number(),
+    profilePhoto: z.string().optional(),
   })
   .strict();
 
 export const LoginThSchema = z
   .object({
-    email: z.string().email().trim().max(256),
+    email: z.string().email().trim().toLowerCase().max(256),
     password: z.string().trim().min(6).max(16),
   })
   .strict();

@@ -11,9 +11,20 @@ import {
 
 export const signup = async (req, res, next) => {
   const { body = {} } = req;
+  const payload = {};
+  payload.name = body.name;
+  payload.lastname = body.lastname;
+  payload.age = Number(body.age);
+  payload.email = body.email;
+  payload.password = body.password;
 
+  console.log(payload);
   try {
-    const { success, data, error } = await UserThSchema.safeParseAsync(body);
+    const { success, data, error } = await UserThSchema.safeParseAsync({
+      ...payload,
+      profilePhoto: req.file?.path,
+    });
+    console.log('body: ', body);
     if (!success) {
       return next({
         message: 'Validator error',
@@ -21,6 +32,7 @@ export const signup = async (req, res, next) => {
         error,
       });
     }
+    console.log('data: ', data);
     const password = await encryptPassword(data.password);
     const result = await prisma.Teacher.create({
       data: {
@@ -34,6 +46,7 @@ export const signup = async (req, res, next) => {
         joined: true,
       },
     });
+    req.body.email = result.email;
 
     res.status(201);
     res.json({
@@ -74,6 +87,7 @@ export const signin = async (req, res, next) => {
         email: true,
         password: true,
         joined: true,
+        profilePhoto: true,
       },
     });
     if (teacher === null) {

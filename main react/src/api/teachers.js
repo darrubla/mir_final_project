@@ -1,5 +1,5 @@
-import http from "./http.js";
-import { setSession } from "./session";
+import http from './http.js';
+import { setSession } from './session';
 
 function transformTeacher(item = {}) {
   return {
@@ -14,12 +14,12 @@ function transformTeacher(item = {}) {
 export async function signInTeacher({ email, password }) {
   try {
     console.log(email, password);
-    const { data: response } = await http.post("/teachers/signin/teacher", {
+    const { data: response } = await http.post('/teachers/signin/teacher', {
       email,
       password,
     });
     const { data, meta } = response;
-    const { token = "" } = meta;
+    const { token = '' } = meta;
     console.log(data);
     setSession(token);
     return {
@@ -57,15 +57,13 @@ export async function getTeacher({ id }) {
   }
 }
 
-export async function signUpTeacher({ name, lastname, email, age, password }) {
+export async function signUpTeacher(payload) {
+  console.log('pic: ', payload);
   try {
-    const { data: response } = await http.post(`/teachers/signup/teacher`, {
-      name,
-      lastname,
-      email,
-      age,
-      password,
-    });
+    const { data: response } = await http.post(
+      `/teachers/signup/teacher`,
+      payload,
+    );
     const data = transformTeacher(response.data);
     return {
       data,
@@ -104,7 +102,7 @@ export async function addSubject({ subjectId }) {
 export async function deleteSubject({ subjectId }) {
   try {
     const { data: response } = await http.delete(
-      `/subjectsonteachers/${subjectId}`
+      `/subjectsonteachers/${subjectId}`,
     );
     const data = transformTeacher(response.data);
     return {

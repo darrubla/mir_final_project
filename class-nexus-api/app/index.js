@@ -11,6 +11,8 @@ app.use(express.json());
 app.use('/api', api);
 app.use('/api/v1', api);
 
+app.use('/api/uploads', express.static('uploads'));
+
 // app.use('/api/v1/docs', swa)
 app.use((req, res, next) => {
   next({

@@ -65,7 +65,13 @@ export function Signup() {
                         setLoadSignUp(true);
                         setErrorSignUp('');
                         try {
-                            const { data } = await signUpStudent(values)
+                            const formData = new FormData();
+                            for (const value in values) {
+                                formData.append(value, values[value]);
+                            }
+
+                            const { data } = await signUpStudent(formData)
+                            // const { data } = await signUpStudent(values)
                             setSubmitting(false);
                             navigate(`/signin/${type}`);
                         } catch (error) {

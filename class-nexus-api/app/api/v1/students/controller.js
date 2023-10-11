@@ -11,9 +11,18 @@ import {
 
 export const signup = async (req, res, next) => {
   const { body = {} } = req;
+  const payload = {};
+  payload.name = body.name;
+  payload.lastname = body.lastname;
+  payload.age = Number(body.age);
+  payload.email = body.email;
+  payload.password = body.password;
 
   try {
-    const { success, data, error } = await UserStSchema.safeParseAsync(body);
+    const { success, data, error } = await UserStSchema.safeParseAsync({
+      ...payload,
+      profilePhoto: req.file?.path,
+    });
     if (!success) {
       return next({
         message: 'Validator error',
@@ -34,6 +43,7 @@ export const signup = async (req, res, next) => {
         joined: true,
       },
     });
+    req.body.email = result.email;
 
     res.status(201);
     res.json({
@@ -74,6 +84,7 @@ export const signin = async (req, res, next) => {
         email: true,
         password: true,
         joined: true,
+        profilePhoto: true,
       },
     });
     if (student === null) {

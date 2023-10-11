@@ -1,8 +1,12 @@
 import { Col, Dropdown, Nav } from 'react-bootstrap';
 import { DropdownItemCustom, DropdownToggleCustom } from './DropdownCustom';
 import PropTypes from 'prop-types';
+import avatar from '../../img/avatar.png'
 
 export function UserNavigation({ handleSignOut, email, photo = ''}) {
+  if (photo.endsWith("null")) {
+    photo=avatar
+  } 
   return (
     <>
       <Nav className="justify-content-between align-items-center">
@@ -10,15 +14,16 @@ export function UserNavigation({ handleSignOut, email, photo = ''}) {
           <DropdownToggleCustom>
             {/*
             <i className="bi bi-circle-fill text-nexus-gray-500"></i>*/}
-            <div className="p-2">
+            <div className="p-2 d-flex">
               <img
                 src={photo}
-                className="rounded-circle object-fit-cover"
+                className="d-flex rounded-circle object-fit-cover"
                 width={40}
                 height={40}
               />
+              <span className="d-flex align-items-center ms-2">{email}</span>
             </div>
-            <span className="ms-2">{email}</span>
+            
           </DropdownToggleCustom>
           <Dropdown.Menu>
             <DropdownItemCustom>Profile</DropdownItemCustom>

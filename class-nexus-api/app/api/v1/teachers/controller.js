@@ -18,13 +18,11 @@ export const signup = async (req, res, next) => {
   payload.email = body.email;
   payload.password = body.password;
 
-  console.log(payload);
   try {
     const { success, data, error } = await UserThSchema.safeParseAsync({
       ...payload,
       profilePhoto: req.file?.path,
     });
-    console.log('body: ', body);
     if (!success) {
       return next({
         message: 'Validator error',
@@ -32,7 +30,6 @@ export const signup = async (req, res, next) => {
         error,
       });
     }
-    console.log('data: ', data);
     const password = await encryptPassword(data.password);
     const result = await prisma.Teacher.create({
       data: {

@@ -92,6 +92,7 @@ export function ScheduleForm({ onCreate, options }) {
         lessonContent.site = values.location;
         lessonContent.description = values.topicdescription;
         lessonContent.scheduledAt = values.scheduledatetime;
+        lessonContent.locInfo = values.locationdescription;
         lessonContent.subjectId = dataSubject;
         onCreate({
           lessonContent,
@@ -202,7 +203,7 @@ export function ScheduleForm({ onCreate, options }) {
                         );
                       }}
                       minDate={
-                        new Date(new Date().setDate(new Date().getDate() + 0))
+                        new Date(new Date().setDate(new Date().getDate() + 1))
                       }
                     />
                   )}

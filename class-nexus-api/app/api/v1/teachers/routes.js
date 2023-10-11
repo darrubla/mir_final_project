@@ -17,7 +17,9 @@ export const router = Router();
  * /api/v1/teachers/:id/lessons           -   The teacher's lessons
  * /api/v1/teachers/:id/subjects          -   The teacher's subjects
  */
-router.route('/signup/teacher').post(controller.signup);
+router
+  .route('/signup/teacher')
+  .post(upload.single('profilePhoto'), controller.signup);
 router.route('/signin/teacher').post(controller.signin);
 
 router.route('/me').get(auth, controller.myInfo);

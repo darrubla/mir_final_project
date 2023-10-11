@@ -64,6 +64,14 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
                         <p className="fw-light">{lesson.site}</p>
                       </div>
                     </div>
+                    <div className="d-flex flex-row location-description-info justify-content-between">
+                      <div className="d-flex location-desc-title">
+                        <p className="fw-semibold">LOCATION DESC.</p>
+                      </div>
+                      <div className="d-flex lesson-site-des">
+                        <p className="fw-light">{lesson.locInfo}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="d-flex flex-column picture-status justify-content-between px-3">

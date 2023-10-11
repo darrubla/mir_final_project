@@ -14,6 +14,7 @@ import { signUpStudent } from '../api/students';
 import { signUpTeacher } from '../api/teachers';
 import { Loading } from '../animation/Loading';
 import { useState } from 'react';
+import { FormFile } from '../components/FormFile';
 
 const signUpSchema = z
     .object({
@@ -58,6 +59,7 @@ export function Signup() {
             <Formik 
                 initialValues={initialValues}
                 onSubmit={async (values, { setSubmitting }) => {
+                    console.log(values);
                     setErrorSignUp('');
                     if (type === "student") {
                         setLoadSignUp(true);
@@ -86,17 +88,16 @@ export function Signup() {
                             setLoadSignUp(false)
                         }
                     }
-
-                    
                 }}
                 validationSchema={toFormikValidationSchema(signUpSchema)}
             >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting,}) => (
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue,}) => (
                     <>
                         <Identify formTitle={`${type.toUpperCase()} SIGN UP`}>
                             <Form className='d-flex flex-column' onSubmit={handleSubmit}>
                                 <FormText fieldName="NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.name} classN={touched.name && errors.name ? 'is-invalid' : ''}/>
                                 <FormText fieldName="LAST NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.lastname} classN={touched.lastname && errors.lastname ? 'is-invalid' : ''}/>
+                                <FormFile fieldName="profilePhoto" setFieldValue={setFieldValue} />
                                 <FormRange val={values.age} handleChange={handleChange}/>
                                 <FormUsername fieldName="EMAIL" symbol="@" handleChange={handleChange} handleBlur={handleBlur} val={values.email} classN={touched.email && errors.email ? 'is-invalid' : ''}/>
                                 <FormPassword fieldName="PASSWORD" handleChange={handleChange} handleBlur={handleBlur} val={values.password} classN={touched.password && errors.password ? 'is-invalid' : ''}/>

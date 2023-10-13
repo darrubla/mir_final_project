@@ -37,18 +37,15 @@ export const signup = async (req, res, next) => {
         password,
       },
       select: {
-        name: true,
         email: true,
-        password: true,
-        joined: true,
       },
     });
     req.body.email = result.email;
-
-    res.status(201);
+    next();
+    /* res.status(201);
     res.json({
       data: result,
-    });
+    });*/
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
@@ -58,6 +55,70 @@ export const signup = async (req, res, next) => {
         });
       }
     }
+    next(error);
+  }
+};
+
+export const confirmation = async (req, res, next) => {
+  const { body = {} } = req;
+  const { email } = body;
+
+  try {
+    const teacher = await prisma.Teacher.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (teacher === null) {
+      return next({
+        message: 'Confirmation failed',
+        status: 400,
+      });
+    } else {
+      const token = signToken({ email }, '2h');
+
+      res.status(201);
+      res.json({
+        data: {
+          email,
+        },
+        meta: {
+          token,
+        },
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const activate = async (req, res, next) => {
+  const { decoded = {} } = req;
+  const { email } = decoded;
+
+  try {
+    const teacher = await prisma.Teacher.update({
+      where: {
+        email,
+      },
+      data: {
+        active: true,
+      },
+    });
+    if (teacher === null) {
+      return next({
+        message: 'Activation failed',
+        status: 400,
+      });
+    } else {
+      res.json({
+        data: {
+          email,
+        },
+      });
+    }
+  } catch (error) {
     next(error);
   }
 };

@@ -59,7 +59,6 @@ export function Signup() {
             <Formik 
                 initialValues={initialValues}
                 onSubmit={async (values, { setSubmitting }) => {
-                    console.log(values);
                     setErrorSignUp('');
                     if (type === "student") {
                         setLoadSignUp(true);

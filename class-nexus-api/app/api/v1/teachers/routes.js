@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import * as controller from './controller.js';
-import { auth, me } from '../auth.js';
+import { activate, auth, me } from '../auth.js';
 import { upload } from '../upload.js';
 import { router as lessonsRouter } from '../lessons/routes.js';
 import { router as subjectsRouter } from '../subjectsonteachers/routes.js';
@@ -20,8 +20,15 @@ export const router = Router();
  */
 router
   .route('/signup/teacher')
-  .post(upload.single('profilePhoto'), controller.signup);
+  .post(
+    upload.single('profilePhoto'),
+    controller.signup,
+    controller.confirmation,
+  );
 router.route('/signin/teacher').post(controller.signin);
+
+router.route('/confirmation').post(controller.confirmation);
+router.route('/activate/:token').get(activate, controller.activate);
 
 router.route('/me').get(auth, controller.myInfo);
 router.route('/').get(controller.allTeachers);

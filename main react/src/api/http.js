@@ -1,5 +1,5 @@
-import axios from "axios";
-import { clearSession, getSession } from "./session";
+import axios from 'axios';
+import { clearSession, getSession } from './session';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     const token = getSession();
-    if (token && config.method !== "GET") {
+    if (token && config.method !== 'GET') {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
@@ -19,11 +19,11 @@ instance.interceptors.request.use(
   function (error) {
     // Do something with request error
     return Promise.reject(error);
-  }
+  },
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
@@ -33,16 +33,14 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    // console.log(JSON.stringify(error, null, 2));
 
-    //return Promise.reject(error.message);
     if (error.response?.status === 401) {
       clearSession();
-      window.location = "/";
+      window.location = '/';
     }
 
     return Promise.reject(error.message);
-  }
+  },
 );
 
 export default instance;

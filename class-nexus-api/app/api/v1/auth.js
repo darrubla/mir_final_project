@@ -37,6 +37,29 @@ export const auth = (req, res, next) => {
   });
 };
 
+export const activate = (req, res, next) => {
+  const token = req.params.token || '';
+
+  if (!token) {
+    return next({
+      message: 'No correct link for activation has been provided',
+      status: 400,
+    });
+  }
+
+  jwt.verify(token, secret, function (err, decoded) {
+    if (err) {
+      return next({
+        message: 'No valid',
+        status: 400,
+      });
+    }
+
+    req.decoded = decoded;
+    next();
+  });
+};
+
 export const me = (req, res, next) => {
   const { decoded = {}, params = {} } = req;
   const { id: userId } = decoded;
@@ -54,6 +77,7 @@ export const owner = (req, res, next) => {
   const { decoded = {}, data = {} } = req;
   const { id: ownerId } = decoded;
   const { studentId, teacherId } = data;
+
   if (ownerId !== studentId && ownerId !== teacherId) {
     return next({
       message: 'Forbidden student owner',

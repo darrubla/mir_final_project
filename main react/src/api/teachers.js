@@ -123,3 +123,20 @@ export async function activateTeacher(token) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
+export async function confirmTeacher(email) {
+  try {
+    const { data: response } = await http.post(
+      `/teachers/confirmation_teacher`,
+      {
+        email,
+      },
+    );
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

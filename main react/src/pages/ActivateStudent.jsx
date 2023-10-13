@@ -37,18 +37,20 @@ export function ActivateStudent() {
   return (
     <div className='d-flex bg-body-secondary align-items-center flex-column pt-3'>
       <h1 className='d-flex mt-5 pt-5'>Account activation</h1>
-      {loading && <Loading />}
       {error && <Alert variant="danger">{error}</Alert>}
       {!loading ? (
-        success ? (
+        <Loading />
+      ) : success ? (
           <p className='d-flex '>
             Your account has been activated. Go to {' '}
             <Link to='/signin/student'> Sign In</Link>
           </p>
         ) : (
-          <> </>
-        )
-      ) : null}
+          <p>
+            If you want to generate a new activation link{' '}
+            <Link to="/confirmation_student">Click here</Link>
+          </p>
+        )}
     </div>
   );
 }

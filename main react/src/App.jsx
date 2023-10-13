@@ -7,6 +7,8 @@ import { Route, Routes } from 'react-router-dom'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
 import { Signed } from './pages/Signed'
+import ConfirmationStudent from './pages/ConfirmationStudent'
+import ConfirmationTeacher from './pages/ConfirmationTeacher'
 import { ActivateTeacher } from './pages/ActivateTeacher'
 import { ActivateStudent } from './pages/ActivateStudent'
 import { StudentAccountInfo } from './pages/StudentAccountInfo'
@@ -33,6 +35,8 @@ function App() {
             <Route path='/signed' element={<Signed />} />
             <Route path='/activate_teacher/:token' element={<ActivateTeacher />} />
             <Route path='/activate_student/:token' element={<ActivateStudent />} />
+            <Route path='/confirmation_teacher' element={<ConfirmationTeacher />} />
+            <Route path='/confirmation_student' element={<ConfirmationStudent />} />
             <Route path='/' element={ <Landing /> } />
             <Route path='/home' element={ <Landing /> } />
             <Route path='/schedule' element={ <Schedule /> }/>

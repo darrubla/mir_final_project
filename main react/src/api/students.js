@@ -81,3 +81,20 @@ export async function activateStudent(token) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
+export async function confirmStudent(email) {
+  try {
+    const { data: response } = await http.post(
+      `/students/confirmation_student`,
+      {
+        email,
+      },
+    );
+    const data = transformStudent(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

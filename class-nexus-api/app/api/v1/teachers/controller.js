@@ -67,6 +67,7 @@ export const confirmation = async (req, res, next) => {
     const teacher = await prisma.Teacher.findUnique({
       where: {
         email,
+        active: false,
       },
     });
 

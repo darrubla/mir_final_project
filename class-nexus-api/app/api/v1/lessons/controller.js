@@ -1,6 +1,7 @@
 import { prisma } from '../../../database.js';
 import { parsePaginationParams } from '../../../utils.js';
 import { LessonSchema } from './model.js';
+import { transporter } from '../../../mail.js';
 
 export const createLesson = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;
@@ -125,6 +126,21 @@ export const createLesson = async (req, res, next) => {
           res.json({
             data: result,
           });
+          try {
+            await transporter.sendMail({
+              from: `Forgot password <${process.env.NODEMAILER_EMAIL_SENDER}>`,
+              to: 'carlos9559@gmail.com',
+              subject: 'Email 1st attempt',
+              text: 'Sending mail with modemailer',
+              html: `<b></b>
+              <a href="google.com">Here</a>`,
+            });
+          } catch (error) {
+            emailStatus = error;
+            return res
+              .status(400)
+              .json({ message: 'Something went wrong! :(' });
+          }
         } catch (error) {
           next(error);
         }

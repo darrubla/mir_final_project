@@ -28,7 +28,7 @@ router
 router.route('/signin/teacher').post(controller.signin);
 
 router.route('/confirmation').post(controller.confirmation);
-router.route('/activate/:token').get(activate, controller.activate);
+router.route('/activate_teacher/:token').get(activate, controller.activate);
 
 router.route('/me').get(auth, controller.myInfo);
 router.route('/').get(controller.allTeachers);

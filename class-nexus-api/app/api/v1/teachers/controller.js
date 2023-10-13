@@ -123,6 +123,7 @@ export const activate = async (req, res, next) => {
     next(error);
   }
 };
+
 export const signin = async (req, res, next) => {
   const { body } = req;
 

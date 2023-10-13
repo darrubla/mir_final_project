@@ -111,3 +111,15 @@ export async function deleteSubject({ subjectId }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
+export async function activateTeacher(token) {
+  try {
+    const { data: response } = await http.get(`/teachers/activate/${token}`);
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

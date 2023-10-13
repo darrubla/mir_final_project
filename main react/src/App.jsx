@@ -6,6 +6,9 @@ import { Welcome } from './pages/Welcome'
 import { Route, Routes } from 'react-router-dom'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
+import { Signed } from './pages/Signed'
+import { ActivateTeacher } from './pages/ActivateTeacher'
+import { ActivateStudent } from './pages/ActivateStudent'
 import { StudentAccountInfo } from './pages/StudentAccountInfo'
 import { NotFound } from './pages/NotFound'
 import { Schedule } from './pages/Schedule'
@@ -27,52 +30,15 @@ function App() {
           <Routes>
             <Route path='/signin/*' element={<Signin />} />
             <Route path='/signup/*' element={<Signup />} />
-            <Route
-              path='/'
-              element={
-                <Landing />
-              }
-            />
-            <Route
-              path='/home'
-              element={
-                <ProtectedRoute>
-                  <Landing />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/schedule'
-              element={
-                <ProtectedRoute>
-                  <Schedule />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/overview'
-              element={
-                <ProtectedRoute>
-                  <Overview />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/teachers/:id'
-              element={
-                <ProtectedRoute>
-                  <TeacherView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/my_account'
-              element={
-                <ProtectedRoute>
-                  <StudentAccountInfo />
-                </ProtectedRoute>
-              }
-            />
+            <Route path='/signed' element={<Signed />} />
+            <Route path='/activate_teacher/:token' element={<ActivateTeacher />} />
+            <Route path='/activate_student/:token' element={<ActivateStudent />} />
+            <Route path='/' element={ <Landing /> } />
+            <Route path='/home' element={ <Landing /> } />
+            <Route path='/schedule' element={ <Schedule /> }/>
+            <Route path='/overview' element={ <Overview /> } />
+            <Route path='/teachers/:id' element={ <TeacherView />  } />
+            <Route path='/my_account' element={ <StudentAccountInfo /> } />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Suspense>

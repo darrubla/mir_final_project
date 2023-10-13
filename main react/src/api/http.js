@@ -38,7 +38,6 @@ instance.interceptors.response.use(
       clearSession();
       window.location = '/';
     }
-
     return Promise.reject(error.message);
   },
 );

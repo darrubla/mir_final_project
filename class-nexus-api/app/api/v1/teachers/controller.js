@@ -80,9 +80,7 @@ export const confirmation = async (req, res, next) => {
 
       res.status(201);
       res.json({
-        data: {
-          email,
-        },
+        data: teacher,
         meta: {
           token,
         },
@@ -102,6 +100,11 @@ export const activate = async (req, res, next) => {
       where: {
         email,
       },
+      select: {
+        name: true,
+        email: true,
+        profilePhoto: true,
+      },
       data: {
         active: true,
       },
@@ -113,9 +116,7 @@ export const activate = async (req, res, next) => {
       });
     } else {
       res.json({
-        data: {
-          email,
-        },
+        data: teacher,
       });
     }
   } catch (error) {

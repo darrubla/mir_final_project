@@ -68,11 +68,15 @@ export function Signup() {
                             for (const value in values) {
                                 formData.append(value, values[value]);
                             }
-
                             const { data } = await signUpStudent(formData)
                             // const { data } = await signUpStudent(values)
                             setSubmitting(false);
-                            navigate(`/signin/${type}`);
+                            navigate('/signed', {//state sends the given info to the next page
+                                state: {
+                                    email: data.email,
+                                }
+                            });
+                            //navigate(`/signin/${type}`);
                         } catch (error) {
                             setErrorSignUp(error)
                         } finally {
@@ -88,11 +92,15 @@ export function Signup() {
                             for (const value in values) {
                                 formData.append(value, values[value]);
                             }
-
                             const { data } = await signUpTeacher(formData);
                             // const { data } = await signUpTeacher(values)
                             setSubmitting(false);
-                            navigate(`/signin/${type}`);
+                            navigate('/signed', {//state sends the given info to the next page
+                                state: {
+                                    email: data.email,
+                                }
+                            });
+                            //navigate(`/signin/${type}`);
                         } catch (error) {
                             setErrorSignUp(error)
                         } finally {

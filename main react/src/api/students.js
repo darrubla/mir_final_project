@@ -69,3 +69,15 @@ export async function signUpStudent(payload) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
+export async function activateStudent(token) {
+  try {
+    const { data: response } = await http.get(`/students/activate/${token}`);
+    const data = transformStudent(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}

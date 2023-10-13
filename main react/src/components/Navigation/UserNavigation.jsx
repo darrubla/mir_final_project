@@ -1,4 +1,4 @@
-import { Col, Dropdown, Nav } from 'react-bootstrap';
+import { Dropdown, Nav } from 'react-bootstrap';
 import { DropdownItemCustom, DropdownToggleCustom } from './DropdownCustom';
 import PropTypes from 'prop-types';
 import avatar from '../../img/avatar.png'

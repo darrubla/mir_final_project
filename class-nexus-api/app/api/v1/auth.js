@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-import { configuration } from "../../config.js";
+import { configuration } from '../../config.js';
 
 const { token } = configuration;
 const { secret, expires } = token;
@@ -12,14 +12,14 @@ export const signToken = (payload, expiresIn = expires) => {
 };
 
 export const auth = (req, res, next) => {
-  let token = req.headers.authorization || "";
-  if (token.startsWith("Bearer")) {
+  let token = req.headers.authorization || '';
+  if (token.startsWith('Bearer')) {
     token = token.substring(7); // Para eliminar bearer
   }
 
   if (!token) {
     return next({
-      message: "Forbidden",
+      message: 'Forbidden',
       status: 401,
     });
   }
@@ -27,7 +27,7 @@ export const auth = (req, res, next) => {
   jwt.verify(token, secret, function (err, decoded) {
     if (err) {
       return next({
-        message: "Forbidden token invalid",
+        message: 'Forbidden token invalid',
         status: 401,
       });
     }
@@ -54,13 +54,9 @@ export const owner = (req, res, next) => {
   const { decoded = {}, data = {} } = req;
   const { id: ownerId } = decoded;
   const { studentId, teacherId } = data;
-  console.log("::: owner");
-  console.log(decoded);
-  console.log(data);
-
   if (ownerId !== studentId && ownerId !== teacherId) {
     return next({
-      message: "Forbidden student owner",
+      message: 'Forbidden student owner',
       status: 403,
     });
   }

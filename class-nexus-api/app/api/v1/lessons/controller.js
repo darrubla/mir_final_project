@@ -109,8 +109,6 @@ export const createLesson = async (req, res, next) => {
       });
     } else {
       if (date < new Date()) {
-        console.log(date);
-        console.log(new Date());
         next({
           message: 'You cannot schedule a class for a past date',
           status: 400,
@@ -142,8 +140,6 @@ export const myLessons = async (req, res, next) => {
   const { subjectId } = params;
   // const { id: studentId } = decoded;
   const { id: userId } = decoded;
-  console.log(decoded);
-  console.log('...');
   const { offset, limit } = parsePaginationParams(query);
   const orderBy = { scheduledAt: 'asc' };
   // const { emailStudent, emailTeacher } = params;
@@ -161,6 +157,7 @@ export const myLessons = async (req, res, next) => {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
           subject: {
@@ -202,8 +199,6 @@ export const myLessons = async (req, res, next) => {
 export const availableLessons = async (req, res, next) => {
   const { decoded = {} } = req;
   const { id: teacherId } = decoded;
-  console.log(decoded);
-  console.log('...');
 
   try {
     const teacher = await prisma.Teacher.findUnique({
@@ -229,11 +224,11 @@ export const availableLessons = async (req, res, next) => {
         },
         include: {
           student: {
-            // Para que solo me traiga estos campos
             select: {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
           subject: {
@@ -254,16 +249,9 @@ export const availableLessons = async (req, res, next) => {
       });
       matchingClass.push(...lessonsMatch);
     }
-    if (matchingClass.length > 0) {
-      res.json({
-        data: matchingClass,
-      });
-    } else {
-      next({
-        message: 'No available classes',
-        status: '404',
-      });
-    }
+    res.json({
+      data: matchingClass,
+    });
   } catch (error) {
     next(error);
   }
@@ -273,7 +261,6 @@ export const allLessons = async (req, res, next) => {
   const { offset, limit } = parsePaginationParams(query);
   const orderBy = { scheduledAt: 'asc' };
   const { studentId, teacherId, subjectId } = params;
-  console.log(params);
 
   try {
     const [result, total] = await Promise.all([

@@ -10,7 +10,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 import { ListSelect } from './ListSelect';
 import { FormDescription } from './FormDescription';
-import { NavSeparator } from './NavSeparator';
 import { DateText } from './DateText';
 import { TimePicker } from './TimePicker';
 import { locations } from '../text/constants';

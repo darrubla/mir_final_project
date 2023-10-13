@@ -6,7 +6,6 @@ import Image from 'react-bootstrap/Image';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import teacherImage from '../img/teacher.png';
 
 export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
   const navigate = useNavigate();

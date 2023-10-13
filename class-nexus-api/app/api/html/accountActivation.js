@@ -1,4 +1,4 @@
-const activateAccountBody = `
+const activateAccountBody = (token, type) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +56,7 @@ const activateAccountBody = `
       Join us in shaping the future of education and creating a world where learning knows no boundaries.
     </p>
     <p>Contact us at <a href="mailto:info@classnexus.com">info@classnexus.com</a> for more information.</p>
-    <a href="ACTIVATION_URL" class="button">Activate Your Account</a>
+    <a href="${process.env.WEB_URL}/activate_${type}/${token}" class="button">Activate Your Account</a>
   </div>
 </body>
 </html>

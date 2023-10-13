@@ -2,6 +2,9 @@ import { prisma } from '../../../database.js';
 import { Prisma } from '@prisma/client';
 import { parsePaginationParams } from '../../../utils.js';
 import { signToken } from '../auth.js';
+import { transporter } from '../../../mail.js';
+import activateAccountBody from '../../html/accountActivation.js';
+import logo from '../../html/logo.js';
 import {
   LoginStSchema,
   UserStSchema,
@@ -79,6 +82,18 @@ export const confirmation = async (req, res, next) => {
     } else {
       const token = signToken({ email }, '2h');
 
+      await transporter.sendMail({
+        from: `Class Nexus ${process.env.EMAIL_SENDER}`,
+        to: email,
+        subject: 'Activate your account',
+        text: `
+          Visit the following link to activate your account:
+          ${process.env.WEB_URL}/activate_student/${token}
+        `,
+        html: activateAccountBody(token, 'student'),
+        attachments: logo,
+      });
+
       res.status(201);
       res.json({
         data: student,
@@ -141,6 +156,7 @@ export const signin = async (req, res, next) => {
     const student = await prisma.Student.findUnique({
       where: {
         email,
+        active: true,
       },
       select: {
         id: true,

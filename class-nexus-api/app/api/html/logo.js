@@ -1,7 +1,7 @@
 const logo = [
   {
     filename: 'logobg.png',
-    path: '../html/logobg.png',
+    path: '../class-nexus-api/app/api/html/logobg.png',
     cid: 'logo',
   },
 ];

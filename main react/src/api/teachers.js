@@ -114,7 +114,7 @@ export async function deleteSubject({ subjectId }) {
 
 export async function activateTeacher(token) {
   try {
-    const { data: response } = await http.get(`/teachers/activate/${token}`);
+    const { data: response } = await http.get(`/teachers/activate_teacher/${token}`);
     const data = transformTeacher(response.data);
     return {
       data,

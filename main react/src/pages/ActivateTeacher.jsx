@@ -38,7 +38,7 @@ export function ActivateTeacher() {
     <div className='d-flex bg-body-secondary align-items-center flex-column pt-3'>
       <h1 className='d-flex mt-5 pt-5'>Account activation</h1>
       {error && <Alert variant="danger">{error}</Alert>}
-      {!loading ? (
+      {loading ? (
         <Loading />
       ): success ? (
           <p className='d-flex '>

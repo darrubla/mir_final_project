@@ -175,6 +175,7 @@ export const myLessons = async (req, res, next) => {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
         },

@@ -41,4 +41,5 @@ export function UserNavigation({ handleSignOut, email, photo = ''}) {
 UserNavigation.propTypes = {
   handleSignOut: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
+  photo: PropTypes.string,
 };

@@ -83,7 +83,7 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
                     >
                       {lesson.teacherId && (
                         <Image
-                          src={`${teacherImage}`}
+                          src={`${import.meta.env.VITE_API_URL}/${lesson.teacher.profilePhoto}`}
                           width={100}
                           height={100}
                           roundedCircle
@@ -110,7 +110,7 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
                     Cancel
                   </Button>
                 )}
-                {(lesson.status === 'Scheduled' ) && (
+                {((lesson.status === 'Scheduled' ) && (new Date() > new Date(lesson.scheduledAt))) && (
                   <Button
                     variant="warning"
                     className="d-flex m-2 px-5 rounded-5"

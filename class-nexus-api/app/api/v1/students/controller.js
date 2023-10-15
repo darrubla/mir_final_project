@@ -125,7 +125,7 @@ export const activate = async (req, res, next) => {
         active: true,
       },
     });
-    if (teacher === null) {
+    if (student === null) {
       return next({
         message: 'Activation failed',
         status: 400,

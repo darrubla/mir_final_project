@@ -21,7 +21,7 @@ export async function getSubjects() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -34,7 +34,7 @@ export async function getSubject({ id }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -47,6 +47,6 @@ export async function getSubjectId({ subjectname }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }

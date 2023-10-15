@@ -25,7 +25,7 @@ export async function signInStudent({ email, password }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -40,7 +40,7 @@ export async function getStudents() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -52,7 +52,7 @@ export async function getStudent({ id }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function signUpStudent(payload) {
@@ -66,7 +66,7 @@ export async function signUpStudent(payload) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -80,7 +80,7 @@ export async function activateStudent(token) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -97,6 +97,6 @@ export async function confirmStudent(email) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }

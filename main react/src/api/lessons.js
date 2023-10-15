@@ -17,7 +17,7 @@ export async function getLessons() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function getMyLessons() {
@@ -30,7 +30,7 @@ export async function getMyLessons() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function createLesson(payload) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function cancelClass(id) {
@@ -73,7 +73,7 @@ export async function cancelClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function cancelClassByTeacher(id) {
@@ -93,7 +93,7 @@ export async function cancelClassByTeacher(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -123,7 +123,7 @@ export async function assignClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function startClass(id) {
@@ -143,7 +143,7 @@ export async function startClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function finishClass(id) {
@@ -163,6 +163,6 @@ export async function finishClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }

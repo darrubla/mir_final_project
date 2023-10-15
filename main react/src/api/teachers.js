@@ -25,7 +25,7 @@ export async function signInTeacher({ email, password }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -40,7 +40,7 @@ export async function getTeachers() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function getTeacher({ id }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -68,7 +68,7 @@ export async function signUpTeacher(payload) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -81,7 +81,7 @@ export async function getMe() {
       //meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function addSubject({ subjectId }) {
@@ -95,7 +95,7 @@ export async function addSubject({ subjectId }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function deleteSubject({ subjectId }) {
@@ -108,7 +108,7 @@ export async function deleteSubject({ subjectId }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -120,7 +120,7 @@ export async function activateTeacher(token) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -137,6 +137,6 @@ export async function confirmTeacher(email) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }

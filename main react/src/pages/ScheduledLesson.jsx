@@ -76,19 +76,17 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
                 <div className="d-flex flex-column picture-status justify-content-between px-3">
                   <div className="d-flex justify-content-center picture-teacher">
                     <Col
-                      xs={6}
-                      md={4}
                       className="d-flex justify-content-center"
                     >
                       {lesson.teacherId && (
-                        <Image
+                        <img
                           src={`${import.meta.env.VITE_API_URL}/${lesson.teacher.profilePhoto}`}
+                          className="d-flex rounded-circle object-fit-cover"
                           width={100}
                           height={100}
-                          roundedCircle
                           onClick={() => displayTeacher(lesson.teacherId)}
-                        />
-                      )}
+                      />
+                    )}
                     </Col>
                   </div>
                   <div className="d-flex justify-content-center lesson-status">

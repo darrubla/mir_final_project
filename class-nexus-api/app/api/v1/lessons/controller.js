@@ -124,24 +124,10 @@ export const createLesson = async (req, res, next) => {
               studentId,
             },
           });
-          res.status(201).res.json({
+          res.status(201);
+          res.json({
             data: result,
           });
-          /* try {
-            await transporter.sendMail({
-              from: `Forgot password <${process.env.NODEMAILER_EMAIL_SENDER}>`,
-              to: 'carlos9559@gmail.com',
-              subject: 'Email 1st attempt',
-              text: 'Sending mail with modemailer',
-              html: activateAccountBody,
-              attachments: logo,
-            });
-          } catch (error) {
-            emailStatus = error;
-            return res
-              .status(400)
-              .json({ message: 'Something went wrong! :(' });
-          }*/
         } catch (error) {
           next(error);
         }

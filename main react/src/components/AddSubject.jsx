@@ -37,7 +37,6 @@ export function AddSubject({ onAdd, options }) {
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 const payload={}
                 payload.subjectId=dataSubject
-                console.log("id:: ", payload);
                 onAdd(payload);
                 resetForm({
                     subject: '',

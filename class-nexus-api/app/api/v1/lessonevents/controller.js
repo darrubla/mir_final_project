@@ -27,7 +27,6 @@ export const allEvents = async (req, res, next) => {
   const { offset, limit } = parsePaginationParams(query);
   const orderBy = { date: 'asc' };
   const { lessonId } = params;
-  console.log(lessonId, ':lessonId');
   // List the given lesson events
   try {
     const [result, total] = await Promise.all([

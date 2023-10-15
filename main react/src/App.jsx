@@ -2,7 +2,6 @@
 import { Suspense } from 'react'
 import './App.css'
 import { UserProvider } from './containers/UserContext'
-import { Welcome } from './pages/Welcome'
 import { Route, Routes } from 'react-router-dom'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
@@ -16,6 +15,7 @@ import { NotFound } from './pages/NotFound'
 import { Schedule } from './pages/Schedule'
 import { Overview } from './pages/Overview'
 import { TeacherView } from './pages/TeacherView'
+import { StudentView } from './pages/StudentView'
 import { Container } from 'react-bootstrap'
 import { Index } from './pages/Index'
 import { Navigation } from './components/Navigation'
@@ -42,6 +42,7 @@ function App() {
             <Route path='/schedule' element={ <Schedule /> }/>
             <Route path='/overview' element={ <Overview /> } />
             <Route path='/teachers/:id' element={ <TeacherView />  } />
+            <Route path='/students/:id' element={ <StudentView />  } />
             <Route path='/my_account' element={ <StudentAccountInfo /> } />
             <Route path='*' element={<NotFound />} />
           </Routes>

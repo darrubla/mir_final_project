@@ -1,4 +1,4 @@
-import { prisma } from "../../../database.js";
+import { prisma } from '../../../database.js';
 
 export const createSubjectOnTeacher = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;
@@ -37,7 +37,6 @@ export const createRelation = async (req, res, next) => {
 export const allSubjectsOnTeachers = async (req, res, next) => {
   const { params } = req;
   const { teacherId, subjectId } = params;
-  console.log(params);
   try {
     const [result] = await Promise.all([
       prisma.SubjectsOnTeachers.findMany({
@@ -98,7 +97,7 @@ export const idSubjectOnTeacher = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Relation not found",
+        message: 'Relation not found',
         status: 404,
       });
     } else {

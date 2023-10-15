@@ -36,7 +36,6 @@ export function DeleteSubject({ onDelete, options }) {
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 const payload={}
                 payload.subjectId=dataSubject
-                console.log("id:: ", payload);
                 onDelete(payload);
                 resetForm({
                     subject: '',

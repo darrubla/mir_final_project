@@ -298,8 +298,6 @@ export const idTeacher = async (req, res, next) => {
 export const myInfo = async (req, res, next) => {
   const { decoded = {} } = req;
   const { id: teacherId } = decoded;
-  console.log(decoded);
-  console.log('...');
   try {
     const result = await prisma.Teacher.findUnique({
       include: {

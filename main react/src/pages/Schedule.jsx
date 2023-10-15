@@ -22,7 +22,6 @@ export function Schedule() {
     setLoadingCreate(true);
     setErrorCreate('');
     try {
-      console.log(payload);
       await createLesson(payload);
       loadLessons();
     } catch (error) {

@@ -418,7 +418,6 @@ export const assignLesson = async (req, res, next) => {
       },
     });
     const { scheduledAt } = currentLesson;
-    console.log('ScheduledAt', scheduledAt);
     const date = new Date(scheduledAt);
     const defaultTime = 65;
     const acceptedLessons = await prisma.lesson.findMany({

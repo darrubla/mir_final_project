@@ -38,7 +38,6 @@ export async function createLesson(payload) {
   try {
     const eventdate = new Date();
     payload = payload.lessonContent;
-    console.log(payload);
     const { data: response } = await http.post(`/lessons/`, payload);
     const data = transformLesson(response.data);
     if (data?.id) {

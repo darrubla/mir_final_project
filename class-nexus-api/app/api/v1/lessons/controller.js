@@ -1,9 +1,6 @@
 import { prisma } from '../../../database.js';
 import { parsePaginationParams } from '../../../utils.js';
 import { LessonSchema } from './model.js';
-import { transporter } from '../../../mail.js';
-import activateAccountBody from '../../html/accountActivation.js';
-import logo from '../../html/logo.js';
 
 export const createLesson = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;

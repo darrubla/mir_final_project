@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { SectionName } from '../components/SectionName';
 import { ScheduleForm } from '../components/ScheduleForm';
 import { ScheduledLesson } from './ScheduledLesson';
-import { cancelClass, createLesson, finishClass, getMyLessons, startClass } from '../api/lessons';
+import { cancelClass, createLesson, finishClass, getMyLessons, startClass, closeClass } from '../api/lessons';
+import { voteTeacher } from '../api/teachers';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
@@ -17,6 +18,8 @@ export function Schedule() {
   const [errorCancel, setErrorCancel] = useState('');
   const [errorStart, setErrorStart] = useState('');
   const [errorFinish, setErrorFinish] = useState('');
+  const [errorClose, setErrorClose] = useState('');
+  const [errorVote, setErrorVote] = useState('');
 
   async function onCreate(payload) {
     setLoadingCreate(true);
@@ -52,6 +55,23 @@ export function Schedule() {
       loadLessons();
     } catch (error) {
       setErrorFinish(error);
+    }
+  }
+  async function onClose(id) {
+    try {
+      await closeClass(id);
+      loadLessons();
+    } catch (error) {
+      setErrorClose(error);
+    }
+  }
+  async function onVote(teacherId, lessonId) {
+    try {
+      await closeClass(lessonId);
+      await voteTeacher(teacherId);
+      loadLessons();
+    } catch (error) {
+      setErrorVote(error);
     }
   }
   async function loadLessons() {
@@ -97,11 +117,15 @@ export function Schedule() {
                 onCancel={onCancel}
                 onFinish={onFinish}
                 onStart={onStart}
+                onClose={onClose}
+                onVote={onVote}
                 errorCancel={errorCancel}
               />
               {errorCancel && <Alert variant="danger">{errorCancel}</Alert>}
               {errorStart && <Alert variant="danger">{errorStart}</Alert>}
               {errorFinish && <Alert variant="danger">{errorFinish}</Alert>}
+              {errorClose && <Alert variant="danger">{errorClose}</Alert>}
+              {errorVote && <Alert variant="danger">{errorVote}</Alert>}
             </Col>
           </Row>
         </Container>

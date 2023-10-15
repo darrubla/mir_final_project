@@ -2,12 +2,12 @@ import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 
-export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
+export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish, onVote, onClose }) {
   const navigate = useNavigate();
 
   function displayTeacher(id) {
@@ -125,6 +125,22 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
                     Finish
                   </Button>
                 )}
+                {(lesson.status === 'Finished') && (
+                  <ButtonGroup aria-label="Finish action">
+                    <Button 
+                      variant="success"
+                      onClick={() => {
+                        onVote(lesson.teacherId, lesson.id);
+                        onClose(lesson.id);
+                      }}
+                      >Vote + 2
+                      </Button>
+                    <Button 
+                      variant="danger"
+                      onClick={() => onClose(lesson)}
+                      >Close</Button>
+                  </ButtonGroup>
+                )}
               </div>
             </div>
           </Accordion.Body>
@@ -139,4 +155,6 @@ ScheduledLesson.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onStart: PropTypes.func.isRequired,
   onFinish: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onVote: PropTypes.func.isRequired,
 };

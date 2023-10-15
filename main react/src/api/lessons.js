@@ -156,7 +156,26 @@ export async function finishClass(id) {
     await http.post(`/lessonevents/`, {
       lessonId: id,
       date: eventdate,
-      eventdesc: `Lesson ${id} was started by student, status: 'Ongoing'`,
+      eventdesc: `Lesson ${id} was finished by student, status: 'Finished'`,
+    });
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+export async function closeClass(id) {
+  try {
+    const eventdate = new Date();
+    const { data: response } = await http.put(`/lessons/${id}`, {
+      status: 'Closed',
+    });
+    const data = transformLesson(response.data);
+    await http.post(`/lessonevents/`, {
+      lessonId: id,
+      date: eventdate,
+      eventdesc: `Lesson ${id} was closed by student, status: 'Closed'`,
     });
     return {
       data,

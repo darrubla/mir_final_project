@@ -1,7 +1,7 @@
 import { useParams} from 'react-router-dom'
 import { getStudent } from '../api/students';
 import { useEffect, useState} from 'react';
-import { Alert, Badge, Container } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Loading } from '../animation/Loading';
 import avatar from "../img/avatar.png";

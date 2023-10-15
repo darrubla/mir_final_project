@@ -14,6 +14,7 @@ import { signUpStudent } from '../api/students';
 import { signUpTeacher } from '../api/teachers';
 import { Loading } from '../animation/Loading';
 import { useState } from 'react';
+import { FormFile } from '../components/FormFile';
 
 const signUpSchema = z
     .object({
@@ -63,9 +64,19 @@ export function Signup() {
                         setLoadSignUp(true);
                         setErrorSignUp('');
                         try {
-                            const { data } = await signUpStudent(values)
+                            const formData = new FormData();
+                            for (const value in values) {
+                                formData.append(value, values[value]);
+                            }
+                            const { data } = await signUpStudent(formData)
+                            // const { data } = await signUpStudent(values)
                             setSubmitting(false);
-                            navigate(`/signin/${type}`);
+                            navigate('/signed', {//state sends the given info to the next page
+                                state: {
+                                    email: data.email,
+                                }
+                            });
+                            //navigate(`/signin/${type}`);
                         } catch (error) {
                             setErrorSignUp(error)
                         } finally {
@@ -77,26 +88,35 @@ export function Signup() {
                         setLoadSignUp(true);
                         setErrorSignUp('');
                         try {
-                            const { data } = await signUpTeacher(values)
+                            const formData = new FormData();
+                            for (const value in values) {
+                                formData.append(value, values[value]);
+                            }
+                            const { data } = await signUpTeacher(formData);
+                            // const { data } = await signUpTeacher(values)
                             setSubmitting(false);
-                            navigate(`/signin/${type}`);
+                            navigate('/signed', {//state sends the given info to the next page
+                                state: {
+                                    email: data.email,
+                                }
+                            });
+                            //navigate(`/signin/${type}`);
                         } catch (error) {
                             setErrorSignUp(error)
                         } finally {
                             setLoadSignUp(false)
                         }
                     }
-
-                    
                 }}
                 validationSchema={toFormikValidationSchema(signUpSchema)}
             >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting,}) => (
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue,}) => (
                     <>
                         <Identify formTitle={`${type.toUpperCase()} SIGN UP`}>
                             <Form className='d-flex flex-column' onSubmit={handleSubmit}>
                                 <FormText fieldName="NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.name} classN={touched.name && errors.name ? 'is-invalid' : ''}/>
                                 <FormText fieldName="LAST NAME" handleChange={handleChange} handleBlur={handleBlur} val={values.lastname} classN={touched.lastname && errors.lastname ? 'is-invalid' : ''}/>
+                                <FormFile fieldName="profilePhoto" setFieldValue={setFieldValue} />
                                 <FormRange val={values.age} handleChange={handleChange}/>
                                 <FormUsername fieldName="EMAIL" symbol="@" handleChange={handleChange} handleBlur={handleBlur} val={values.email} classN={touched.email && errors.email ? 'is-invalid' : ''}/>
                                 <FormPassword fieldName="PASSWORD" handleChange={handleChange} handleBlur={handleBlur} val={values.password} classN={touched.password && errors.password ? 'is-invalid' : ''}/>

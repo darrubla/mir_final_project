@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import studentImage from "../img/avatar.png";
+import avatar from "../img/avatar.png";
 
 export function AvailableLessons({lessondata, onAccept}) {
     const navigate = useNavigate();
@@ -15,7 +15,6 @@ export function AvailableLessons({lessondata, onAccept}) {
         navigate(`/students/${id}`);
     }
     if (lessondata.length>0) {
-        console.log(lessondata[0])
         return (
             <Accordion defaultActiveKey="0">
                 {lessondata.map((lesson, key)=>(
@@ -61,12 +60,34 @@ export function AvailableLessons({lessondata, onAccept}) {
                                                     <p className="fw-light">{lesson?.site}</p>
                                                 </div>
                                             </div>
+                                            <div className="d-flex flex-row location-description-info justify-content-between">
+                                                <div className="d-flex location-desc-title">
+                                                    <p className="fw-semibold">LOCATION DESC.</p>
+                                                </div>
+                                                <div className="d-flex lesson-site-des">
+                                                    <p className="fw-light">{lesson?.locInfo}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className='d-flex flex-column picture-status justify-content-between px-3'>
                                         <div className='d-flex justify-content-center picture-student'>
                                             <Col xs={6} md={4} className='d-flex justify-content-center'>
-                                                {lesson?.studentId && <Image src={`${studentImage}`} width={100} height={100} roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>}
+                                                {lesson?.studentId && lesson?.student.profilePhoto ? (
+                                                    <Image 
+                                                        src={`${`${import.meta.env.VITE_API_URL}/${lesson.student.profilePhoto}`}`} 
+                                                        width={100} 
+                                                        height={100} 
+                                                        roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
+                                                ): (
+                                                    <>
+                                                    <Image 
+                                                    src={avatar} 
+                                                    width={100} 
+                                                    height={100} 
+                                                    roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
+                                                    </>
+                                                )}
                                             </Col>
                                         </div>
                                         <div className='d-flex justify-content-center lesson-status'>

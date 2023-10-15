@@ -1,5 +1,9 @@
-import { prisma } from "../../../database.js";
-import { parsePaginationParams } from "../../../utils.js";
+import { prisma } from '../../../database.js';
+import { parsePaginationParams } from '../../../utils.js';
+import { LessonSchema } from './model.js';
+import { transporter } from '../../../mail.js';
+import activateAccountBody from '../../html/accountActivation.js';
+import logo from '../../html/logo.js';
 
 export const createLesson = async (req, res, next) => {
   const { body = {}, decoded = {} } = req;
@@ -8,6 +12,16 @@ export const createLesson = async (req, res, next) => {
   const { scheduledAt } = body;
   const date = new Date(scheduledAt);
   try {
+    const { success, data, error } = await LessonSchema.safeParseAsync({
+      ...body,
+    });
+    if (!success) {
+      return next({
+        message: 'Validation error',
+        status: 400,
+        error,
+      });
+    }
     const defaultTime = 60;
     const createdLessons = await prisma.lesson.findMany({
       include: {
@@ -41,7 +55,7 @@ export const createLesson = async (req, res, next) => {
             OR: [
               {
                 AND: [
-                  { status: "Scheduled" },
+                  { status: 'Scheduled' },
                   {
                     scheduledAt: {
                       gte: new Date(date.getTime() - defaultTime * 60000),
@@ -56,7 +70,7 @@ export const createLesson = async (req, res, next) => {
               },
               {
                 AND: [
-                  { status: "Ongoing" },
+                  { status: 'Ongoing' },
                   {
                     startedAt: {
                       lte: new Date(date.getTime() + defaultTime * 60000),
@@ -71,7 +85,7 @@ export const createLesson = async (req, res, next) => {
               },
               {
                 AND: [
-                  { status: "Pending" },
+                  { status: 'Pending' },
                   {
                     scheduledAt: {
                       gte: new Date(date.getTime() - defaultTime * 60000),
@@ -93,29 +107,41 @@ export const createLesson = async (req, res, next) => {
     if (createdLessons.length > 0) {
       // Si se encontraron clase que pueden cruzarse
       next({
-        message: "Overlaps in time with another class :(",
+        message: 'Overlaps in time with another class :(',
         status: 400,
       });
     } else {
       if (date < new Date()) {
-        console.log(date);
-        console.log(new Date());
         next({
-          message: "You cannot schedule a class for a past date",
+          message: 'You cannot schedule a class for a past date',
           status: 400,
         });
       } else {
         try {
           const result = await prisma.lesson.create({
             data: {
-              ...body,
+              ...data,
               studentId,
             },
           });
-          res.status(201);
-          res.json({
+          res.status(201).res.json({
             data: result,
           });
+          /* try {
+            await transporter.sendMail({
+              from: `Forgot password <${process.env.NODEMAILER_EMAIL_SENDER}>`,
+              to: 'carlos9559@gmail.com',
+              subject: 'Email 1st attempt',
+              text: 'Sending mail with modemailer',
+              html: activateAccountBody,
+              attachments: logo,
+            });
+          } catch (error) {
+            emailStatus = error;
+            return res
+              .status(400)
+              .json({ message: 'Something went wrong! :(' });
+          }*/
         } catch (error) {
           next(error);
         }
@@ -131,10 +157,8 @@ export const myLessons = async (req, res, next) => {
   const { subjectId } = params;
   // const { id: studentId } = decoded;
   const { id: userId } = decoded;
-  console.log(decoded);
-  console.log("...");
   const { offset, limit } = parsePaginationParams(query);
-  const orderBy = { scheduledAt: "asc" };
+  const orderBy = { scheduledAt: 'asc' };
   // const { emailStudent, emailTeacher } = params;
 
   try {
@@ -150,6 +174,7 @@ export const myLessons = async (req, res, next) => {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
           subject: {
@@ -164,6 +189,7 @@ export const myLessons = async (req, res, next) => {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
         },
@@ -190,8 +216,6 @@ export const myLessons = async (req, res, next) => {
 export const availableLessons = async (req, res, next) => {
   const { decoded = {} } = req;
   const { id: teacherId } = decoded;
-  console.log(decoded);
-  console.log("...");
 
   try {
     const teacher = await prisma.Teacher.findUnique({
@@ -213,15 +237,15 @@ export const availableLessons = async (req, res, next) => {
         where: {
           teacherId: null,
           subjectId: teacherSubject.subject.id,
-          // status: "Canceled",
+          status: 'Pending',
         },
         include: {
           student: {
-            // Para que solo me traiga estos campos
             select: {
               name: true,
               lastname: true,
               email: true,
+              profilePhoto: true,
             },
           },
           subject: {
@@ -242,16 +266,9 @@ export const availableLessons = async (req, res, next) => {
       });
       matchingClass.push(...lessonsMatch);
     }
-    if (matchingClass.length > 0) {
-      res.json({
-        data: matchingClass,
-      });
-    } else {
-      next({
-        message: "No available classes",
-        status: "404",
-      });
-    }
+    res.json({
+      data: matchingClass,
+    });
   } catch (error) {
     next(error);
   }
@@ -259,9 +276,8 @@ export const availableLessons = async (req, res, next) => {
 export const allLessons = async (req, res, next) => {
   const { query, params } = req;
   const { offset, limit } = parsePaginationParams(query);
-  const orderBy = { scheduledAt: "asc" };
+  const orderBy = { scheduledAt: 'asc' };
   const { studentId, teacherId, subjectId } = params;
-  console.log(params);
 
   try {
     const [result, total] = await Promise.all([
@@ -351,7 +367,7 @@ export const idLesson = async (req, res, next) => {
     if (!result) {
       // (result === null)
       next({
-        message: "Lesson not found",
+        message: 'Lesson not found',
         status: 404,
       });
     } else {
@@ -416,7 +432,7 @@ export const assignLesson = async (req, res, next) => {
       },
     });
     const { scheduledAt } = currentLesson;
-    console.log("ScheduledAt", scheduledAt);
+    console.log('ScheduledAt', scheduledAt);
     const date = new Date(scheduledAt);
     const defaultTime = 65;
     const acceptedLessons = await prisma.lesson.findMany({
@@ -446,7 +462,7 @@ export const assignLesson = async (req, res, next) => {
             OR: [
               {
                 AND: [
-                  { status: "Scheduled" },
+                  { status: 'Scheduled' },
                   {
                     scheduledAt: {
                       gte: new Date(date.getTime() - defaultTime * 60000),
@@ -461,7 +477,7 @@ export const assignLesson = async (req, res, next) => {
               },
               {
                 AND: [
-                  { status: "Ongoing" },
+                  { status: 'Ongoing' },
                   {
                     startedAt: {
                       lte: new Date(date.getTime() + defaultTime * 60000),
@@ -481,7 +497,7 @@ export const assignLesson = async (req, res, next) => {
     });
     if (acceptedLessons.length > 0) {
       next({
-        message: "Overlaps in time with another class :(",
+        message: 'Overlaps in time with another class :(',
         status: 400,
       });
     } else {
@@ -491,7 +507,7 @@ export const assignLesson = async (req, res, next) => {
         },
         data: {
           ...body,
-          status: "Scheduled",
+          status: 'Scheduled',
           teacherId,
         },
       });

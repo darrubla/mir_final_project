@@ -81,7 +81,7 @@ export function Navigation() {
               <NavigationTab route='Explore' title='Explore' />
 
               {user?.email ? (
-                <UserNavigation handleSignOut={onSignOut} email={user.email} />
+                <UserNavigation handleSignOut={onSignOut} email={user.email} photo={`${import.meta.env.VITE_API_URL}/${user.profilePhoto}`}/>
               ) : (
                 <Button
                   variant='outline-nexus-accent'

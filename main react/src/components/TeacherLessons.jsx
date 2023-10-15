@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import studentImage from "../img/avatar.png";
+import avatar from "../img/avatar.png";
 
 export function TeacherLessons({lessondata, onCancel}) {
     const navigate = useNavigate();
@@ -65,7 +65,19 @@ export function TeacherLessons({lessondata, onCancel}) {
                                     <div className='d-flex flex-column picture-status justify-content-between px-3'>
                                         <div className='d-flex justify-content-center picture-student'>
                                             <Col xs={6} md={4} className='d-flex justify-content-center'>
-                                                {lesson?.studentId && <Image src={`${studentImage}`} width={100} height={100} roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>}
+                                                {lesson?.studentId && lesson?.student.profilePhoto ? (
+                                                    <Image 
+                                                        src={`${`${import.meta.env.VITE_API_URL}/${lesson.student.profilePhoto}`}`} 
+                                                        width={100} 
+                                                        height={100} 
+                                                        roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
+                                                ): (
+                                                    <Image 
+                                                    src={avatar} 
+                                                    width={100} 
+                                                    height={100} 
+                                                    roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
+                                                )}
                                             </Col>
                                         </div>
                                         <div className='d-flex justify-content-center lesson-status'>

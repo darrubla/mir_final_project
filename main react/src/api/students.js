@@ -1,5 +1,5 @@
-import http from "./http";
-import { setSession } from "./session";
+import http from './http';
+import { setSession } from './session';
 
 function transformStudent(item = {}) {
   return {
@@ -13,12 +13,12 @@ function transformStudent(item = {}) {
 
 export async function signInStudent({ email, password }) {
   try {
-    const { data: response } = await http.post("/students/signin/student", {
+    const { data: response } = await http.post('/students/signin/student', {
       email,
       password,
     });
     const { data, meta } = response;
-    const { token = "" } = meta;
+    const { token = '' } = meta;
 
     setSession(token);
     return {
@@ -55,15 +55,43 @@ export async function getStudent({ id }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
-export async function signUpStudent({ name, lastname, email, age, password }) {
+export async function signUpStudent(payload) {
   try {
-    const { data: response } = await http.post(`/students/signup/student`, {
-      name,
-      lastname,
-      email,
-      age,
-      password,
-    });
+    const { data: response } = await http.post(
+      `/students/signup/student`,
+      payload,
+    );
+    const data = transformStudent(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function activateStudent(token) {
+  try {
+    const { data: response } = await http.get(
+      `/students/activate_student/${token}`,
+    );
+    const data = transformStudent(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function confirmStudent(email) {
+  try {
+    const { data: response } = await http.post(
+      `/students/confirmation_student`,
+      {
+        email,
+      },
+    );
     const data = transformStudent(response.data);
     return {
       data,

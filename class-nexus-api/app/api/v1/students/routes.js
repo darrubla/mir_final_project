@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
 import * as controller from './controller.js';
-import { auth, me } from '../auth.js';
+import { activate, auth, me } from '../auth.js';
+import { upload } from '../upload.js';
 import { router as lessonsRouter } from '../lessons/routes.js';
 
 // eslint-disable-next-line new-cap
@@ -14,8 +15,18 @@ export const router = Router();
  * /api/v1/students/:id                 PUT    -   Update one student
  * /api/v1/students/:id/lessons                -   The student's lessons
  */
-router.route('/signup/student').post(controller.signup);
+router
+  .route('/signup/student')
+  .post(
+    upload.single('profilePhoto'),
+    controller.signup,
+    controller.confirmation,
+  );
 router.route('/signin/student').post(controller.signin);
+
+router.route('/confirmation_student').post(controller.confirmation);
+router.route('/activate_student/:token').get(activate, controller.activate);
+
 router.route('/').get(controller.allStudents); // .post(controller.createStudent);
 
 router.param('id', controller.idStudent);

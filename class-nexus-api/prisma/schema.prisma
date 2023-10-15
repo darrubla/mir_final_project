@@ -15,6 +15,7 @@ model Lesson {
   subject      Subject?       @relation(fields: [subjectId], references: [id])
   subjectId    String         @db.Uuid
   description  String?
+  locInfo      String?
   createdAt    DateTime       @default(now())
   scheduledAt  DateTime
   site         String?
@@ -30,31 +31,33 @@ model Lesson {
 }
 
 model Teacher {
-  id        String               @id @default(uuid()) @db.Uuid
-  status    String               @default("active")
-  email     String               @unique
-  points    Int                  @default(0)
-  name      String?
-  lastname  String?
-  age       Int?
-  password  String?
-  joined    DateTime             @default(now())
-  updatedAt DateTime?
-  lesson    Lesson[]
-  subjects  SubjectsOnTeachers[]
+  id           String               @id @default(uuid()) @db.Uuid
+  active       Boolean              @default(false)
+  email        String               @unique
+  points       Int                  @default(0)
+  name         String?
+  lastname     String?
+  age          Int?
+  password     String?
+  profilePhoto String?
+  joined       DateTime             @default(now())
+  updatedAt    DateTime?
+  lesson       Lesson[]
+  subjects     SubjectsOnTeachers[]
 }
 
 model Student {
-  id        String    @id @default(uuid()) @db.Uuid
-  status    String    @default("active")
-  email     String    @unique
-  name      String
-  lastname  String
-  age       Int
-  password  String?
-  joined    DateTime  @default(now())
-  updatedAt DateTime?
-  lesson    Lesson[]
+  id           String    @id @default(uuid()) @db.Uuid
+  active       Boolean   @default(false)
+  email        String    @unique
+  name         String
+  lastname     String
+  age          Int
+  password     String?
+  profilePhoto String?
+  joined       DateTime  @default(now())
+  updatedAt    DateTime?
+  lesson       Lesson[]
 }
 
 model Subject {

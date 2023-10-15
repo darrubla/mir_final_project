@@ -1,5 +1,5 @@
-import http from "./http.js";
-import { setSession } from "./session";
+import http from './http.js';
+import { setSession } from './session';
 
 function transformTeacher(item = {}) {
   return {
@@ -13,14 +13,13 @@ function transformTeacher(item = {}) {
 
 export async function signInTeacher({ email, password }) {
   try {
-    console.log(email, password);
-    const { data: response } = await http.post("/teachers/signin/teacher", {
+    const { data: response } = await http.post('/teachers/signin/teacher', {
       email,
       password,
     });
     const { data, meta } = response;
-    const { token = "" } = meta;
-    console.log(data);
+    const { token = '' } = meta;
+
     setSession(token);
     return {
       data,
@@ -29,6 +28,7 @@ export async function signInTeacher({ email, password }) {
     return Promise.reject(error.response.data.error.message);
   }
 }
+
 //API Agent
 export async function getTeachers() {
   try {
@@ -57,15 +57,12 @@ export async function getTeacher({ id }) {
   }
 }
 
-export async function signUpTeacher({ name, lastname, email, age, password }) {
+export async function signUpTeacher(payload) {
   try {
-    const { data: response } = await http.post(`/teachers/signup/teacher`, {
-      name,
-      lastname,
-      email,
-      age,
-      password,
-    });
+    const { data: response } = await http.post(
+      `/teachers/signup/teacher`,
+      payload,
+    );
     const data = transformTeacher(response.data);
     return {
       data,
@@ -104,7 +101,36 @@ export async function addSubject({ subjectId }) {
 export async function deleteSubject({ subjectId }) {
   try {
     const { data: response } = await http.delete(
-      `/subjectsonteachers/${subjectId}`
+      `/subjectsonteachers/${subjectId}`,
+    );
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function activateTeacher(token) {
+  try {
+    const { data: response } = await http.get(`/teachers/activate_teacher/${token}`);
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error.response.data.error.message);
+  }
+}
+
+export async function confirmTeacher(email) {
+  try {
+    const { data: response } = await http.post(
+      `/teachers/confirmation_teacher`,
+      {
+        email,
+      },
     );
     const data = transformTeacher(response.data);
     return {

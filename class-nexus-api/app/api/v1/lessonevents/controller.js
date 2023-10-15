@@ -26,7 +26,8 @@ export const allEvents = async (req, res, next) => {
   const { query, params = {} } = req;
   const { offset, limit } = parsePaginationParams(query);
   const orderBy = { date: 'asc' };
-  console.log(params, ':lessonId');
+  const { lessonId } = params;
+  console.log(lessonId, ':lessonId');
   // List the given lesson events
   try {
     const [result, total] = await Promise.all([
@@ -35,7 +36,7 @@ export const allEvents = async (req, res, next) => {
         take: limit,
         orderBy,
         where: {
-          lessonId: params.id,
+          lessonId,
         },
       }),
     ]);

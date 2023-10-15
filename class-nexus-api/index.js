@@ -4,6 +4,7 @@ import { configuration } from './app/config.js';
 import { app } from './app/index.js';
 import { connect } from './app/database.js';
 import {
+  lessonDurationThread,
   lessonExpiredStatusThread,
   lessonFinishedStatusThread,
   lessonNotStartedStatusThread,
@@ -23,3 +24,4 @@ server.listen(port, () => {
 setInterval(lessonExpiredStatusThread, 2 * 60 * 1000); // Every 2 minutes
 setInterval(lessonFinishedStatusThread, 2 * 60 * 1000);
 setInterval(lessonNotStartedStatusThread, 2 * 60 * 1000);
+setInterval(lessonDurationThread, 2 * 1000);

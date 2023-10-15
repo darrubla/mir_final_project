@@ -6,9 +6,8 @@ import Image from 'react-bootstrap/Image';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
-import teacherImage from '../img/teacher.png';
 
-export function ScheduledLesson({ lessondata, onCancel }) {
+export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish }) {
   const navigate = useNavigate();
 
   function displayTeacher(id) {
@@ -64,6 +63,14 @@ export function ScheduledLesson({ lessondata, onCancel }) {
                         <p className="fw-light">{lesson.site}</p>
                       </div>
                     </div>
+                    <div className="d-flex flex-row location-description-info justify-content-between">
+                      <div className="d-flex location-desc-title">
+                        <p className="fw-semibold">LOCATION DESC.</p>
+                      </div>
+                      <div className="d-flex lesson-site-des">
+                        <p className="fw-light">{lesson.locInfo}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="d-flex flex-column picture-status justify-content-between px-3">
@@ -75,7 +82,7 @@ export function ScheduledLesson({ lessondata, onCancel }) {
                     >
                       {lesson.teacherId && (
                         <Image
-                          src={`${teacherImage}`}
+                          src={`${import.meta.env.VITE_API_URL}/${lesson.teacher.profilePhoto}`}
                           width={100}
                           height={100}
                           roundedCircle
@@ -93,13 +100,31 @@ export function ScheduledLesson({ lessondata, onCancel }) {
               </div>
               <div className="d-flex flex-row cancel-button justify-content-center">
                 {(lesson.status === 'Pending' ||
-                  lesson.status === 'Cancel') && (
+                  lesson.status === 'Scheduled') && (
                   <Button
                     variant="danger"
                     className="d-flex m-2 px-5 rounded-5"
                     onClick={() => onCancel(lesson.id)}
                   >
                     Cancel
+                  </Button>
+                )}
+                {((lesson.status === 'Scheduled' ) && (new Date() > new Date(lesson.scheduledAt))) && (
+                  <Button
+                    variant="warning"
+                    className="d-flex m-2 px-5 rounded-5"
+                    onClick={() => onStart(lesson.id)}
+                  >
+                    Start
+                  </Button>
+                )}
+                {(lesson.status === 'Ongoing') && (
+                  <Button
+                    variant="warning"
+                    className="d-flex m-2 px-5 rounded-5"
+                    onClick={() => onFinish(lesson.id)}
+                  >
+                    Finish
                   </Button>
                 )}
               </div>
@@ -114,4 +139,6 @@ export function ScheduledLesson({ lessondata, onCancel }) {
 ScheduledLesson.propTypes = {
   lessondata: PropTypes.array.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onStart: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
 };

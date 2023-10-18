@@ -1,10 +1,8 @@
 import Button from 'react-bootstrap/Button';
 // import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
 import Calendar from 'react-calendar';
 import Form from 'react-bootstrap/Form';
-
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
@@ -14,16 +12,19 @@ import { DateText } from './DateText';
 import { TimePicker } from './TimePicker';
 import { locations } from '../text/constants';
 import { getSubjectId } from '../api/subjects';
-
 import PropTypes from 'prop-types';
-
 import 'react-calendar/dist/Calendar.css';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { css } from '@emotion/css';
 
-export function ScheduleForm({ onCreate, options }) {
+export function ScheduleForm({ onCreate, options, isSelected }) {
+  const pLocation = useLocation();
+  const queryParams = new URLSearchParams(pLocation.search);
+  const teacherIdParam = queryParams.get('teacherId');
+
   const scheduleSchema = z.object({
     subject: z.enum(options, {
       errorMap: () => ({ message: 'Please select a valid subject' }),
@@ -93,6 +94,10 @@ export function ScheduleForm({ onCreate, options }) {
         lessonContent.scheduledAt = values.scheduledatetime;
         lessonContent.locInfo = values.locationdescription;
         lessonContent.subjectId = dataSubject;
+          
+        if (teacherIdParam) {
+          lessonContent.teacherId = teacherIdParam;
+        }
         onCreate({
           lessonContent,
         });
@@ -143,6 +148,7 @@ export function ScheduleForm({ onCreate, options }) {
                       handleChange={handleChange}
                       handleBlur={handleBlur}
                       value={values.subject}
+                      isSelected={isSelected}
                       className={
                         touched.subject && errors.subject ? ' is-invalid' : ''
                       }

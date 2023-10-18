@@ -133,7 +133,7 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish, onVot
                         onVote(lesson.teacherId, lesson.id);
                         onClose(lesson.id);
                       }}
-                      >Vote + 2
+                      >Vote + 1
                       </Button>
                     <Button 
                       variant="danger"

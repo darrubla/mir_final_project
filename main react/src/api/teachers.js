@@ -147,7 +147,7 @@ export async function voteTeacher(id) {
     const { data: result } = await http.get(`/teachers/${id}`);
     const currentPoints = result.data.points;
     const { data: response } = await http.put(`/teachers/${id}`, {
-      points: currentPoints + 2,
+      points: currentPoints + 1,
     });
     const data = transformTeacher(response.data);
     return {

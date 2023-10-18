@@ -1,4 +1,4 @@
-import http from "./http";
+import http from './http';
 
 function transformSubject(item = {}) {
   return {
@@ -25,11 +25,10 @@ export async function getSubjects() {
   }
 }
 
-export async function getSubject({ id }) {
+export async function getSubject(id) {
   try {
     const { data: response } = await http.get(`/subjects/${id}`);
     const data = transformSubject(response.data);
-
     return {
       data,
     };

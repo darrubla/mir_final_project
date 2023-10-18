@@ -8,9 +8,12 @@ import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
 import { Loading } from '../animation/Loading';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
+import { getSubject } from '../api/subjects';
 
 export function Schedule() {
   const [data, setData] = useState([]);
+  const [subjectData, setSubjectData] = useState([])
   const [loadingList, setLoadingList] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [errorLoad, setErrorLoad] = useState('');
@@ -21,6 +24,18 @@ export function Schedule() {
   const [errorClose, setErrorClose] = useState('');
   const [errorVote, setErrorVote] = useState('');
 
+  const pLocation = useLocation();
+  const queryParams = new URLSearchParams(pLocation.search);
+  const subjectIdParam = queryParams.get('subjectId');
+
+  async function getSubjectData(id) {
+    try {
+      const res=await getSubject(id);
+      setSubjectData(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async function onCreate(payload) {
     setLoadingCreate(true);
     setErrorCreate('');
@@ -90,21 +105,29 @@ export function Schedule() {
     loadLessons();
   }, []);
 
-  const subjectsOptions = LoadSubjectsList();
+  let isSelected=''
+  let subjectOptions = ['']
 
-  if (subjectsOptions.length > 0) {
-    // Renderizo la página Schedule, cuando obtenga la lista de materias
-    const options = [];
-    subjectsOptions.map((subjectObject) => {
+  if (subjectIdParam) {
+    getSubjectData(subjectIdParam);
+    subjectOptions=[subjectData];
+  } else {
+    subjectOptions=LoadSubjectsList();
+  }
+
+  let options = []
+  if (subjectOptions.length > 0) {
+    subjectOptions.map((subjectObject) => {
       options.push(subjectObject.subjectname);
     });
+  }
     return (
       <main className="pt-2nav bg-nexus-white vh-100">
         <Container fluid="xxl">
           <Row>
             <Col>
               <SectionName title="Schedule a class" className="mt-5" />
-              <ScheduleForm onCreate={onCreate} options={options} />
+              <ScheduleForm onCreate={onCreate} options={options} isSelected={isSelected}/>
               {loadingCreate && <Loading />}
               {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
             </Col>
@@ -131,5 +154,5 @@ export function Schedule() {
         </Container>
       </main>
     );
-  }
+  
 }

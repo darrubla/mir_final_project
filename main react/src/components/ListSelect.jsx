@@ -9,6 +9,7 @@ export function ListSelect({
   handleBlur,
   value,
   className,
+  isSelected,
 }) {
   return (
     <>
@@ -22,7 +23,9 @@ export function ListSelect({
       >
         <option>{`--Select ${fieldName.toLowerCase()}--`}</option>
         {optionsList.map((optionList, key) => (
-          <option value={optionList} key={key}>
+          <option 
+            selected={isSelected === optionList}
+            value={optionList} key={key}>
             {optionList}
           </option>
         ))}
@@ -43,4 +46,5 @@ ListSelect.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  isSelected: PropTypes.string,
 };

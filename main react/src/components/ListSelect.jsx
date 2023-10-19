@@ -9,7 +9,6 @@ export function ListSelect({
   handleBlur,
   value,
   className,
-  isSelected,
 }) {
   return (
     <>
@@ -21,11 +20,12 @@ export function ListSelect({
         value={value}
         className={`py-2 rounded-3 ${className}`}
       >
+
         <option>{`--Select ${fieldName.toLowerCase()}--`}</option>
         {optionsList.map((optionList, key) => (
-          <option 
-            selected={isSelected === optionList}
-            value={optionList} key={key}>
+          <option
+            value={optionList} 
+            key={key}>
             {optionList}
           </option>
         ))}
@@ -46,5 +46,4 @@ ListSelect.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  isSelected: PropTypes.string,
 };

@@ -101,33 +101,34 @@ export function Schedule() {
       setLoadingList(false);
     }
   }
+
   useEffect(() => {
     loadLessons();
+    if (subjectIdParam) {
+      getSubjectData(subjectIdParam);
+    }
+    
   }, []);
 
-  let isSelected=''
-  let subjectOptions = ['']
+    let options=[];
+    let subjectOptions=LoadSubjectsList();
+    if (subjectOptions.length > 0) {
+      if (subjectData?.id) {
+        subjectOptions=[subjectData]
+      }
+      subjectOptions.map((subjectObject) => {
+        options.push(subjectObject.subjectname);
+      });
 
-  if (subjectIdParam) {
-    getSubjectData(subjectIdParam);
-    subjectOptions=[subjectData];
-  } else {
-    subjectOptions=LoadSubjectsList();
-  }
+    }
 
-  let options = []
-  if (subjectOptions.length > 0) {
-    subjectOptions.map((subjectObject) => {
-      options.push(subjectObject.subjectname);
-    });
-  }
     return (
       <main className="pt-2nav bg-nexus-white vh-100">
         <Container fluid="xxl">
           <Row>
             <Col>
               <SectionName title="Schedule a class" className="mt-5" />
-              <ScheduleForm onCreate={onCreate} options={options} isSelected={isSelected}/>
+              <ScheduleForm onCreate={onCreate} options={options}/>
               {loadingCreate && <Loading />}
               {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
             </Col>
@@ -154,5 +155,5 @@ export function Schedule() {
         </Container>
       </main>
     );
-  
+
 }

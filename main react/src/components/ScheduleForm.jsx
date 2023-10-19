@@ -20,7 +20,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import { css } from '@emotion/css';
 
-export function ScheduleForm({ onCreate, options, isSelected }) {
+export function ScheduleForm({ onCreate, options }) {
   const pLocation = useLocation();
   const queryParams = new URLSearchParams(pLocation.search);
   const teacherIdParam = queryParams.get('teacherId');
@@ -41,7 +41,7 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
     scheduledate: z.string(),
     scheduletime: z.string(),
   });
-  // const navigate = useNavigate();
+
   const [dateValue, onDateChange] = useState(
     new Date(new Date().setDate(new Date().getDate() + 1))
   );
@@ -75,9 +75,9 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
     scheduletime: `${hour}:${minute}:00`,
     scheduledatetime: new Date(`${dateSelected}T${hour}:${minute}:00`),
   };
-  async function loadSubject({ subjectname }) {
+  async function loadSubject(subjectname) {
     try {
-      const response = await getSubjectId({ subjectname });
+      const response = await getSubjectId(subjectname);
       setDataSubject(response.data.id);
     } catch (error) {
       console.log(error);
@@ -88,6 +88,7 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
     <Formik
       initialValues={initialValues}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        
         const lessonContent = {};
         lessonContent.site = values.location;
         lessonContent.description = values.topicdescription;
@@ -97,6 +98,7 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
           
         if (teacherIdParam) {
           lessonContent.teacherId = teacherIdParam;
+          lessonContent.status = "Scheduled";
         }
         onCreate({
           lessonContent,
@@ -138,7 +140,7 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
                     onClick={() => {
                       const subjectname = values.subject;
                       if (subjectname) {
-                        loadSubject({ subjectname });
+                        loadSubject(subjectname);
                       }
                     }}
                   >
@@ -148,7 +150,6 @@ export function ScheduleForm({ onCreate, options, isSelected }) {
                       handleChange={handleChange}
                       handleBlur={handleBlur}
                       value={values.subject}
-                      isSelected={isSelected}
                       className={
                         touched.subject && errors.subject ? ' is-invalid' : ''
                       }

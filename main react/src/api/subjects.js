@@ -15,7 +15,6 @@ export async function getSubjects() {
   try {
     const { data: response } = await http.get(`/subjects/`);
     const data = response.data.map(transformSubject);
-
     return {
       data,
       meta: response.meta,
@@ -37,7 +36,7 @@ export async function getSubject(id) {
   }
 }
 
-export async function getSubjectId({ subjectname }) {
+export async function getSubjectId(subjectname) {
   try {
     const { data: response } = await http.get(`/subjects/n/${subjectname}`);
     const data = transformSubject(response.data);

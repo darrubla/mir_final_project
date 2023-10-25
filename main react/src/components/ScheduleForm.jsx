@@ -1,10 +1,8 @@
 import Button from 'react-bootstrap/Button';
 // import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
 import Calendar from 'react-calendar';
 import Form from 'react-bootstrap/Form';
-
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
@@ -14,16 +12,19 @@ import { DateText } from './DateText';
 import { TimePicker } from './TimePicker';
 import { locations } from '../text/constants';
 import { getSubjectId } from '../api/subjects';
-
 import PropTypes from 'prop-types';
-
 import 'react-calendar/dist/Calendar.css';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { css } from '@emotion/css';
 
 export function ScheduleForm({ onCreate, options }) {
+  const pLocation = useLocation();
+  const queryParams = new URLSearchParams(pLocation.search);
+  const teacherIdParam = queryParams.get('teacherId');
+
   const scheduleSchema = z.object({
     subject: z.enum(options, {
       errorMap: () => ({ message: 'Please select a valid subject' }),
@@ -40,7 +41,7 @@ export function ScheduleForm({ onCreate, options }) {
     scheduledate: z.string(),
     scheduletime: z.string(),
   });
-  // const navigate = useNavigate();
+
   const [dateValue, onDateChange] = useState(
     new Date(new Date().setDate(new Date().getDate() + 1))
   );
@@ -74,9 +75,9 @@ export function ScheduleForm({ onCreate, options }) {
     scheduletime: `${hour}:${minute}:00`,
     scheduledatetime: new Date(`${dateSelected}T${hour}:${minute}:00`),
   };
-  async function loadSubject({ subjectname }) {
+  async function loadSubject(subjectname) {
     try {
-      const response = await getSubjectId({ subjectname });
+      const response = await getSubjectId(subjectname);
       setDataSubject(response.data.id);
     } catch (error) {
       console.log(error);
@@ -87,12 +88,18 @@ export function ScheduleForm({ onCreate, options }) {
     <Formik
       initialValues={initialValues}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        
         const lessonContent = {};
         lessonContent.site = values.location;
         lessonContent.description = values.topicdescription;
         lessonContent.scheduledAt = values.scheduledatetime;
         lessonContent.locInfo = values.locationdescription;
         lessonContent.subjectId = dataSubject;
+          
+        if (teacherIdParam) {
+          lessonContent.teacherId = teacherIdParam;
+          lessonContent.status = "Scheduled";
+        }
         onCreate({
           lessonContent,
         });
@@ -133,7 +140,7 @@ export function ScheduleForm({ onCreate, options }) {
                     onClick={() => {
                       const subjectname = values.subject;
                       if (subjectname) {
-                        loadSubject({ subjectname });
+                        loadSubject(subjectname);
                       }
                     }}
                   >

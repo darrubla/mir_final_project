@@ -38,7 +38,11 @@ instance.interceptors.response.use(
       clearSession();
       window.location = '/';
     }
-    return Promise.reject(error.message);
+    if (error.response.data.error.message) {
+      return Promise.reject(error.response.data.error.message);
+    }
+    console.log('Error:::', error);
+    return Promise.reject(error);
   },
 );
 

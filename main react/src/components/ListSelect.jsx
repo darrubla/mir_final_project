@@ -20,9 +20,12 @@ export function ListSelect({
         value={value}
         className={`py-2 rounded-3 ${className}`}
       >
+
         <option>{`--Select ${fieldName.toLowerCase()}--`}</option>
         {optionsList.map((optionList, key) => (
-          <option value={optionList} key={key}>
+          <option
+            value={optionList} 
+            key={key}>
             {optionList}
           </option>
         ))}

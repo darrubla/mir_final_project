@@ -16,6 +16,8 @@ export const LessonSchema = z
         return escape(value);
       }),
     subjectId: z.string(),
+    teacherId: z.string().optional(),
+    status: z.string().optional(),
     scheduledAt: z.string().datetime(),
     site: z.string(),
   })

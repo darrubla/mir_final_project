@@ -46,7 +46,6 @@ export function Overview() {
         try {
             const response=await getMe();
             setTeacher(response.data)
-            console.log()
         } catch (error) {
             setErrorLoadT(error)
         } finally {

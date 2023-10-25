@@ -72,21 +72,22 @@ export function AvailableLessons({lessondata, onAccept}) {
                                     </div>
                                     <div className='d-flex flex-column picture-status justify-content-between px-3'>
                                         <div className='d-flex justify-content-center picture-student'>
-                                            <Col xs={6} md={4} className='d-flex justify-content-center'>
+                                            <Col className='d-flex justify-content-center'>
                                                 {lesson?.studentId && lesson?.student.profilePhoto ? (
+                                                    <img
+                                                        src={`${import.meta.env.VITE_API_URL}/${lesson.student.profilePhoto}`}
+                                                        className="d-flex rounded-circle object-fit-cover"
+                                                        width={100}
+                                                        height={100}
+                                                        onClick={() => displayStudent(lesson?.studentId)}
+                                                    />
+                                                ): (
                                                     <Image 
-                                                        src={`${`${import.meta.env.VITE_API_URL}/${lesson.student.profilePhoto}`}`} 
+                                                        src={avatar} 
                                                         width={100} 
                                                         height={100} 
-                                                        roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
-                                                ): (
-                                                    <>
-                                                    <Image 
-                                                    src={avatar} 
-                                                    width={100} 
-                                                    height={100} 
-                                                    roundedCircle onClick={() => displayStudent(lesson?.studentId)}/>
-                                                    </>
+                                                        className='rounded-circle object-fit-cover' 
+                                                        onClick={() => displayStudent(lesson?.studentId)}/>
                                                 )}
                                             </Col>
                                         </div>

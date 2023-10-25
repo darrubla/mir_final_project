@@ -2,7 +2,6 @@
 import { Suspense } from 'react'
 import './App.css'
 import { UserProvider } from './containers/UserContext'
-import { Welcome } from './pages/Welcome'
 import { Route, Routes } from 'react-router-dom'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
@@ -16,11 +15,14 @@ import { NotFound } from './pages/NotFound'
 import { Schedule } from './pages/Schedule'
 import { Overview } from './pages/Overview'
 import { TeacherView } from './pages/TeacherView'
+import { StudentView } from './pages/StudentView'
 import { Container } from 'react-bootstrap'
 import { Index } from './pages/Index'
 import { Navigation } from './components/Navigation'
 import { Landing } from './pages/Landing'
 import ProtectedRoute from './containers/ProtectedRoute'
+import Checkout from './pages/Checkout'
+import CheckoutStatus from './pages/CheckoutStatus'
 
 function App() {
   return (
@@ -33,16 +35,31 @@ function App() {
             <Route path='/signin/*' element={<Signin />} />
             <Route path='/signup/*' element={<Signup />} />
             <Route path='/signed' element={<Signed />} />
-            <Route path='/activate_teacher/:token' element={<ActivateTeacher />} />
-            <Route path='/activate_student/:token' element={<ActivateStudent />} />
-            <Route path='/confirmation_teacher' element={<ConfirmationTeacher />} />
-            <Route path='/confirmation_student' element={<ConfirmationStudent />} />
-            <Route path='/' element={ <Landing /> } />
-            <Route path='/home' element={ <Landing /> } />
-            <Route path='/schedule' element={ <Schedule /> }/>
-            <Route path='/overview' element={ <Overview /> } />
-            <Route path='/teachers/:id' element={ <TeacherView />  } />
-            <Route path='/my_account' element={ <StudentAccountInfo /> } />
+            <Route
+              path='/activate_teacher/:token'
+              element={<ActivateTeacher />}
+            />
+            <Route
+              path='/activate_student/:token'
+              element={<ActivateStudent />}
+            />
+            <Route
+              path='/confirmation_teacher'
+              element={<ConfirmationTeacher />}
+            />
+            <Route
+              path='/confirmation_student'
+              element={<ConfirmationStudent />}
+            />
+            <Route path='/' element={<Landing />} />
+            <Route path='/home' element={<Landing />} />
+            <Route path='/schedule' element={<Schedule />} />
+            <Route path='/overview' element={<Overview />} />
+            <Route path='/teachers/:id' element={<TeacherView />} />
+            <Route path='/students/:id' element={<StudentView />} />
+            <Route path='/my_account' element={<StudentAccountInfo />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/payment_status' element={<CheckoutStatus />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Suspense>

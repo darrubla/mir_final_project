@@ -20,6 +20,7 @@ export const TeacherSchema = z
       }),
     age: z.number(),
     profilePhoto: z.string().optional(),
+    points: z.number().optional(),
   })
   .strict();
 

@@ -17,7 +17,7 @@ export async function getLessons() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function getMyLessons() {
@@ -30,7 +30,7 @@ export async function getMyLessons() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -38,7 +38,6 @@ export async function createLesson(payload) {
   try {
     const eventdate = new Date();
     payload = payload.lessonContent;
-    console.log(payload);
     const { data: response } = await http.post(`/lessons/`, payload);
     const data = transformLesson(response.data);
     if (data?.id) {
@@ -53,7 +52,7 @@ export async function createLesson(payload) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function cancelClass(id) {
@@ -73,7 +72,7 @@ export async function cancelClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function cancelClassByTeacher(id) {
@@ -93,7 +92,7 @@ export async function cancelClassByTeacher(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -123,7 +122,7 @@ export async function assignClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function startClass(id) {
@@ -143,7 +142,7 @@ export async function startClass(id) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function finishClass(id) {
@@ -157,12 +156,31 @@ export async function finishClass(id) {
     await http.post(`/lessonevents/`, {
       lessonId: id,
       date: eventdate,
-      eventdesc: `Lesson ${id} was started by student, status: 'Ongoing'`,
+      eventdesc: `Lesson ${id} was finished by student, status: 'Finished'`,
     });
     return {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
+  }
+}
+export async function closeClass(id) {
+  try {
+    const eventdate = new Date();
+    const { data: response } = await http.put(`/lessons/${id}`, {
+      status: 'Closed',
+    });
+    const data = transformLesson(response.data);
+    await http.post(`/lessonevents/`, {
+      lessonId: id,
+      date: eventdate,
+      eventdesc: `Lesson ${id} was closed by student, status: 'Closed'`,
+    });
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error);
   }
 }

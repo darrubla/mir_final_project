@@ -1,4 +1,4 @@
-import http from "./http";
+import http from './http';
 
 function transformSubject(item = {}) {
   return {
@@ -15,30 +15,28 @@ export async function getSubjects() {
   try {
     const { data: response } = await http.get(`/subjects/`);
     const data = response.data.map(transformSubject);
-
     return {
       data,
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
-export async function getSubject({ id }) {
+export async function getSubject(id) {
   try {
     const { data: response } = await http.get(`/subjects/${id}`);
     const data = transformSubject(response.data);
-
     return {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
-export async function getSubjectId({ subjectname }) {
+export async function getSubjectId(subjectname) {
   try {
     const { data: response } = await http.get(`/subjects/n/${subjectname}`);
     const data = transformSubject(response.data);
@@ -47,6 +45,6 @@ export async function getSubjectId({ subjectname }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }

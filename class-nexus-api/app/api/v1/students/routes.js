@@ -33,7 +33,7 @@ router.param('id', controller.idStudent);
 
 router
   .route('/:id')
-  .get(auth, me, controller.readStudent)
+  .get(auth, controller.readStudent)
   .put(auth, me, controller.updateStudent)
   .patch(auth, me, controller.updateStudent)
   .delete(auth, me, controller.removeStudent);

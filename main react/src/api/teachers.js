@@ -25,7 +25,7 @@ export async function signInTeacher({ email, password }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -40,7 +40,7 @@ export async function getTeachers() {
       meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function getTeacher({ id }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -68,7 +68,7 @@ export async function signUpTeacher(payload) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -81,12 +81,11 @@ export async function getMe() {
       //meta: response.meta,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function addSubject({ subjectId }) {
   try {
-    //console.log({ subjectId });
     const { data: response } = await http.post(`/subjectsonteachers/`, {
       subjectId,
     });
@@ -95,7 +94,7 @@ export async function addSubject({ subjectId }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 export async function deleteSubject({ subjectId }) {
@@ -108,19 +107,21 @@ export async function deleteSubject({ subjectId }) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
 export async function activateTeacher(token) {
   try {
-    const { data: response } = await http.get(`/teachers/activate_teacher/${token}`);
+    const { data: response } = await http.get(
+      `/teachers/activate_teacher/${token}`,
+    );
     const data = transformTeacher(response.data);
     return {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
   }
 }
 
@@ -137,6 +138,22 @@ export async function confirmTeacher(email) {
       data,
     };
   } catch (error) {
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error);
+  }
+}
+
+export async function voteTeacher(id) {
+  try {
+    const { data: result } = await http.get(`/teachers/${id}`);
+    const currentPoints = result.data.points;
+    const { data: response } = await http.put(`/teachers/${id}`, {
+      points: currentPoints + 1,
+    });
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error);
   }
 }

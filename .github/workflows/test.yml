@@ -1,12 +1,13 @@
 name: Cypress Tests
 run-name: testing actions
 on: [push]
-defaults:
-  run:
-    working-directory: ./main react
+
 jobs:
   Runnning_Tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./main react
     steps:
       - name: Checkout
         uses: actions/checkout@v4

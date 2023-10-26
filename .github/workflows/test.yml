@@ -2,6 +2,10 @@ name: Cypress Tests
 run-name: testing actions
 on: [push]
 
+defaults:
+  run:
+    working-directory: 'main react'
+
 jobs:
   Runnning_Tests:
     runs-on: ubuntu-latest
@@ -18,7 +22,3 @@ jobs:
           working-directory: ${{ defaults.run.working-directory }}
           build: npm run build
           start: npm start
-
-defaults:
-  run:
-    working-directory: 'main react'

@@ -4,6 +4,8 @@ on: [push]
 jobs:
   Runnning_Tests:
     runs-on: ubuntu-latest
+    script:
+      - cd main\ react/
     steps:
       - name: Checkout
         uses: actions/checkout@v4

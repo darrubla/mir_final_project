@@ -5,6 +5,9 @@ on: [push]
 jobs:
   Runnning_Tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./main\ react/
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -12,8 +15,6 @@ jobs:
         # and run all Cypress tests
       - name: list files
         run: ls -la
-      - name: go to frontend folder
-        run: cd main\ react/
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

@@ -4,7 +4,7 @@ on: [push]
 
 defaults:
   run:
-    working-directory: 'main react'
+    working-directory: ./main react
 
 jobs:
   Runnning_Tests:

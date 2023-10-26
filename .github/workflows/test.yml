@@ -1,6 +1,10 @@
 name: Cypress Tests
 run-name: testing actions
-on: [push]
+
+on:
+  push:
+    branches-ignore:
+      - main
 
 defaults:
   run:

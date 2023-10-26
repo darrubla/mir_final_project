@@ -1,0 +1,28 @@
+name: Cypress Tests
+run-name: testing actions
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+defaults:
+  run:
+    working-directory: ./main react
+
+jobs:
+  Runnning_Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        # Install NPM dependencies, cache them correctly
+        # and run all Cypress tests
+      - name: list files
+        run: ls -la
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: ./main react
+          build: npm run build
+          start: npm run preview

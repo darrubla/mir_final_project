@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react'
 
 // import { createPreference } from '../api/checkout'
 import { useNavigate } from 'react-router-dom'
 
 import '../styles/checkout.scss'
+import UserContext from '../containers/UserContext'
 
 initMercadoPago(import.meta.env.VITE_PAYMENT_API_KEY, { locale: 'es-CO' })
 
 const Checkout = () => {
+
+  const { user } = useContext(UserContext)
+  
   const [preferenceId, setPreferenceId] = useState('')
   const [paymentId, setPaymentId] = useState('')
 
@@ -114,19 +118,22 @@ const Checkout = () => {
   if (!preferenceId) {
     return null
   }
+  if (user?.email && user.type==="student") {
+    return (
+      <Payment
+        initialization={{
+          preferenceId: preferenceId,
+          amount: 10000,
+        }}
+        customization={customization}
+        onSubmit={onSubmit}
+        onReady={onReady}
+        onError={onError}
+      />
+    )
+  }
+  
+  }
 
-  return (
-    <Payment
-      initialization={{
-        preferenceId: preferenceId,
-        amount: 10000,
-      }}
-      customization={customization}
-      onSubmit={onSubmit}
-      onReady={onReady}
-      onError={onError}
-    />
-  )
-}
 
 export default Checkout

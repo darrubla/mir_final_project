@@ -68,14 +68,18 @@ export function Navigation() {
               {rswitch(
                 { user },
                 {
-                  student: <NavigationTab route='schedule' title='Schedule' />,
+                  student: (
+                    <>
+                      <NavigationTab route='schedule' title='Schedule' />
+                      <NavigationTab route='checkout' title='Checkout' />
+                    </>),
                   teacher: (
                     <>
                       <NavigationTab route='bank' title='Bank' />
                       <NavigationTab route='overview' title='Overview' />
                     </>
                   ),
-                  default: <NavigationTab route='about' title='About' />,
+                  default: <NavigationTab route='about' title='About' />
                 },
               )}
               <NavigationTab route='Explore' title='Explore' />

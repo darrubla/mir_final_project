@@ -10,8 +10,6 @@ jobs:
         uses: actions/checkout@v4
         # Install NPM dependencies, cache them correctly
         # and run all Cypress tests
-        with:
-          cache-dependency-path: './main react/package-lock.json'
       - name: list files
         run: ls -la
       - name: go to frontend folder

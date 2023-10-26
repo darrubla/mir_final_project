@@ -3,7 +3,7 @@ run-name: testing actions
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
 
 defaults:

@@ -18,7 +18,7 @@ jobs:
       - name: list files
         run: ls -la
       - name: go to frontend folder
-        run: cd ./main\ react
+        run: cd main\ react/
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

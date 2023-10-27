@@ -45,7 +45,7 @@ const Checkout = () => {
 
   useEffect(() => {
     new Promise((resolve, reject) => {
-      fetch(`${import.meta.env.VITE_API_URL}/api/payments/preference_id`, {
+      fetch(`${import.meta.env.VITE_API_URL}/payments/preference_id`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('successfully loads', () => {
-    cy.visit('/signin/student')
+    cy.visit('/signin/stude')
   })
 
   it('successfully logged in via form submission', () => {

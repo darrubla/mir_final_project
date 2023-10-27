@@ -109,6 +109,7 @@ const Checkout = () => {
     /*
       Callback llamado cuando el Brick está listo.
       Aquí puede ocultar cargamentos de su sitio, por ejemplo.
+      Test
     */
   }
 

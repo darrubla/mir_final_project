@@ -1,11 +1,11 @@
 describe('template spec', () => {
   it('successfully loads', () => {
-    cy.visit('/signin/student')
+    cy.visit('/signin/stude')
   })
 
   it('successfully logged in via form submission', () => {
-    const userEamil = 'test@test.com'
-    const userPassword = '87654321'
+    const userEamil = 'carlos9559+s@gmail.com'
+    const userPassword = '12345678'
     cy.visit('/signin/student')
 
     cy.get('input[name=email]').type(userEamil)
@@ -17,6 +17,6 @@ describe('template spec', () => {
     cy.url().should('include', '/')
 
     // UI should reflect this user being logged in
-    cy.get('span').should('contain', 'test@test.com')
+    cy.get('span').should('contain', 'carlos9559+s@gmail.com')
   })
 })

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react'
 
 // import { createPreference } from '../api/checkout'
@@ -10,11 +10,9 @@ import UserContext from '../containers/UserContext'
 initMercadoPago(import.meta.env.VITE_PAYMENT_API_KEY, { locale: 'es-CO' })
 
 const Checkout = () => {
-
   const { user } = useContext(UserContext)
-  
+
   const [preferenceId, setPreferenceId] = useState('')
-  const [paymentId, setPaymentId] = useState('')
 
   const navigate = useNavigate()
   const initialization = {
@@ -47,7 +45,7 @@ const Checkout = () => {
 
   useEffect(() => {
     new Promise((resolve, reject) => {
-      fetch('http://localhost:3000/api/payments/preference_id', {
+      fetch(`${import.meta.env.VITE_API_URL}/api/payments/preference_id`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +66,7 @@ const Checkout = () => {
     })
   }, [])
 
-  const onSubmit = async ({ selectedPaymentMethod, formData }) => {
+  const onSubmit = async ({ formData }) => {
     // callback llamado al hacer clic en el botón enviar datos
     return new Promise((resolve, reject) => {
       fetch('https://api.mercadopago.com/v1/payments', {
@@ -89,7 +87,6 @@ const Checkout = () => {
         })
         .then((response) => {
           // recibir el resultado del pago
-          setPaymentId(response.id)
           navigate('/payment_status', {
             state: {
               paymentId: response.id,
@@ -118,7 +115,7 @@ const Checkout = () => {
   if (!preferenceId) {
     return null
   }
-  if (user?.email && user.type==="student") {
+  if (user?.email && user.type === 'student') {
     return (
       <Payment
         initialization={{
@@ -132,8 +129,6 @@ const Checkout = () => {
       />
     )
   }
-  
-  }
-
+}
 
 export default Checkout

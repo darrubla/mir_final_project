@@ -20,7 +20,7 @@ import { Container } from 'react-bootstrap'
 import { Index } from './pages/Index'
 import { Navigation } from './components/Navigation'
 import { Landing } from './pages/Landing'
-import ProtectedRoute from './containers/ProtectedRoute'
+// import ProtectedRoute from './containers/ProtectedRoute'
 import Checkout from './pages/Checkout'
 import CheckoutStatus from './pages/CheckoutStatus'
 

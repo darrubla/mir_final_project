@@ -1,7 +1,6 @@
-import { Button, Col, Container, Nav, Navbar, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 import BgImage from '../../assets/images/LandingBG.png'
 import { Arrow } from '../../assets/icons/Arrow'
-import { NLogo } from '../../assets/icons/NLogo'
 import { useContext, useState } from 'react'
 import UserContext from '../../containers/UserContext'
 import { useNavigate } from 'react-router-dom'

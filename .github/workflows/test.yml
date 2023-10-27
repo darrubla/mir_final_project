@@ -18,6 +18,8 @@ jobs:
         uses: actions/checkout@v4
         # Install NPM dependencies, cache them correctly
         # and run all Cypress tests
+      - name: Install modules
+        run: npm install
       - name: Run Eslint
         run: npm run lint
       - name: Cypress run

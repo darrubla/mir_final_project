@@ -48,3 +48,15 @@ export async function getSubjectId(subjectname) {
     return Promise.reject(error);
   }
 }
+
+export async function getTeachersFromSubject(subjectId) {
+  try {
+    const { data: response } = await http.get(
+      `/subjects/${subjectId}/teachers`,
+    );
+
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

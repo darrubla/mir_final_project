@@ -3,7 +3,7 @@
     "editor.renderControlCharacters": true,
     "editor.tabSize": 2,
     "editor.trimAutoWhitespace": true,
-    "editor.fontSize": 12,
+    
     "editor.formatOnSave": true,
     "files.insertFinalNewline": true,
     "terminal.integrated.fontSize": 12,

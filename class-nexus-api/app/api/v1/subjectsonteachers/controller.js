@@ -44,6 +44,10 @@ export const allSubjectsOnTeachers = async (req, res, next) => {
           teacher: {
             select: {
               name: true,
+              lastname: true,
+              points: true,
+              age: true,
+              profilePhoto: true,
             },
           },
           subject: {

@@ -1,22 +1,22 @@
 describe('template spec', () => {
   it('successfully loads', () => {
-    cy.visit('/signin/stude')
-  })
+    cy.visit('/signin/student');
+  });
 
   it('successfully logged in via form submission', () => {
-    const userEamil = 'carlos9559+s@gmail.com'
-    const userPassword = '12345678'
-    cy.visit('/signin/student')
+    const userEamil = 'carlos9559+s@gmail.com';
+    const userPassword = '12345678';
+    cy.visit('/signin/student');
 
-    cy.get('input[name=email]').type(userEamil)
+    cy.get('input[name=email]').type(userEamil);
 
     // {enter} causes the form to submit
-    cy.get('input[name=password]').type(`${userPassword}{enter}`)
+    cy.get('input[name=password]').type(`${userPassword}{enter}`);
 
     // we should be redirected to /
-    cy.url().should('include', '/')
+    cy.url().should('include', '/');
 
     // UI should reflect this user being logged in
-    cy.get('span').should('contain', 'carlos9559+s@gmail.com')
-  })
-})
+    cy.get('span').should('contain', 'carlos9559+s@gmail.com');
+  });
+});

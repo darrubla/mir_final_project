@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 
 
 export function AddSubject({ onAdd, options }) {
+    console.log(options)
     const scheduleSchema = z
         .object({
             subject: z.enum(options, {
@@ -22,9 +23,9 @@ export function AddSubject({ onAdd, options }) {
     const initialValues = {
         subject: '',
     }
-    async function loadSubject({ subjectname }) {
+    async function loadSubject({subjectname}) {
         try {
-            const response = await getSubjectId({ subjectname });
+            const response = await getSubjectId(subjectname);
             setDataSubject(response.data.id)
         } catch (error) {
             console.log(error)
@@ -50,6 +51,7 @@ export function AddSubject({ onAdd, options }) {
                     <Form className='d-flex flex-row justify-content-center' onSubmit={handleSubmit}>
                         <div className='d-flex flex-column justify-content-start'>
                             <div className='list-container' onClick={() => {
+                                console.log(values.subject)
                                 const subjectname=values.subject
                                 if (subjectname) {
                                     loadSubject({subjectname})

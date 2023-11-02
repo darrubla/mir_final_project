@@ -23,6 +23,12 @@ import { Landing } from './pages/Landing'
 // import ProtectedRoute from './containers/ProtectedRoute'
 import Checkout from './pages/Checkout'
 import CheckoutStatus from './pages/CheckoutStatus'
+import { Policy } from './pages/Policy'
+import { Help } from './pages/Help'
+import { Teaching } from './pages/Teaching'
+import { Information } from './pages/Information'
+import { Terms } from './pages/Terms'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
 
 function App() {
   return (
@@ -61,6 +67,12 @@ function App() {
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/payment_status' element={<CheckoutStatus />} />
             <Route path='*' element={<NotFound />} />
+            <Route path='/policy' element={<Policy/>} />
+            <Route path='/helpandsupport' element={<Help/>} />
+            <Route path='/teaching' element={<Teaching/>} />
+            <Route path='/information' element={<Information/>} />
+            <Route path='/termsofservice' element={<Terms/>} />
+            <Route path='/privacypolicy' element={<PrivacyPolicy/>} />
           </Routes>
         </Suspense>
       </Container>

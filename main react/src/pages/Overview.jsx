@@ -76,7 +76,7 @@ export function Overview() {
         return (
             <>
                 <div className="pt-4 mt-1nav d-flex flex-column justify-content-center">
-                    <SectionName title="MY INFO" className="mt-5"/>
+                    <SectionName title="MY INFO" className="mt-5 mx-5"/>
                     {loadTData && <Loading />}
                     {errorLoadT&& <Alert variant='danger'>{errorLoadT}</Alert>}
                     <div className='teacher-info-container d-flex flex-row justify-content-around'>
@@ -100,7 +100,9 @@ export function Overview() {
                         </div>
                         <div className='d-flex flex-column teacher-add-subject'>
                             <SectionName title="Add Subjects" className="mt-5"/>
-                            <AddSubject onAdd={onAddSubject} options={options.filter(item =>!teacherSubjects.some(element => element === item))}/>
+
+                            <AddSubject onAdd={onAddSubject} 
+                                options={options.filter(item =>!teacherSubjects.some(element => element === item))}/>
                             {loadAddSub && <Loading />}
                             {errorAddSub && <Alert variant='danger'>{errorAddSub}</Alert>}
                             {

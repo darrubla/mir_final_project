@@ -3,7 +3,7 @@ import Logo from '../assets/svgs/Logo.svg'
 const info_elements = [
   {
     title: 'Support',
-    subs: ['Help and support', 'Teaching', 'Guides', 'Information'],
+    subs: ['Help and support', 'Teaching', 'Information'],
   },
   {
     title: 'About',
@@ -27,7 +27,11 @@ export function Info() {
 
             {info_element.subs.map((sub, index) => (
               <p className='lh-1 fs-5 text-white-50' key={index}>
-                {sub}
+                <a 
+                  href={`/${sub.replace(/\s/g, '').toLowerCase()}`}
+                  className='nav-link fw-light text-opacity-100'>
+                  {sub}
+                </a>
               </p>
             ))}
           </li>

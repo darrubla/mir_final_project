@@ -82,7 +82,6 @@ export function Navigation() {
                   default: <NavigationTab route='about' title='About' />
                 },
               )}
-              <NavigationTab route='Explore' title='Explore' />
 
               {user?.email ? (
                 <UserNavigation handleSignOut={onSignOut} email={user.email} photo={`${import.meta.env.VITE_API_URL}/${user.profilePhoto}`}/>

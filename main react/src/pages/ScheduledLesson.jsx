@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { formatRelative } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
+import avatar from "../img/avatar.png";
 
 
 export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish, onVote, onClose }) {
@@ -78,14 +80,21 @@ export function ScheduledLesson({ lessondata, onCancel, onStart, onFinish, onVot
                     <Col
                       className="d-flex justify-content-center"
                     >
-                      {lesson.teacherId && (
+                      {lesson?.teacherId && lesson?.teacher.profilePhoto ? (
                         <img
                           src={`${import.meta.env.VITE_API_URL}/${lesson.teacher.profilePhoto}`}
                           className="d-flex rounded-circle object-fit-cover"
                           width={100}
                           height={100}
-                          onClick={() => displayTeacher(lesson.teacherId)}
+                          onClick={() => displayTeacher(lesson?.teacherId)}
                       />
+                    ):(
+                      <Image 
+                        src={avatar} 
+                        width={100} 
+                        height={100} 
+                        className='rounded-circle object-fit-cover' 
+                        onClick={() => displayTeacher(lesson?.studentId)}/>
                     )}
                     </Col>
                   </div>

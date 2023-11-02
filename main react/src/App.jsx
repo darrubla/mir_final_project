@@ -29,6 +29,9 @@ import { Teaching } from './pages/Teaching'
 import { Information } from './pages/Information'
 import { Terms } from './pages/Terms'
 import { PrivacyPolicy } from './pages/PrivacyPolicy'
+import { GitHub } from './pages/GitHub'
+import { DevelopmentTeam } from './pages/DevelopmentTeam'
+import { Mail } from './pages/Mail'
 
 function App() {
   return (
@@ -73,6 +76,9 @@ function App() {
             <Route path='/information' element={<Information/>} />
             <Route path='/termsofservice' element={<Terms/>} />
             <Route path='/privacypolicy' element={<PrivacyPolicy/>} />
+            <Route path='/github' element={<GitHub/>} />
+            <Route path='/developmentteam' element={<DevelopmentTeam/>} />
+            <Route path='/mail' element={<Mail/>} />
           </Routes>
         </Suspense>
       </Container>

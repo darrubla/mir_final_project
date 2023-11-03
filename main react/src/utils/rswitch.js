@@ -5,3 +5,11 @@ export function rswitch(param, cases) {
     return cases.default;
   }
 }
+
+export function reactSwitch(param, cases) {
+  if (param) {
+    return cases[param];
+  } else {
+    return cases.default;
+  }
+}

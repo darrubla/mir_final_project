@@ -36,7 +36,10 @@ instance.interceptors.response.use(
 
     if (error.response?.status === 401) {
       clearSession();
-      window.location = '/';
+
+      if (error.response.data.error.message !== 'Invalid email or password') {
+        window.location = '/';
+      }
     }
     if (error.response.data.error.message) {
       return Promise.reject(error.response.data.error.message);

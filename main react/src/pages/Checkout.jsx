@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from 'react'
-import { initMercadoPago, Payment } from '@mercadopago/sdk-react'
+import { useContext, useEffect, useState } from 'react';
+import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
 
 // import { createPreference } from '../api/checkout'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-import '../styles/checkout.scss'
-import UserContext from '../containers/UserContext'
+import '../styles/checkout.scss';
+import UserContext from '../containers/UserContext';
+import { Container } from 'react-bootstrap';
 
-initMercadoPago(import.meta.env.VITE_PAYMENT_API_KEY, { locale: 'es-CO' })
+initMercadoPago(import.meta.env.VITE_PAYMENT_API_KEY, { locale: 'es-CO' });
 
 const Checkout = () => {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
-  const [preferenceId, setPreferenceId] = useState('')
+  const [preferenceId, setPreferenceId] = useState('');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const initialization = {
     id: 'MLB2907679857',
     title: 'Math class',
@@ -26,7 +27,7 @@ const Checkout = () => {
       passenger: {},
       route: {},
     },
-  }
+  };
   const customization = {
     visual: {
       defaultPaymentOption: {
@@ -41,7 +42,7 @@ const Checkout = () => {
       maxInstallments: 3,
     },
     statement_descriptor: 'Class Nexus',
-  }
+  };
 
   useEffect(() => {
     new Promise((resolve, reject) => {
@@ -55,16 +56,16 @@ const Checkout = () => {
         .then((response) => response.json())
         .then((response) => {
           // recibir el resultado del pago
-          setPreferenceId(response.preferenceId)
-          resolve()
+          setPreferenceId(response.preferenceId);
+          resolve();
         })
         .catch((error) => {
           // manejar la respuesta de error al intentar crear el pago
-          console.error('error: ', error)
-          reject()
-        })
-    })
-  }, [])
+          console.error('error: ', error);
+          reject();
+        });
+    });
+  }, []);
 
   const onSubmit = async ({ formData }) => {
     // callback llamado al hacer clic en el botón enviar datos
@@ -83,7 +84,7 @@ const Checkout = () => {
         }),
       })
         .then((response) => {
-          return response.json()
+          return response.json();
         })
         .then((response) => {
           // recibir el resultado del pago
@@ -91,45 +92,47 @@ const Checkout = () => {
             state: {
               paymentId: response.id,
             },
-          })
-          resolve()
+          });
+          resolve();
         })
         .catch((error) => {
           // manejar la respuesta de error al intentar crear el pago
-          console.error('error: ', error)
-          reject()
-        })
-    })
-  }
+          console.error('error: ', error);
+          reject();
+        });
+    });
+  };
   const onError = async (error) => {
     // callback llamado para todos los casos de error de Brick
-    console.log(error)
-  }
+    console.log(error);
+  };
   const onReady = async () => {
     /*
       Callback llamado cuando el Brick está listo.
       Aquí puede ocultar cargamentos de su sitio, por ejemplo.
       Test
     */
-  }
+  };
 
   if (!preferenceId) {
-    return null
+    return null;
   }
   if (user?.email && user.type === 'student') {
     return (
-      <Payment
-        initialization={{
-          preferenceId: preferenceId,
-          amount: 10000,
-        }}
-        customization={customization}
-        onSubmit={onSubmit}
-        onReady={onReady}
-        onError={onError}
-      />
-    )
+      <Container fluid="xxl">
+        <Payment
+          initialization={{
+            preferenceId: preferenceId,
+            amount: 10000,
+          }}
+          customization={customization}
+          onSubmit={onSubmit}
+          onReady={onReady}
+          onError={onError}
+        />
+      </Container>
+    );
   }
-}
+};
 
-export default Checkout
+export default Checkout;

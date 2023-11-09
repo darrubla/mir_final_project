@@ -1,33 +1,33 @@
-import { Button, Col, Container, Row } from 'react-bootstrap'
-import BgImage from '../../assets/images/LandingBG.png'
-import { Arrow } from '../../assets/icons/Arrow'
-import { useContext, useState } from 'react'
-import UserContext from '../../containers/UserContext'
-import { useNavigate } from 'react-router-dom'
-import { ModalAlert } from '../../components/ModalAlert'
-import SubjectsCarousell from '../../components/SubjectsCarousell/SubjectsCarousell'
-import { Info } from '../../content-welcome/Info'
-import TeacherHome from '../TeacherHome'
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import BgImage from '../../assets/images/LandingBG.png';
+import { Arrow } from '../../assets/icons/Arrow';
+import { useContext, useState } from 'react';
+import UserContext from '../../containers/UserContext';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { ModalAlert } from '../../components/ModalAlert';
+import SubjectsCarousell from '../../components/SubjectsCarousell/SubjectsCarousell';
+import { Info } from '../../content-welcome/Info';
+import TeacherHome from '../TeacherHome';
 
 export function Landing() {
-  const { setUser, user } = useContext(UserContext)
-  const navigate = useNavigate()
-  const [show, setShow] = useState(false)
-  const [logType, setLogType] = useState()
+  const { setUser, user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [logType, setLogType] = useState();
 
   function handleClose() {
-    setShow(false)
+    setShow(false);
   }
 
   function handleShow(logT) {
-    setShow(true)
-    setLogType(logT)
+    setShow(true);
+    setLogType(logT);
   }
 
   function onLog(val) {
-    setUser({ type: val })
-    setShow(false)
-    navigate(`${logType}/${val}`)
+    setUser({ type: val });
+    setShow(false);
+    navigate(`${logType}/${val}`);
   }
   if (user?.type == 'student' && user?.email) {
     return (
@@ -35,7 +35,7 @@ export function Landing() {
         <SubjectsCarousell />
         <Info />
       </>
-    )
+    );
   }
   if (user?.type == 'teacher' && user?.email) {
     return (
@@ -43,11 +43,12 @@ export function Landing() {
         <TeacherHome />
         <Info />
       </>
-    )
+    );
   }
   return (
-    <main className='bg-image'>
+    <main className="bg-image">
       <ModalAlert handleClose={handleClose} show={show} onLog={onLog} />
+      <Outlet />
       <div
         style={{
           backgroundImage: `url(${BgImage})`,
@@ -57,9 +58,9 @@ export function Landing() {
           paddingBottom: '19vh',
           paddingTop: '40px',
         }}
-        className='d-flex align-items-center justify-content-between px-5 flex-column'
+        className="d-flex align-items-center justify-content-between px-5 flex-column"
       >
-        <div className='w-100 fs-5 fw-light'>
+        <div className="w-100 fs-5 fw-light">
           {/*
           <Navbar
             collapseOnSelect
@@ -99,26 +100,26 @@ export function Landing() {
           </Navbar>
       */}
         </div>
-        <Container fluid='xxl' className='m-0 p-0'>
-          <Row className='justify-content-between text-white'>
-            <Col className='col-6 p-0'>
-              <h1 className='display-1 fw-bolder lh-1 m-0'>
+        <Container fluid="xxl" className="m-0 p-0">
+          <Row className="justify-content-between text-white">
+            <Col className="col-6 p-0">
+              <h1 className="display-1 fw-bolder lh-1 m-0">
                 Experience the future of education.
               </h1>
             </Col>
-            <Col className='col-4 pt-4 p-0 pe-5'>
-              <p className='fs-4 fw-light '>
+            <Col className="col-4 pt-4 p-0 pe-5">
+              <p className="fs-4 fw-light ">
                 Connect with a diverse community of highly qualified educators,
                 learn and grow.{' '}
               </p>
               <Button
-                onClick={() => handleShow('signup')}
-                className='mt-3'
-                variant='nexus-accent'
-                size='lg'
+                onClick={() => navigate('/auth/register')}
+                className="mt-3"
+                variant="nexus-accent"
+                size="lg"
               >
                 Join now
-                <span className='ms-3'>
+                <span className="ms-3">
                   <Arrow />
                 </span>
               </Button>
@@ -127,5 +128,5 @@ export function Landing() {
         </Container>
       </div>
     </main>
-  )
+  );
 }

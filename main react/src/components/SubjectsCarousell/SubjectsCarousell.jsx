@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import './styles/SubjectsCarousell.css';
 import { getSubjects, getTeachersFromSubject } from '../../api/subjects.js';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import { SectionName } from '../SectionName.jsx';
 import { useNavigate } from 'react-router-dom';
+import avatar from '../../img/avatar.png'
 
 function SubjectsCarousell() {
   const navigate = useNavigate();
@@ -90,17 +91,35 @@ function TeacherCard({
   handler,
   scheduleid,
 }) {
+
   return (
     <Col>
       <div className="bg-white p-3 rounded-1 d-flex flex-column row-gap-3 border">
         <div className="d-flex column-gap-3">
           <div className="col">
-            <img
-              src={`${import.meta.env.VITE_API_URL}/${[photo]}`}
-              className="object-fit-cover rounded-1"
-              height={'134'}
-              width={'100%'}
-            />
+            {
+              photo ? (
+                <>
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/${[photo]}`}
+                  className="object-fit-cover rounded-1"
+                  height={'134'}
+                  width={'100%'}
+                />
+                </>
+                
+              ): (
+                <>
+                <Image 
+                  src={avatar}
+                  className="object-fit-cover rounded-1"
+                  height={'134'}
+                  width={'100%'}
+                />
+                <div>{photo}</div>
+                </>
+              )}
+            
           </div>
           <div className="d-flex flex-column justify-content-between col text-end">
             <div className="card-title fs-5">{`${name} ${lastname}`}</div>
@@ -144,7 +163,7 @@ TeacherCard.propTypes = {
   name: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
   points: PropTypes.number.isRequired,
-  photo: PropTypes.string.isRequired,
+  photo: PropTypes.string,
   handler: PropTypes.func.isRequired,
   subjectname: PropTypes.string.isRequired,
   scheduleid: PropTypes.string.isRequired,

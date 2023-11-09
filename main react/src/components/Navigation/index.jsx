@@ -84,7 +84,6 @@ export function Navigation() {
                 },
               )}
               <NavigationTab route="Explore" title="Explore" />
-
               {user?.email ? (
                 <UserNavigation
                   handleSignOut={onSignOut}

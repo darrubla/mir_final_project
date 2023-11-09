@@ -21,10 +21,19 @@ import { Index } from './pages/Index';
 import { Navigation } from './components/Navigation';
 import { Landing } from './pages/Landing';
 // import ProtectedRoute from './containers/ProtectedRoute'
-import Checkout from './pages/Checkout';
-import CheckoutStatus from './pages/CheckoutStatus';
 import { ModalAlert } from './components/ModalAlert';
 import { AuthApp } from './components/AuthApp';
+import Checkout from './pages/Checkout';
+import CheckoutStatus from './pages/CheckoutStatus';
+import { Policy } from './pages/Policy';
+import { Help } from './pages/Help';
+import { Teaching } from './pages/Teaching';
+import { Information } from './pages/Information';
+import { Terms } from './pages/Terms';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { GitHub } from './pages/GitHub';
+import { DevelopmentTeam } from './pages/DevelopmentTeam';
+import { Mail } from './pages/Mail';
 
 function App() {
   return (
@@ -56,15 +65,25 @@ function App() {
             <Route path="/" element={<Landing />}>
               <Route path="/auth/*" element={<AuthApp />} />
             </Route>
-            <Route path="/home" element={<Landing />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/overview" element={<Overview />} />
-            <Route path="/teachers/:id" element={<TeacherView />} />
-            <Route path="/students/:id" element={<StudentView />} />
-            <Route path="/my_account" element={<StudentAccountInfo />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/payment_status" element={<CheckoutStatus />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path='/' element={<Landing />} />
+            <Route path='/home' element={<Landing />} />
+            <Route path='/schedule' element={<Schedule />} />
+            <Route path='/overview' element={<Overview />} />
+            <Route path='/teachers/:id' element={<TeacherView />} />
+            <Route path='/students/:id' element={<StudentView />} />
+            <Route path='/my_account' element={<StudentAccountInfo />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/payment_status' element={<CheckoutStatus />} />
+            <Route path='*' element={<NotFound />} />
+            <Route path='/policy' element={<Policy/>} />
+            <Route path='/helpandsupport' element={<Help/>} />
+            <Route path='/teaching' element={<Teaching/>} />
+            <Route path='/information' element={<Information/>} />
+            <Route path='/termsofservice' element={<Terms/>} />
+            <Route path='/privacypolicy' element={<PrivacyPolicy/>} />
+            <Route path='/github' element={<GitHub/>} />
+            <Route path='/developmentteam' element={<DevelopmentTeam/>} />
+            <Route path='/mail' element={<Mail/>} />
           </Routes>
         </Suspense>
       </Container>

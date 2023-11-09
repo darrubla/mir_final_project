@@ -32,6 +32,7 @@ import { PrivacyPolicy } from './pages/PrivacyPolicy'
 import { GitHub } from './pages/GitHub'
 import { DevelopmentTeam } from './pages/DevelopmentTeam'
 import { Mail } from './pages/Mail'
+import MyCalendar from './pages/MyCalendar'
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
             <Route path='/github' element={<GitHub/>} />
             <Route path='/developmentteam' element={<DevelopmentTeam/>} />
             <Route path='/mail' element={<Mail/>} />
+            <Route path='/cal' element={<MyCalendar/>}/>
           </Routes>
         </Suspense>
       </Container>

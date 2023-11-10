@@ -45,12 +45,19 @@ export default function MyCalendar() {
   
   if (info?.lesson.length>0) {
     info.lesson.map((item) => {
-      classList.push({
-        title: `${item.subject.subjectname} class: ${item.description}`,
-        start: item.scheduledAt
-      })
+      if (item.teacher) {
+        console.log(item.teacher)
+        classList.push({
+          title: `${item.subject.subjectname} class.`,
+          start: item.scheduledAt,
+          site: item.site,
+          description: item.description,
+          teacher: `${item.teacher.name} ${item.teacher.lastname} - ${item.teacher.email}`
+        })
+      }
+      
     })
-    console.log(classList)
+    console.log(classList)  
   }
 
   const events = [
@@ -75,14 +82,19 @@ export default function MyCalendar() {
           height={'90vh'}
           events={classList}
           selectable='true'
-          eventDidMount={(info) => {
-            return new bootstrap.Popover(info.el, {
-              title: info.event.title,
+          eventDidMount={(inf) => {
+            return new bootstrap.Popover(inf.el, {
+              title: inf.event.title,
               placement: "auto",
               trigger: "hover",
               customClass: "popoverStyle",
               content:
-                `<p><strong>Starts at:</strong>${info.event.start}</p><p><strong>Duration</strong>1 hour</p>`,
+                `<p><strong>Starts at: </strong>${inf.event.start}</p>
+                  <p><strong>Description: </strong>${inf.event.extendedProps.description}</p>
+                  <p><strong>Teacher: </strong>${inf.event.extendedProps.teacher}</p>
+                  <p><strong>Duration: </strong>1 hour</p>
+                  <p><strong>Site: </strong>${inf.event.extendedProps.site}</p>
+                  `,
               html: true,
             });
           }}

@@ -305,6 +305,12 @@ export const myInfo = async (req, res, next) => {
           select: {
             id: true,
             subject: true,
+            description: true,
+            site: true,
+            scheduledAt: true,
+            status: true,
+            teacher: true,
+            student: true,
           },
         },
         subjects: {

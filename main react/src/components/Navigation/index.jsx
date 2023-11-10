@@ -72,12 +72,14 @@ export function Navigation() {
                     <>
                       <NavigationTab route="schedule" title="Schedule" />
                       <NavigationTab route="checkout" title="Checkout" />
+                      <NavigationTab route="mycalendar" title="Calendar"/>
                     </>
                   ),
                   teacher: (
                     <>
                       <NavigationTab route="bank" title="Bank" />
                       <NavigationTab route="overview" title="Overview" />
+                      <NavigationTab route="mycalendar" title="Calendar"/>
                     </>
                   ),
                   default: <NavigationTab route="about" title="About" />,

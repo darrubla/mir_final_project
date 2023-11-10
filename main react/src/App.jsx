@@ -21,6 +21,7 @@ import { Index } from './pages/Index';
 import { Navigation } from './components/Navigation';
 import { Landing } from './pages/Landing';
 // import ProtectedRoute from './containers/ProtectedRoute'
+import MyCalendar from './pages/MyCalendar';
 import { ModalAlert } from './components/ModalAlert';
 import { AuthApp } from './components/AuthApp';
 import Checkout from './pages/Checkout';
@@ -84,6 +85,7 @@ function App() {
             <Route path='/github' element={<GitHub/>} />
             <Route path='/developmentteam' element={<DevelopmentTeam/>} />
             <Route path='/mail' element={<Mail/>} />
+            <Route path='/mycalendar' element={<MyCalendar/>}/>
           </Routes>
         </Suspense>
       </Container>

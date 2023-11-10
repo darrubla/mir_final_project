@@ -27,6 +27,7 @@ router.route('/signin/student').post(controller.signin);
 router.route('/confirmation_student').post(controller.confirmation);
 router.route('/activate_student/:token').get(activate, controller.activate);
 
+router.route('/me').get(auth, controller.myInfo);
 router.route('/').get(controller.allStudents); // .post(controller.createStudent);
 
 router.param('id', controller.idStudent);

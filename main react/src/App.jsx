@@ -85,7 +85,7 @@ function App() {
             <Route path='/github' element={<GitHub/>} />
             <Route path='/developmentteam' element={<DevelopmentTeam/>} />
             <Route path='/mail' element={<Mail/>} />
-            <Route path='/cal' element={<MyCalendar/>}/>
+            <Route path='/mycalendar' element={<MyCalendar/>}/>
           </Routes>
         </Suspense>
       </Container>

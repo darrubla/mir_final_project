@@ -283,6 +283,42 @@ export const idStudent = async (req, res, next) => {
   }
 };
 
+export const myInfo = async (req, res, next) => {
+  const { decoded = {} } = req;
+  const { id: studentId } = decoded;
+  try {
+    const result = await prisma.Student.findUnique({
+      include: {
+        lesson: {
+          select: {
+            id: true,
+            subject: true,
+            description: true,
+            site: true,
+            scheduledAt: true,
+            status: true,
+          },
+        },
+        _count: {
+          // Contar las clases de este usuario
+          select: {
+            lesson: true,
+          },
+        },
+      },
+      where: {
+        id: studentId,
+      },
+    });
+
+    res.json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const readStudent = async (req, res, next) => {
   res.json({
     data: req.data,

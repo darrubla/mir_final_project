@@ -100,3 +100,16 @@ export async function confirmStudent(email) {
     return Promise.reject(error);
   }
 }
+
+export async function getMyself() {
+  try {
+    const { data: response } = await http.get(`/students/me`);
+    const data = transformStudent(response.data);
+    return {
+      data,
+      //meta: response.meta,
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

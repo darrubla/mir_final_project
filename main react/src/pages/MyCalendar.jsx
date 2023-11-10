@@ -21,6 +21,7 @@ export default function MyCalendar() {
     setLoadMyInfo(true);
     setErrorMyInfo('');
     try {
+      console.log(type)
       if (type === 'student') {
         const response=await getMyself();
         setInfo(response.data)
@@ -52,7 +53,8 @@ export default function MyCalendar() {
           start: item.scheduledAt,
           site: item.site,
           description: item.description,
-          teacher: `${item.teacher.name} ${item.teacher.lastname} - ${item.teacher.email}`
+          teacher: `${item.teacher.name} ${item.teacher.lastname} - ${item.teacher.email}`,
+          student: `${item.student.name} ${item.student.lastname} - ${item.student.email}`,
         })
       }
       
@@ -92,6 +94,7 @@ export default function MyCalendar() {
                 `<p><strong>Starts at: </strong>${inf.event.start}</p>
                   <p><strong>Description: </strong>${inf.event.extendedProps.description}</p>
                   <p><strong>Teacher: </strong>${inf.event.extendedProps.teacher}</p>
+                  <p><strong>Student: </strong>${inf.event.extendedProps.student}</p>
                   <p><strong>Duration: </strong>1 hour</p>
                   <p><strong>Site: </strong>${inf.event.extendedProps.site}</p>
                   `,

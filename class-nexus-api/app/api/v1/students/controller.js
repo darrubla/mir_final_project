@@ -298,6 +298,7 @@ export const myInfo = async (req, res, next) => {
             scheduledAt: true,
             status: true,
             teacher: true,
+            student: true,
           },
         },
         _count: {

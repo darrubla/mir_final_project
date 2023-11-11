@@ -52,7 +52,7 @@ export function StudentView() {
                                     className='mg-fluid'/>
                             )}
                             <p className="fs-3 fw-light p-0 m-0">{`${student.name} ${student.lastname}`}</p>
-                            <p className="fs-3 fw-light p-0 m-0">{`${student.bio}`}</p>
+                            <p className="fs-4 fw-light p-0 m-0">{`${student.bio}`}</p>
                             <p className="fs-1 fw-light p-0 m-0">{`${((new Date()).getFullYear())-((new Date(student.joined)).getFullYear())+student.age }`}</p>
                             <Table striped bordered hover size="sm">
                                 <tbody>

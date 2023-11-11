@@ -18,6 +18,14 @@ export const TeacherSchema = z
       .transform(function (value) {
         return escape(value);
       }),
+    bio: z
+      .string()
+      .trim()
+      .min(10)
+      .max(128)
+      .transform(function (value) {
+        return escape(value);
+      }),
     age: z.number(),
     profilePhoto: z.string().optional(),
     points: z.number().optional(),

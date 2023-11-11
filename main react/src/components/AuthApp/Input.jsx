@@ -114,7 +114,36 @@ export function CustomInput({
     />
   );
 }
-
+//----Text area----
+export function CustomAreaInput({
+  type = 'text',
+  name,
+  id,
+  onChange,
+  onBlur,
+  value,
+  placeholder,
+  className,
+}) {
+  return (
+    <textarea
+      type={type}
+      name={name}
+      id={id}
+      value={value}
+      placeholder={placeholder}
+      onChange={onChange}
+      onBlur={onBlur}
+      className={`${css`
+        background: none;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      `} ${className}`}
+    />
+  );
+}
 export function Label({ children, htmlFor }) {
   return (
     <label

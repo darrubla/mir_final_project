@@ -4,7 +4,7 @@ import { ErrorMessage, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 
-import { CustomInput, FormGroup, Label } from './Input';
+import { CustomAreaInput, CustomInput, FormGroup, Label } from './Input';
 import { useContext } from 'react';
 import AuthContext from '../../containers/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { signUpStudent } from '../../api/students';
 const signUpSchema = z.object({
   name: z.string().min(2, { message: 'Must be 2 or more characters long' }),
   lastname: z.string().min(2, { message: 'Must be 2 or more characters long' }),
+  bio: z.string().min(10, { message: 'Must provide a longer biography'}),
   email: z.string().email({ message: 'Invalid email address' }),
   password: z.string().min(8, { message: 'Must be 8 or more characters long' }),
   age: z.coerce
@@ -28,6 +29,7 @@ export function SignUpApp() {
   const initialValues = {
     name: '',
     lastname: '',
+    bio: '',
     email: '',
     password: '',
     age: '',
@@ -61,7 +63,6 @@ export function SignUpApp() {
               for (const value in values) {
                 formData.append(value, values[value]);
               }
-
               const signUp = {
                 teacher: signUpTeacher,
                 student: signUpStudent,
@@ -133,6 +134,30 @@ export function SignUpApp() {
                 </FormGroup>
                 <ErrorMessage
                   name="lastname"
+                  component="div"
+                  className="invalid-feedback mt-n2"
+                />
+
+                <FormGroup
+                  validityClassName={
+                    touched.bio && errors.bio ? 'is-invalid' : ''
+                  }
+                >
+                  <Label htmlFor="bio">Biography</Label>
+                  <CustomAreaInput
+                    type="text"
+                    name="bio"
+                    id="bio"
+                    value={values.bio}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      touched.bio && errors.bio ? 'is-invalid' : ''
+                    }
+                  />
+                </FormGroup>
+                <ErrorMessage
+                  name="bio"
                   component="div"
                   className="invalid-feedback mt-n2"
                 />

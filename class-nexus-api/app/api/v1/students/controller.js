@@ -17,6 +17,7 @@ export const signup = async (req, res, next) => {
   const payload = {};
   payload.name = body.name;
   payload.lastname = body.lastname;
+  payload.bio = body.bio;
   payload.age = Number(body.age);
   payload.email = body.email;
   payload.password = body.password;

@@ -37,11 +37,12 @@ model Teacher {
   points       Int                  @default(0)
   name         String?
   lastname     String?
+  bio          String               @default("Bio description")
   age          Int?
   password     String?
   profilePhoto String?
   joined       DateTime             @default(now())
-  updatedAt    DateTime?
+  updatedAt    DateTime?            @default(now())
   lesson       Lesson[]
   subjects     SubjectsOnTeachers[]
 }
@@ -52,11 +53,12 @@ model Student {
   email        String    @unique
   name         String
   lastname     String
+  bio          String    @default("Bio description")
   age          Int
   password     String?
   profilePhoto String?
   joined       DateTime  @default(now())
-  updatedAt    DateTime?
+  updatedAt    DateTime? @default(now())
   lesson       Lesson[]
 }
 

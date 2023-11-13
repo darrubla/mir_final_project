@@ -95,7 +95,7 @@ export function Profile() {
                         <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Bio</p>
                       </td>
                       <td>
-                        <p className='text-wrap text-capitalize text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.bio} saasdsadsadsad asdas dsa sad as dsa das das das dsa dasd`}</p>
+                        <p className='text-wrap text-capitalize text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.bio}`}</p>
                       </td>
                     </tr>
                     <tr>
@@ -182,7 +182,13 @@ export function Profile() {
             <ModalEditInfo 
               userType={user.type}
               handleClose={handleClose}
-              show={showEdit}/>
+              name={info?.name}
+              lastname={info?.lastname}
+              bio={info.bio}
+              age={info.age}
+              show={showEdit}
+              id={info.id}/>
+              
           </>
         }
     </>

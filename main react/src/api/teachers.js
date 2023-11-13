@@ -72,6 +72,20 @@ export async function signUpTeacher(payload) {
   }
 }
 
+export async function updateTeacher({ id, payload }) {
+  console.log(payload, 'p');
+  console.log(id, 'id');
+  try {
+    const { data: response } = await http.put(`/teachers/${id}`, payload);
+    const data = transformTeacher(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function getMe() {
   try {
     const { data: response } = await http.get(`/teachers/me`);

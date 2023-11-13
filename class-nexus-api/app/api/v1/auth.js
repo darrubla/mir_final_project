@@ -64,6 +64,7 @@ export const me = (req, res, next) => {
   const { decoded = {}, params = {} } = req;
   const { id: userId } = decoded;
   const { id } = params;
+
   if (userId !== id) {
     return next({
       message: `Forbidden me ${userId}, ${id}`,

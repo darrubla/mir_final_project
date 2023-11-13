@@ -22,6 +22,7 @@ router
     controller.signup,
     controller.confirmation,
   );
+router.route('/u');
 router.route('/signin/student').post(controller.signin);
 
 router.route('/confirmation_student').post(controller.confirmation);
@@ -35,9 +36,10 @@ router.param('id', controller.idStudent);
 router
   .route('/:id')
   .get(auth, controller.readStudent)
-  .put(auth, me, controller.updateStudent)
-  .patch(auth, me, controller.updateStudent)
   .delete(auth, me, controller.removeStudent);
 
+router
+  .route('/:id')
+  .put(auth, me, upload.single('profilePhoto'), controller.updateStudent);
 router.use('/:studentId/lessons', lessonsRouter); // Para poder sacar las clases de ese estudiante
 // router.use("/:emailStudent/lessons", lessonsRouter); // Para poder sacar las clases de ese estudiante

@@ -3,18 +3,16 @@ import { useContext, useEffect, useState } from 'react'
 import UserContext from '../containers/UserContext';
 import { getMyself } from '../api/students';
 import { getMe } from '../api/teachers';
-import { Button, Form } from 'react-bootstrap';
-import { ErrorMessage, Formik } from 'formik';
-import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { CustomAreaInput, CustomInput, FormGroup, Label } from '../components/AuthApp/Input';
-import { z } from 'zod';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+import { Alert, Badge, Button, Container, Form, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { signUpTeacher } from '../api/teachers';
-import { signUpStudent } from '../api/students';
+import avatar from '../img/avatar.png';
 import AuthContext from '../containers/AuthContext';
-import { AuthModal } from '../components/AuthApp/AuthModal';
-import { SignUpApp } from '../components/AuthApp/SignUp';
 import ModalEditInfo from './ModalEditInfo';
+import { Loading } from '../animation/Loading';
+import { formatRelative } from 'date-fns';
 
 export function Profile() {
   const { user } = useContext(UserContext);
@@ -52,104 +50,141 @@ export function Profile() {
     }
   }, [user]);
 
-  /*return (
-    <>
-            {loadMyInfo && <Loading/>}
-            {errorMyInfo && <Alert variant='danger'>{errorMyInfo}</Alert>}
-            {info && (
-                <main className="pt-2nav bg-nexus-white">
-                    <Container fluid="xxl">
-                        <div className='d-flex flex-column align-items-center justify-content-center'>
-                            {info?.profilePhoto ? (
-                                <Image 
-                                    src={`${`${import.meta.env.VITE_API_URL}/${info.profilePhoto}`}`} 
-                                    width={200}
-                                    className='mg-fluid'/>
-                            ): (
-                                <Image 
-                                    src={avatar} 
-                                    width={200}
-                                    className='mg-fluid'/>
-                            )}
-                            <p className="fs-3 fw-light p-0 m-0">{`${info.name} ${info.lastname}`}</p>
-                            <p className="fs-4 fw-light p-0 m-0">{`${info.bio}`}</p>
-                            <p className="fs-1 fw-light p-0 m-0">{`${((new Date()).getFullYear())-((new Date(info.joined)).getFullYear())+info.age }`}</p>
-                            <Table striped hover size="sm" bordered='false'>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <p className="fs-4 fw-light">Joined At</p>
-                                        </td>
-                                        <td>
-                                            {formatRelative(
-                                                new Date(info.joined),
-                                                new Date()
-                                            )}
-                                        </td>
-                                    </tr>
-                                    {info.points && 
-                                      <tr>
-                                          <td>
-                                              <p className="fs-4 fw-light">Points</p>
-                                          </td>
-                                          <td>
-                                              {`${info.points} points`}
-                                          </td>
-                                      </tr>
-                                    }
-                                    <tr>
-                                        <td>
-                                            <p className="fs-4 fw-light">Email</p>
-                                        </td>
-                                        <td>
-                                            {`${info.email}`}
-                                        </td>
-                                    </tr>
-                                    {info.subjects && 
-                                      <tr>
-                                        <td>
-                                            <p className="fs-4 fw-light">Subjects</p>
-                                        </td>
-                                        <td>
-                                          <div className='d-flex'>
-                                            {
-                                              info.subjects.map((item, index) => (
-                                                <h5 key={index} className='me-2'>
-                                                    <Badge bg="secondary" >
-                                                        {`${index+1} - ${item.subject.subjectname}`}
-                                                    </Badge>
-                                                </h5>
-                                              ))
-                                            }
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </Table>
-                        </div>
-                    </Container>
-                </main>
-            )}
-        </>
-  )*/
   return (
     <>
-    <div className='mt-5 pt-5'>
-    </div>
-    <div className='mt-3 pt-3'>
-    </div>
-    <Button
-      onClick={handleShow}
-    >Edit info</Button>
-      {showEdit &&
-        <>
-          <ModalEditInfo 
-            userType={user.type}
-            handleClose={handleClose}
-            show={showEdit}/>
-        </>
-      }
+      {info && <Loading/>}
+      {errorMyInfo && <Alert variant='danger'>{errorMyInfo}</Alert>}
+      {info && 
+        (
+          <div className='pt-1nav bg-nexus-white d-flex flex-row justify-content-md-center'>
+            <div className='d-flex flex-column'>
+              <div className='d-flex px-5 justify-content-center'>
+                {info?.profilePhoto ? (
+                  <Image 
+                    src={`${`${import.meta.env.VITE_API_URL}/${info.profilePhoto}`}`} 
+                    width={350}
+                    className='mg-fluid'/>
+                ): (
+                  <Image 
+                    src={avatar} 
+                    width={350}
+                    className='mg-fluid'/>
+                )}
+              </div>
+              <div className='d-flex px-5'>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Name</p>
+                      </td>
+                      <td>
+                        <p className='text-capitalize text-start fs-5 fw-light mb-0 ms-4'>{`${info.name} ${info.lastname}`}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Age</p>
+                      </td>
+                      <td>
+                        <p className='text-capitalize text-start fs-5 fw-light mb-0 ms-4'>{`${((new Date()).getFullYear())-((new Date(info.joined)).getFullYear())+info.age} ages`}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Bio</p>
+                      </td>
+                      <td>
+                        <p className='text-wrap text-capitalize text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.bio} saasdsadsadsad asdas dsa sad as dsa das das das dsa dasd`}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Email</p>
+                      </td>
+                      <td>
+                        <p className='text-lowercase text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.email}`}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Joined</p>
+                      </td>
+                      <td>
+                        <p className='text-lowercase text-start fs-5 fw-light text-wrap mb-0 ms-4'>
+                          {formatRelative(
+                            new Date(info.joined),
+                            new Date()
+                          )}
+                        </p>
+                      </td>
+                    </tr>
+                    {
+                      info.subjects ? (
+                      <tr>
+                        <td>
+                          <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Subjects</p>
+                        </td>
+                        <td>
+                          <div className='d-flex ms-4'>
+                          {
+                            info.subjects.map((item, index) => (
+                              <h5 key={index} className=' mb-0 me-1'>
+                                  <Badge bg='primary'>
+                                      {`${index+1} - ${item.subject.subjectname}`}
+                                  </Badge>
+                              </h5>
+                              
+                            ))
+                          }
+                          </div>
+                        </td>
+                      </tr>
+                      ): null
+                    }
+                    {
+                      info.points ? (
+                      <tr>
+                        <td>
+                          <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Points</p>
+                        </td>
+                        <td>
+                          <div className='d-flex mb-0 ms-4'>
+                            {`${info.points}`}
+                          </div>
+                        </td>
+                      </tr>
+                      ): null
+                    }
+                  </tbody>
+                </table>
+              </div>
+            <div className='d-flex justify-content-center'>
+              <Button
+                className={cx(
+                  css`
+                    height: 58px;
+                  `,
+                  'fs-6',
+                )}
+                variant="outline-dark"
+                size="lg"
+                onClick={handleShow}
+              >
+                Edit my info
+              </Button>
+            </div>
+            </div>
+          </div>
+        )}
+        {showEdit &&
+          <>
+            <ModalEditInfo 
+              userType={user.type}
+              handleClose={handleClose}
+              show={showEdit}/>
+          </>
+        }
     </>
   )
 }

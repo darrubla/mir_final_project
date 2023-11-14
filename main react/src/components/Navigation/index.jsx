@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { css, cx } from '@emotion/css';
@@ -10,13 +10,38 @@ import { NavigationTab } from './NavigationTab';
 import { ModalAlert } from '../ModalAlert';
 import { clearSession } from '../../api/session';
 import { NLogo } from '../../assets/icons/NLogo';
+import { getMyself } from '../../api/students';
+import { getMe } from '../../api/teachers';
 
 export function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-
+  const [info, setInfo] = useState()
   const [show, setShow] = useState(false);
   const [logType, setLogType] = useState();
+
+  async function loadInfo(type) {
+    try {
+      console.log('execution')
+      console.log(type)
+      if (type === 'student') {
+        const response=await getMyself();
+        setInfo(response.data)
+      }
+      if (type === 'teacher') {
+        const response=await getMe();
+        setInfo(response.data)
+
+      }
+    } catch (error) {
+        console.log(error)
+    }
+  }
+  useEffect(() => {
+    if(user) {
+      loadInfo(user.type)
+    }
+  }, [user]);
 
   function onSignOut() {
     clearSession();
@@ -90,7 +115,7 @@ export function Navigation() {
                 <UserNavigation
                   handleSignOut={onSignOut}
                   email={user.email}
-                  photo={`${import.meta.env.VITE_API_URL}/${user.profilePhoto}`}
+                  photo={`${import.meta.env.VITE_API_URL}/${user?.profilePhoto}`}
                 />
               ) : (
                 <Button

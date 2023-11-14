@@ -2,8 +2,10 @@ import { Dropdown, Nav } from 'react-bootstrap';
 import { DropdownItemCustom, DropdownToggleCustom } from './DropdownCustom';
 import PropTypes from 'prop-types';
 import avatar from '../../img/avatar.png'
+import { useNavigate } from 'react-router-dom';
 
 export function UserNavigation({ handleSignOut, email, photo = ''}) {
+  const navigate = useNavigate();
   if (photo.endsWith("null")) {
     photo=avatar
   } 
@@ -26,8 +28,12 @@ export function UserNavigation({ handleSignOut, email, photo = ''}) {
             
           </DropdownToggleCustom>
           <Dropdown.Menu>
-            <DropdownItemCustom>Profile</DropdownItemCustom>
-            <DropdownItemCustom>Settings</DropdownItemCustom>
+            <DropdownItemCustom onClick={ () =>
+              navigate('/profile')
+            }>Profile</DropdownItemCustom>
+            <DropdownItemCustom onClick={ () =>
+              navigate('/settings')
+            }>Settings</DropdownItemCustom>
             <DropdownItemCustom onClick={handleSignOut}>
               Log Out
             </DropdownItemCustom>

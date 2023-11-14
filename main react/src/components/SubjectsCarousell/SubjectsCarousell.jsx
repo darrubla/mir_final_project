@@ -3,28 +3,34 @@ import PropTypes from 'prop-types';
 
 import './styles/SubjectsCarousell.css';
 import { getSubjects, getTeachersFromSubject } from '../../api/subjects.js';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Alert, Col, Container, Image, Row } from 'react-bootstrap';
 import { SectionName } from '../SectionName.jsx';
 import { useNavigate } from 'react-router-dom';
 import avatar from '../../img/avatar.png'
+import { Loading } from '../../animation/Loading.jsx';
 
 function SubjectsCarousell() {
   const navigate = useNavigate();
   const [data, setData] = useState();
+  const [loadCards, setLoadCards] = useState(false);
+  const [errorCards, setErrorCards] = useState('');
 
   async function LoadSubjects() {
+    setLoadCards(true);
+    setErrorCards('');
     try {
       const response = await getSubjects();
-
       const data = await Promise.all(
         response.data
           .filter((subject) => subject.teachers.length)
           .map((subject) => getTeachersFromSubject(subject.id)),
       );
-
       setData(data);
     } catch (error) {
       console.error(error);
+      setErrorCards(error)
+    } finally {
+      setLoadCards(false)
     }
   }
 
@@ -39,6 +45,8 @@ function SubjectsCarousell() {
 
   return (
     <div className="home-content d-flex flex-column pt-2nav bg-nexus-white vh-100">
+      {loadCards && <Loading/>}
+      {errorCards &&<Alert variant='danger'>{errorCards}</Alert>}
       <Container fluid="xxl">
         <Row className="g-2">
           <Col>

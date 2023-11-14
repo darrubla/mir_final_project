@@ -35,6 +35,7 @@ import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { GitHub } from './pages/GitHub';
 import { DevelopmentTeam } from './pages/DevelopmentTeam';
 import { Mail } from './pages/Mail';
+import { Profile } from './pages/Profile';
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
             <Route path='/developmentteam' element={<DevelopmentTeam/>} />
             <Route path='/mail' element={<Mail/>} />
             <Route path='/mycalendar' element={<MyCalendar/>}/>
+            <Route path='/profile' element={<Profile/>}/>
           </Routes>
         </Suspense>
       </Container>

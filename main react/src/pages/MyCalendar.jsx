@@ -9,6 +9,8 @@ import { useContext, useEffect, useState } from 'react';
 import { getMe } from '../api/teachers';
 import { getMyself } from '../api/students';
 import UserContext from '../containers/UserContext';
+import { Loading } from '../animation/Loading';
+import { Alert } from 'react-bootstrap';
 
 export default function MyCalendar() {
   const { user } = useContext(UserContext);
@@ -21,7 +23,6 @@ export default function MyCalendar() {
     setLoadMyInfo(true);
     setErrorMyInfo('');
     try {
-      console.log(type)
       if (type === 'student') {
         const response=await getMyself();
         setInfo(response.data)
@@ -59,7 +60,6 @@ export default function MyCalendar() {
       }
       
     })
-    console.log(classList)  
   }
 
   const events = [
@@ -72,6 +72,8 @@ export default function MyCalendar() {
   return (
     <div className='mt-5 m-5 pt-5'>
       <div className='pt-5'>
+        {loadMyInfo && <Loading/>}
+        {errorMyInfo &&<Alert variant='danger'>{errorMyInfo}</Alert>}
         <FullCalendar
           plugins={[dayGridPlugin,timeGridPlugin,interactionPlugin,listPlugin,bootstrap5Plugin]}
           themeSystem= 'bootstrap5'

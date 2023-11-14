@@ -70,6 +70,18 @@ export async function signUpStudent(payload) {
   }
 }
 
+export async function updateStudent({ id, formData }) {
+  try {
+    const { data: response } = await http.put(`/students/${id}`, formData);
+    const data = transformStudent(response.data);
+    return {
+      data,
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function activateStudent(token) {
   try {
     const { data: response } = await http.get(

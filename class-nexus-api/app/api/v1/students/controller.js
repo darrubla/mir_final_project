@@ -17,6 +17,7 @@ export const signup = async (req, res, next) => {
   const payload = {};
   payload.name = body.name;
   payload.lastname = body.lastname;
+  payload.bio = body.bio;
   payload.age = Number(body.age);
   payload.email = body.email;
   payload.password = body.password;
@@ -330,10 +331,18 @@ export const readStudent = async (req, res, next) => {
 export const updateStudent = async (req, res, next) => {
   const { body = {}, params = {} } = req;
   const { id } = params;
+  const payload = {};
+  payload.name = body.name;
+  payload.lastname = body.lastname;
+  payload.bio = body.bio;
+  payload.age = Number(body.age);
 
   try {
     const { success, data, error } =
-      await UserStSchema.partial().safeParseAsync(body);
+      await UserStSchema.partial().safeParseAsync({
+        ...payload,
+        profilePhoto: req.file?.path,
+      });
     if (!success) {
       return next({
         message: 'Validator error',

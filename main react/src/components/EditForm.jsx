@@ -1,40 +1,35 @@
+import React, { useContext, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { Button, Form } from 'react-bootstrap';
 import { ErrorMessage, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
+import PropTypes from 'prop-types';
+import { CustomAreaInput, CustomInput, FormGroup, Label } from '../components/AuthApp/Input';
+import { updateTeacher } from '../api/teachers'
+import { updateStudent } from '../api/students';
+import UserContext from '../containers/UserContext';
+import ModalUpdated from './ModalUpdated';
 
-import { CustomAreaInput, CustomInput, FormGroup, Label } from './Input';
-import { useContext } from 'react';
-import AuthContext from '../../containers/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { signUpTeacher } from '../../api/teachers';
-import { signUpStudent } from '../../api/students';
-
-const signUpSchema = z.object({
+const editSchema = z.object({
   name: z.string().min(2, { message: 'Must be 2 or more characters long' }),
   lastname: z.string().min(2, { message: 'Must be 2 or more characters long' }),
   bio: z.string().min(10, { message: 'Must provide a longer biography'}),
-  email: z.string().email({ message: 'Invalid email address' }),
-  password: z.string().min(8, { message: 'Must be 8 or more characters long' }),
   age: z.coerce
     .number({ invalid_type_error: 'Invalid age' })
     .gte(18, 'Must be 18 and above'),
 });
 
-export function SignUpApp() {
-  const navigate = useNavigate();
-  const { accountType, setAccountType } = useContext(AuthContext);
+export default function EditForm({userType, name, lastname, bio, age, id, handleClose, handleShowConfirm}) {
+  const { user, setUser } = useContext(UserContext);
+  
 
   const initialValues = {
-    name: '',
-    lastname: '',
-    bio: '',
-    email: '',
-    password: '',
-    age: '',
+    name: name,
+    lastname: lastname,
+    bio: bio,
+    age: age,
   };
-
   return (
     <>
       <div
@@ -45,7 +40,7 @@ export function SignUpApp() {
           font-weight: 600;
         `}
       >
-        {`Create your Account`}
+        {`Edit your info`}
       </div>
       <div
         className={cx(
@@ -63,22 +58,29 @@ export function SignUpApp() {
               for (const value in values) {
                 formData.append(value, values[value]);
               }
-              const signUp = {
-                teacher: signUpTeacher,
-                student: signUpStudent,
-              }[accountType];
+              const edit = {
+                teacher: updateTeacher,
+                student: updateStudent,
+              }[userType];
 
-              const { data } = await signUp(formData);
+              const { data } = await edit({id,formData});
 
               setSubmitting(false);
-
-              navigate('/auth/signed', {
-                state: {
-                  email: data.email,
-                },
-              });
+              handleClose();
+              handleShowConfirm();
+              if (data) {
+                setUser({
+                  ...user,
+                  profilePhoto: data.profilePhoto
+                })
+              }
+              else {
+                console.log('no provided photo')
+              }
+              
+              
             }}
-            validationSchema={toFormikValidationSchema(signUpSchema)}
+            validationSchema={toFormikValidationSchema(editSchema)}
           >
             {({
               values,
@@ -98,7 +100,7 @@ export function SignUpApp() {
                   }
                 >
                   <Label htmlFor="name">Name</Label>
-                  <CustomInput
+                  <CustomInput 
                     type="text"
                     name="name"
                     id="name"
@@ -137,7 +139,6 @@ export function SignUpApp() {
                   component="div"
                   className="invalid-feedback mt-n2"
                 />
-
                 <FormGroup
                   validityClassName={
                     touched.bio && errors.bio ? 'is-invalid' : ''
@@ -161,55 +162,6 @@ export function SignUpApp() {
                   component="div"
                   className="invalid-feedback mt-n2"
                 />
-
-                <FormGroup
-                  validityClassName={
-                    touched.email && errors.email ? 'is-invalid' : ''
-                  }
-                >
-                  <Label htmlFor="email">Email</Label>
-                  <CustomInput
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={
-                      touched.email && errors.email ? 'is-invalid' : ''
-                    }
-                  />
-                </FormGroup>
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="invalid-feedback mt-n2"
-                />
-
-                <FormGroup
-                  validityClassName={
-                    touched.password && errors.password ? 'is-invalid' : ''
-                  }
-                >
-                  <Label htmlFor="password">Password</Label>
-                  <CustomInput
-                    type="password"
-                    name="password"
-                    id="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={
-                      touched.password && errors.password ? 'is-invalid' : ''
-                    }
-                  />
-                </FormGroup>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="invalid-feedback mt-n2"
-                />
-
                 <div className="d-flex justify-content-between w-100 gap-3">
                   <div className="w-25">
                     <FormGroup
@@ -315,7 +267,6 @@ export function SignUpApp() {
                     <ErrorMessage name="profilePhoto" component="div" />
                   </FormGroup>
                 </div>
-
                 <div className="d-flex flex-column">
                   <Button
                     variant="nexus-dark"
@@ -330,41 +281,24 @@ export function SignUpApp() {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    Register
+                    Save
                   </Button>
-                  <p
-                    className={css`
-                      color: #fff;
-                      font-family: Outfit;
-                      font-size: 14px;
-                      font-style: normal;
-                      font-weight: 400;
-                      line-height: normal;
-                    `}
-                  >
-                    Already have an account?{' '}
-                    <Link
-                      to={'/auth/login'}
-                      className={css`
-                        color: #00e022;
-                        font-family: Outfit;
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: normal;
-                        text-decoration: none;
-                      `}
-                      onClick={() => setAccountType('')}
-                    >
-                      Sign In
-                    </Link>
-                  </p>
-                </div>
+                  </div>
               </Form>
             )}
           </Formik>
         </div>
       </div>
     </>
-  );
+  )
+}
+EditForm.propTypes = {
+  userType: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  lastname: PropTypes.string.isRequired,
+  bio: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleShowConfirm: PropTypes.func.isRequired,
 }

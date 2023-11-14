@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { css, cx } from '@emotion/css';
 import PropTypes from 'prop-types';
-import EditForm from '../components/EditForm';
+import EditForm from './EditForm';
 
-export default function ModalEditInfo({userType, name, lastname, bio, age,handleClose, show, id, handleShowConfirm}) {
+export default function ModalUpdated({show, handleClose}) {
+
   return (
     <Modal
       show={show}
@@ -27,31 +28,29 @@ export default function ModalEditInfo({userType, name, lastname, bio, age,handle
             onClick={handleClose}
           />
           <div className={cx(css`margin-left: 60px; margin-right: 60px; gap: 29px;`,'d-flex flex-column justify-content-between',)}>
-            {<EditForm
-              userType={userType}
-              name={name}
-              lastname={lastname}
-              bio={bio}
-              age={age}
-              id={id}
-              handleClose={handleClose}
-              handleShowConfirm={handleShowConfirm}
-            />}
+            {`Your profile was updated!`}
           </div>
+          <Button
+            variant="nexus-dark"
+            className={cx(
+              css`
+                margin: 24px 0;
+                padding: 14px 0;
+                font-weight: 600;
+              `,
+              'rounded-pill',
+            )}
+            onClick={handleClose}
+          >
+            Close
+          </Button>
         </div>
       </Modal.Body>
     </Modal>
   )
 }
 
-ModalEditInfo.propTypes = {
-  userType: PropTypes.string.isRequired,
+ModalUpdated.propTypes = {
   handleClose: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
-  bio: PropTypes.string.isRequired,
-  age: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  handleShowConfirm: PropTypes.func.isRequired,
 }

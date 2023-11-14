@@ -349,10 +349,18 @@ export const readTeacher = async (req, res, next) => {
 export const updateTeacher = async (req, res, next) => {
   const { body = {}, params = {} } = req;
   const { id } = params;
+  const payload = {};
+  payload.name = body.name;
+  payload.lastname = body.lastname;
+  payload.bio = body.bio;
+  payload.age = Number(body.age);
 
   try {
     const { success, data, error } =
-      await UserThSchema.partial().safeParseAsync(body);
+      await UserThSchema.partial().safeParseAsync({
+        ...payload,
+        profilePhoto: req.file?.path,
+      });
     if (!success) {
       return next({
         message: 'Validator error',

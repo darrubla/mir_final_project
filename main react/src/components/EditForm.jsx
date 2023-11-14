@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { Button, Form } from 'react-bootstrap';
 import { ErrorMessage, Formik } from 'formik';
@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { CustomAreaInput, CustomInput, FormGroup, Label } from '../components/AuthApp/Input';
 import { updateTeacher } from '../api/teachers'
 import { updateStudent } from '../api/students';
+import UserContext from '../containers/UserContext';
+import ModalUpdated from './ModalUpdated';
 
 const editSchema = z.object({
   name: z.string().min(2, { message: 'Must be 2 or more characters long' }),
@@ -18,7 +20,10 @@ const editSchema = z.object({
     .gte(18, 'Must be 18 and above'),
 });
 
-export default function EditForm({userType, name, lastname, bio, age, id}) {
+export default function EditForm({userType, name, lastname, bio, age, id, handleClose, handleShowConfirm}) {
+  const { user, setUser } = useContext(UserContext);
+  
+
   const initialValues = {
     name: name,
     lastname: lastname,
@@ -49,7 +54,6 @@ export default function EditForm({userType, name, lastname, bio, age, id}) {
           <Formik
             initialValues={initialValues}
             onSubmit={async (values, { setSubmitting }) => {
-              console.log(values)
               const formData = new FormData();
               for (const value in values) {
                 formData.append(value, values[value]);
@@ -62,6 +66,19 @@ export default function EditForm({userType, name, lastname, bio, age, id}) {
               const { data } = await edit({id,formData});
 
               setSubmitting(false);
+              handleClose();
+              handleShowConfirm();
+              if (data) {
+                setUser({
+                  ...user,
+                  profilePhoto: data.profilePhoto
+                })
+              }
+              else {
+                console.log('no provided photo')
+              }
+              
+              
             }}
             validationSchema={toFormikValidationSchema(editSchema)}
           >
@@ -282,4 +299,6 @@ EditForm.propTypes = {
   bio: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleShowConfirm: PropTypes.func.isRequired,
 }

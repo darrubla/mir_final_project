@@ -38,9 +38,11 @@ router.param('id', controller.idTeacher);
 router
   .route('/:id')
   .get(auth, controller.readTeacher)
-  .put(auth, controller.updateTeacher)
-  .patch(auth, me, controller.updateTeacher)
   .delete(auth, me, controller.removeTeacher);
+
+router
+  .route('/:id')
+  .put(auth, me, upload.single('profilePhoto'), controller.updateTeacher);
 
 router.use('/:teacherId/lessons', lessonsRouter); // Para poder sacar las clases de ese profesor
 router.use('/:teacherId/subjects', subjectsRouter); // Para poder sacar las etiquetas de ese profesor

@@ -72,11 +72,9 @@ export async function signUpTeacher(payload) {
   }
 }
 
-export async function updateTeacher({ id, payload }) {
-  console.log(payload, 'p');
-  console.log(id, 'id');
+export async function updateTeacher({ id, formData }) {
   try {
-    const { data: response } = await http.put(`/teachers/${id}`, payload);
+    const { data: response } = await http.put(`/teachers/${id}`, formData);
     const data = transformTeacher(response.data);
     return {
       data,

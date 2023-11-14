@@ -53,7 +53,7 @@ export function TeacherView() {
                             )}
                             <p className="fs-3 fw-light p-0 m-0">{`${teacher.name} ${teacher.lastname}`}</p>
                             <p className="fs-4 fw-light p-0 m-0">{`${teacher.bio}`}</p>
-                            <p className="fs-1 fw-light p-0 m-0">{`${((new Date()).getFullYear())-((new Date(teacher.joined)).getFullYear())+teacher.age }`}</p>
+                            <p className="fs-1 fw-light p-0 m-0">{`${((new Date()).getFullYear())-((new Date(teacher.updatedAt)).getFullYear())+teacher.age }`}</p>
                             <Table striped bordered hover size="sm">
                                 <tbody>
                                     <tr>

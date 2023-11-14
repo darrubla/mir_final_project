@@ -13,6 +13,7 @@ import AuthContext from '../containers/AuthContext';
 import ModalEditInfo from './ModalEditInfo';
 import { Loading } from '../animation/Loading';
 import { formatRelative } from 'date-fns';
+import ModalUpdated from '../components/ModalUpdated';
 
 export function Profile() {
   const { user } = useContext(UserContext);
@@ -24,6 +25,9 @@ export function Profile() {
   const [showEdit, setShowEdit] = useState(false);
   const handleClose = () => setShowEdit(false);
   const handleShow = () => setShowEdit(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const handleCloseConfirm = () => setShowConfirmation(false);
+  const handleShowConfirm = () => setShowConfirmation(true);
  
 
   async function loadInfo(type) {
@@ -52,7 +56,7 @@ export function Profile() {
 
   return (
     <>
-      {info && <Loading/>}
+      {loadMyInfo && <Loading/>}
       {errorMyInfo && <Alert variant='danger'>{errorMyInfo}</Alert>}
       {info && 
         (
@@ -87,7 +91,7 @@ export function Profile() {
                         <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Age</p>
                       </td>
                       <td>
-                        <p className='text-capitalize text-start fs-5 fw-light mb-0 ms-4'>{`${((new Date()).getFullYear())-((new Date(info.joined)).getFullYear())+info.age} ages`}</p>
+                        <p className='text-capitalize text-start fs-5 fw-light mb-0 ms-4'>{`${((new Date()).getFullYear())-((new Date(info.updatedAt)).getFullYear())+info.age} ages`}</p>
                       </td>
                     </tr>
                     <tr>
@@ -95,7 +99,7 @@ export function Profile() {
                         <p className='text-uppercase text-start fs-4 fw-semibold mb-0'>Bio</p>
                       </td>
                       <td>
-                        <p className='text-wrap text-capitalize text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.bio}`}</p>
+                        <p className='text-wrap text-start fs-5 fw-light text-wrap mb-0 ms-4'>{`${info.bio}`}</p>
                       </td>
                     </tr>
                     <tr>
@@ -187,8 +191,17 @@ export function Profile() {
               bio={info.bio}
               age={info.age}
               show={showEdit}
-              id={info.id}/>
+              id={info.id}
+              handleShowConfirm={handleShowConfirm}/>
               
+          </>
+        }
+        {showConfirmation &&
+          <>
+            <ModalUpdated
+              handleClose={handleCloseConfirm}
+              show={showConfirmation}
+              />
           </>
         }
     </>

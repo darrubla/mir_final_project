@@ -1,11 +1,11 @@
 import { css, cx } from '@emotion/css';
-import { Button, Form } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 import { ErrorMessage, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 
 import { CustomAreaInput, CustomInput, FormGroup, Label } from './Input';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AuthContext from '../../containers/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { signUpTeacher } from '../../api/teachers';
@@ -25,6 +25,7 @@ const signUpSchema = z.object({
 export function SignUpApp() {
   const navigate = useNavigate();
   const { accountType, setAccountType } = useContext(AuthContext);
+  const [errorSignUp, setErrorSignUp] = useState('');
 
   const initialValues = {
     name: '',
@@ -55,6 +56,7 @@ export function SignUpApp() {
           'd-flex flex-column justify-content-between',
         )}
       >
+        {errorSignUp&& <Alert variant='danger'>{errorSignUp}</Alert>}
         <div>
           <Formik
             initialValues={initialValues}
@@ -68,15 +70,21 @@ export function SignUpApp() {
                 student: signUpStudent,
               }[accountType];
 
-              const { data } = await signUp(formData);
+              try {
+                const { data } = await signUp(formData);
+                navigate('/auth/signed', {
+                  state: {
+                    email: data.email,
+                  },
+                });
+              } catch (error) {
+                console.log(error)
+                setErrorSignUp(error)
+              } 
 
               setSubmitting(false);
 
-              navigate('/auth/signed', {
-                state: {
-                  email: data.email,
-                },
-              });
+              
             }}
             validationSchema={toFormikValidationSchema(signUpSchema)}
           >

@@ -11,6 +11,7 @@ import { getSubjectId } from '../api/subjects';
 import PropTypes from 'prop-types';
 
 export function DeleteSubject({ onDelete, options }) {
+    console.log(options)
     const scheduleSchema = z
         .object({
             subject: z.enum(options, {
@@ -23,7 +24,7 @@ export function DeleteSubject({ onDelete, options }) {
     }
     async function loadSubject({ subjectname }) {
         try {
-            const response = await getSubjectId({ subjectname });
+            const response = await getSubjectId(subjectname);
             setDataSubject(response.data.id)
         } catch (error) {
             console.log(error)

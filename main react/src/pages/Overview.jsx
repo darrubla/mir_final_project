@@ -24,6 +24,7 @@ export function Overview() {
             loadMyInfo()
         } catch (error) {
             setErrorAddSub(error)
+            console.log(error)
         } finally {
             setLoadAddSub(false)
         }
@@ -36,6 +37,7 @@ export function Overview() {
             loadMyInfo()
         } catch (error) {
             setErrorDelSub(error)
+            console.log(error)
         } finally {
             setLoadDelSub(false)
         }
@@ -48,13 +50,13 @@ export function Overview() {
             setTeacher(response.data)
         } catch (error) {
             setErrorLoadT(error)
+            console.log(error)
         } finally {
             setLoadTData(false)
         }
     }
     useEffect(()=> {
         loadMyInfo();
-
     }, []);
 
     const subjectsOptions=LoadSubjectsList();

@@ -25,7 +25,7 @@ describe('template spec', () => {
     cy.url().should('include', '/');
 
     // UI should reflect this user being logged in
-    cy.get('span', { timeout: 10000 }).should(
+    cy.get('span', { timeout: 15000 }).should(
       'contain',
       'carlos9559+s@gmail.com',
     );

@@ -1,12 +1,14 @@
 describe('template spec', () => {
   it('successfully loads', () => {
-    cy.visit('/signin/student');
+    //cy.visit('/signin/student');
+    cy.visit('/auth/login');
   });
 
   it('successfully logged in via form submission', () => {
     const userEamil = 'carlos9559+s@gmail.com';
     const userPassword = '12345678';
-    cy.visit('/signin/student');
+    cy.visit('/auth/login');
+    cy.get('button:contains("student")').click();
 
     cy.get('input[name=email]').type(userEamil);
 

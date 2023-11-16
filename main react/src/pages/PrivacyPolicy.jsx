@@ -27,7 +27,7 @@ export function PrivacyPolicy() {
                 <li><strong>Improving Your Experience:</strong> We use your information to personalize your experience on our app and provide relevant recommendations.</li>
                 <li><strong>Reservations and Transactions:</strong> We use your data to facilitate class reservations and process payments.</li>
                 <li><strong>Communications:</strong> We may use your contact information to send important notifications and updates regarding your reservations.</li>
-                <li><strong>Analytics:</strong> We analyze data to improve our app performance, features, and user experience.</li>
+                <li><strong>Analytics:</strong> We analyze data to improve our app   performance, features, and user experience.</li>
             </ul>
 
             <h3>3. Sharing Your Information</h3>

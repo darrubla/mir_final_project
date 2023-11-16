@@ -4,8 +4,9 @@ describe('template spec', () => {
   });
 
   it('successfully logged in via form submission', () => {
-    const userEamil = 'carlos9559+s@gmail.com';
-    const userPassword = '12345678';
+      // Intercepting API request
+    cy.intercept('POST', '/api/students/signin/student', { fixture: 'user.json' }).as('getUser');
+    
     cy.visit('/signin/student');
 
     cy.get('input[name=email]').type(userEamil);
@@ -14,9 +15,10 @@ describe('template spec', () => {
     cy.get('input[name=password]').type(`${userPassword}{enter}`);
 
     // we should be redirected to /
+    .wait('@getUser')
     cy.url().should('include', '/');
 
     // UI should reflect this user being logged in
-    cy.get('span').should('contain', 'carlos9559+s@gmail.com');
+    cy.get('span').should('contain', 'john.doe@test.com');
   });
 });

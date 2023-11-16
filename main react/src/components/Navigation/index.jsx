@@ -18,6 +18,7 @@ export function Navigation() {
   const { user, setUser } = useContext(UserContext);
   const [ setInfo] = useState()
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [logType, setLogType] = useState();
 
   async function loadInfo(type) {
@@ -41,6 +42,7 @@ export function Navigation() {
     if(user) {
       loadInfo(user.type)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function onSignOut() {

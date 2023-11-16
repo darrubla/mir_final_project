@@ -13,17 +13,18 @@ export function Landing() {
   const { setUser, user } = useContext(UserContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [logType, setLogType] = useState();
 
   function handleClose() {
     setShow(false);
   }
-
+  /*
   function handleShow(logT) {
     setShow(true);
     setLogType(logT);
   }
-
+  */
   function onLog(val) {
     setUser({ type: val });
     setShow(false);

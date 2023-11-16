@@ -15,7 +15,7 @@ export function Teaching() {
           </p>
           <strong>Create Your Teacher Account</strong>
           <p>
-            The first step to embarking on your teaching adventure with Class Nexus is to create a teacher account. It's a straightforward process that opens the doors to a world of teaching possibilities. Here is how to get started:
+            The first step to embarking on your teaching adventure with Class Nexus is to create a teacher account. It is a straightforward process that opens the doors to a world of teaching possibilities. Here is how to get started:
           </p>
           <ol>
             <li>

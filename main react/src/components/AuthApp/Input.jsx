@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { css, cx } from '@emotion/css';
 
 export function Input({ children, type, className = '' }) {

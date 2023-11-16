@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import { NLogo } from '../assets/icons/NLogo';
 
 export function Signed() {
   const location = useLocation();

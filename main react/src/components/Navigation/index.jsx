@@ -16,8 +16,9 @@ import { getMe } from '../../api/teachers';
 export function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const [info, setInfo] = useState()
+  const [ setInfo] = useState()
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [logType, setLogType] = useState();
 
   async function loadInfo(type) {
@@ -41,6 +42,7 @@ export function Navigation() {
     if(user) {
       loadInfo(user.type)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function onSignOut() {
@@ -55,10 +57,10 @@ export function Navigation() {
     navigate(`${logType}/${val}`);
   }
 
-  function handleShow(logT) {
+  /*function handleShow(logT) {
     setShow(true);
     setLogType(logT);
-  }
+  }*/
 
   function handleClose() {
     setShow(false);

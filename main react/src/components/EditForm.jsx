@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { css, cx } from '@emotion/css';
 import { Button, Form } from 'react-bootstrap';
 import { ErrorMessage, Formik } from 'formik';
@@ -9,7 +9,6 @@ import { CustomAreaInput, CustomInput, FormGroup, Label } from '../components/Au
 import { updateTeacher } from '../api/teachers'
 import { updateStudent } from '../api/students';
 import UserContext from '../containers/UserContext';
-import ModalUpdated from './ModalUpdated';
 
 const editSchema = z.object({
   name: z.string().min(2, { message: 'Must be 2 or more characters long' }),

@@ -1,5 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { css, cx } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../containers/AuthContext';
@@ -108,3 +109,7 @@ export function AuthModal({ children }) {
     </Modal>
   );
 }
+
+AuthModal.propTypes = {
+  children: PropTypes.node,
+};

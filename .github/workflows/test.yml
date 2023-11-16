@@ -28,9 +28,8 @@ jobs:
           working-directory: ./main react
           build: npm run build
           start: npm run preview
-      - name: Test Artifacts
-        uses: actions/upload-artifact@v2
-        if: failure()
+      - name: Upload screenshots
+        uses: actions/upload-artifact@latest
         with:
           name: cypress-screenshots
-          path: ./cypress/screenshots
+          path: ./cypress/screenshots/signin_student_page.cy.js

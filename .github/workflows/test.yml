@@ -29,7 +29,7 @@ jobs:
           build: npm run build
           start: npm run preview
       - name: Upload screenshots
-        uses: actions/upload-artifact@latest
+        uses: actions/upload-artifact@v2
         with:
           name: cypress-screenshots
           path: ./cypress/screenshots/signin_student_page.cy.js

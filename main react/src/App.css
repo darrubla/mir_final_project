@@ -1,11 +1,8 @@
 #root {
-  /*width: 100vw;*/
-  /*margin: 0 auto;*/
-  /*
-  padding-top: 138px;
-  padding-left: 90px;
-  padding-right: 90px;
-  */
+}
+
+body {
+  background-color: var(--bs-nexus-white) !important;
 }
 
 body::-webkit-scrollbar {
@@ -50,7 +47,7 @@ body::-webkit-scrollbar {
 
 .logo-href {
   width: 10%;
-  justify-content:center;
+  justify-content: center;
 }
 .logo-main {
   display: flex;

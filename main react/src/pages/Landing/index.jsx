@@ -6,22 +6,17 @@ import UserContext from '../../containers/UserContext';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { ModalAlert } from '../../components/ModalAlert';
 import SubjectsCarousell from '../../components/SubjectsCarousell/SubjectsCarousell';
-import { Info } from '../../content-welcome/Info';
+
 import TeacherHome from '../TeacherHome';
 
 export function Landing() {
   const { setUser, user } = useContext(UserContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const [logType, setLogType] = useState();
+  const [logType] = useState();
 
   function handleClose() {
     setShow(false);
-  }
-
-  function handleShow(logT) {
-    setShow(true);
-    setLogType(logT);
   }
 
   function onLog(val) {
@@ -33,7 +28,6 @@ export function Landing() {
     return (
       <>
         <SubjectsCarousell />
-        <Info />
       </>
     );
   }
@@ -41,7 +35,6 @@ export function Landing() {
     return (
       <>
         <TeacherHome />
-        <Info />
       </>
     );
   }

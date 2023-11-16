@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './styles/SubjectsCarousell.css';
@@ -6,7 +6,7 @@ import { getSubjects, getTeachersFromSubject } from '../../api/subjects.js';
 import { Alert, Col, Container, Image, Row } from 'react-bootstrap';
 import { SectionName } from '../SectionName.jsx';
 import { useNavigate } from 'react-router-dom';
-import avatar from '../../img/avatar.png'
+import avatar from '../../img/avatar.png';
 import { Loading } from '../../animation/Loading.jsx';
 
 function SubjectsCarousell() {
@@ -14,6 +14,7 @@ function SubjectsCarousell() {
   const [data, setData] = useState();
   const [loadCards, setLoadCards] = useState(false);
   const [errorCards, setErrorCards] = useState('');
+  const cardsRef = useRef(null);
 
   async function LoadSubjects() {
     setLoadCards(true);
@@ -26,11 +27,12 @@ function SubjectsCarousell() {
           .map((subject) => getTeachersFromSubject(subject.id)),
       );
       setData(data);
+      console.log(data);
     } catch (error) {
       console.error(error);
-      setErrorCards(error)
+      setErrorCards(error);
     } finally {
-      setLoadCards(false)
+      setLoadCards(false);
     }
   }
 
@@ -44,9 +46,7 @@ function SubjectsCarousell() {
   }, []);
 
   return (
-    <div className="home-content d-flex flex-column pt-2nav bg-nexus-white vh-100">
-      {loadCards && <Loading/>}
-      {errorCards &&<Alert variant='danger'>{errorCards}</Alert>}
+    <div className="home-content d-flex flex-column pt-1nav bg-nexus-white min-vh-100">
       <Container fluid="xxl">
         <Row className="g-2">
           <Col>
@@ -56,17 +56,28 @@ function SubjectsCarousell() {
         <Row className="g-2">
           <Col>
             <div className="d-flex justify-content-between">
-              <p className="fs-5 fw-light">
-                <span className="text-secondary">{`2 teachers available`}</span>
+              <p className="fs-6 fw-light">
+                <span className="text-secondary">{`${cardsRef?.current?.children?.length} teachers available`}</span>
               </p>
-              <p className="fs-5 fw-light">
+              <p className="fs-6 fw-light">
                 <span className="text-secondary">Category</span>: All{' '}
                 <i className="bi bi-chevron-down ms-2"></i>
               </p>
             </div>
+            {loadCards && <Loading />}
+            {errorCards && <Alert variant="danger">{errorCards}</Alert>}
           </Col>
         </Row>
-        <Row xs={1} sm={1} md={2} lg={2} xl={3} xxl={4} className="g-2">
+        <Row
+          xs={1}
+          sm={1}
+          md={2}
+          lg={2}
+          xl={3}
+          xxl={4}
+          className="g-2"
+          ref={cardsRef}
+        >
           {data &&
             data.map((subject) =>
               subject.data.map((data, idx) => (
@@ -99,38 +110,34 @@ function TeacherCard({
   handler,
   scheduleid,
 }) {
-
   return (
     <Col>
       <div className="bg-white p-3 rounded-1 d-flex flex-column row-gap-3 border">
         <div className="d-flex column-gap-3">
           <div className="col">
-            {
-              photo ? (
-                <>
+            {photo ? (
+              <>
                 <img
                   src={`${import.meta.env.VITE_API_URL}/${[photo]}`}
                   className="object-fit-cover rounded-1"
                   height={'134'}
                   width={'100%'}
                 />
-                </>
-                
-              ): (
-                <>
-                <Image 
+              </>
+            ) : (
+              <>
+                <Image
                   src={avatar}
                   className="object-fit-cover rounded-1"
                   height={'134'}
                   width={'100%'}
                 />
                 <div>{photo}</div>
-                </>
-              )}
-            
+              </>
+            )}
           </div>
           <div className="d-flex flex-column justify-content-between col text-end">
-            <div className="card-title fs-5">{`${name} ${lastname}`}</div>
+            <div className="card-title fs-6">{`${name} ${lastname}`}</div>
             <div>
               <h6 className="fw-normal">
                 {subjectname}

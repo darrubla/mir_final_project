@@ -1,4 +1,8 @@
 .mp-checkout-bricks__payment-form,
 #statusScreenBrick_container {
-  margin: 120px auto 0;
+  background-color: var(--bs-nexus-white);
+}
+
+#paymentBrick_container form {
+  background: none;
 }

@@ -2,7 +2,7 @@
 import { Suspense } from 'react';
 import './App.css';
 import { UserProvider } from './containers/UserContext';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Signin } from './pages/Signin';
 import { Signup } from './pages/Signup';
 import { Signed } from './pages/Signed';
@@ -22,7 +22,7 @@ import { Navigation } from './components/Navigation';
 import { Landing } from './pages/Landing';
 // import ProtectedRoute from './containers/ProtectedRoute'
 import MyCalendar from './pages/MyCalendar';
-import { ModalAlert } from './components/ModalAlert';
+
 import { AuthApp } from './components/AuthApp';
 import Checkout from './pages/Checkout';
 import CheckoutStatus from './pages/CheckoutStatus';
@@ -67,27 +67,27 @@ function App() {
             <Route path="/" element={<Landing />}>
               <Route path="/auth/*" element={<AuthApp />} />
             </Route>
-            <Route path='/' element={<Landing />} />
-            <Route path='/home' element={<Landing />} />
-            <Route path='/schedule' element={<Schedule />} />
-            <Route path='/overview' element={<Overview />} />
-            <Route path='/teachers/:id' element={<TeacherView />} />
-            <Route path='/students/:id' element={<StudentView />} />
-            <Route path='/my_account' element={<StudentAccountInfo />} />
-            <Route path='/checkout' element={<Checkout />} />
-            <Route path='/payment_status' element={<CheckoutStatus />} />
-            <Route path='*' element={<NotFound />} />
-            <Route path='/policy' element={<Policy/>} />
-            <Route path='/helpandsupport' element={<Help/>} />
-            <Route path='/teaching' element={<Teaching/>} />
-            <Route path='/information' element={<Information/>} />
-            <Route path='/termsofservice' element={<Terms/>} />
-            <Route path='/privacypolicy' element={<PrivacyPolicy/>} />
-            <Route path='/github' element={<GitHub/>} />
-            <Route path='/developmentteam' element={<DevelopmentTeam/>} />
-            <Route path='/mail' element={<Mail/>} />
-            <Route path='/mycalendar' element={<MyCalendar/>}/>
-            <Route path='/profile' element={<Profile/>}/>
+            <Route path="/" element={<Landing />} />
+            <Route path="/home" element={<Landing />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/overview" element={<Overview />} />
+            <Route path="/teachers/:id" element={<TeacherView />} />
+            <Route path="/students/:id" element={<StudentView />} />
+            <Route path="/my_account" element={<StudentAccountInfo />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/payment_status" element={<CheckoutStatus />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/policy" element={<Policy />} />
+            <Route path="/helpandsupport" element={<Help />} />
+            <Route path="/teaching" element={<Teaching />} />
+            <Route path="/information" element={<Information />} />
+            <Route path="/termsofservice" element={<Terms />} />
+            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+            <Route path="/github" element={<GitHub />} />
+            <Route path="/developmentteam" element={<DevelopmentTeam />} />
+            <Route path="/mail" element={<Mail />} />
+            <Route path="/mycalendar" element={<MyCalendar />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Suspense>
       </Container>

@@ -1,0 +1,25 @@
+.fc .btn {
+  font-weight: 300;
+  font-size: 1rem;
+  border-color: var(--bs-nexus-accent-subtle);
+  background-color: var(--bs-nexus-accent-subtle);
+}
+
+.fc .btn.active {
+  border-color: #21722d;
+  background-color: #21722d;
+}
+
+.fc .btn:disabled {
+  border-color: var(--bs-nexus-accent-subtle);
+  background-color: var(--bs-nexus-accent-subtle);
+}
+
+.fc .btn:hover {
+  border-color: #21722d;
+  background-color: #21722d;
+}
+
+.fc .fc-view-harness {
+  background-color: white;
+}

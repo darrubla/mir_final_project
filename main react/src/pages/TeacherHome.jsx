@@ -80,11 +80,11 @@ export default function TeacherHome() {
     loadMyLessons();
   }, []);
   return (
-    <Container fluid="xxl" className="pt-2nav min-vh-100">
+    <Container fluid="xxl" className="pt-1nav min-vh-100">
       <Row>
         <Col>
           <div className="d-flex flex-column">
-            <SectionName title="AVAILABLE CLASSES" className="mt-5" />
+            <SectionName title="Available clases" className="mt-5" />
             {loadingAvailable && <Loading />}
             {accepting && <Loading />}
             {data.length > 0 ? (
@@ -98,7 +98,7 @@ export default function TeacherHome() {
         </Col>
         <Col>
           <div className="d-flex flex-column">
-            <SectionName title="ACEPTED CLASSES" className="mt-5" />
+            <SectionName title="Acepted clases" className="mt-5" />
             {loadingMyLessons && <Loading />}
             {canceling && <Loading />}
             {myLessons.length > 0 ? (

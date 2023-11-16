@@ -33,6 +33,11 @@ const Checkout = () => {
       defaultPaymentOption: {
         creditCardForm: true,
       },
+      style: {
+        customVariables: {
+          baseColor: '#186718',
+        },
+      },
     },
     paymentMethods: {
       bankTransfer: 'all',
@@ -119,18 +124,20 @@ const Checkout = () => {
   }
   if (user?.email && user.type === 'student') {
     return (
-      <Container fluid="xxl">
-        <Payment
-          initialization={{
-            preferenceId: preferenceId,
-            amount: 10000,
-          }}
-          customization={customization}
-          onSubmit={onSubmit}
-          onReady={onReady}
-          onError={onError}
-        />
-      </Container>
+      <main className="bg-nexus-white">
+        <Container fluid="xxl" className="pt-1nav bg-nexus-white">
+          <Payment
+            initialization={{
+              preferenceId: preferenceId,
+              amount: 10000,
+            }}
+            customization={customization}
+            onSubmit={onSubmit}
+            onReady={onReady}
+            onError={onError}
+          />
+        </Container>
+      </main>
     );
   }
 };

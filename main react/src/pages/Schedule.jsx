@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { SectionName } from '../components/SectionName';
 import { ScheduleForm } from '../components/ScheduleForm';
 import { ScheduledLesson } from './ScheduledLesson';
-import { cancelClass, createLesson, finishClass, getMyLessons, startClass, closeClass } from '../api/lessons';
+import {
+  cancelClass,
+  createLesson,
+  finishClass,
+  getMyLessons,
+  startClass,
+  closeClass,
+} from '../api/lessons';
 import { voteTeacher } from '../api/teachers';
 import Alert from 'react-bootstrap/Alert';
 import { LoadSubjectsList } from '../text/constants';
@@ -13,7 +20,7 @@ import { getSubject } from '../api/subjects';
 
 export function Schedule() {
   const [data, setData] = useState([]);
-  const [subjectData, setSubjectData] = useState([])
+  const [subjectData, setSubjectData] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [errorLoad, setErrorLoad] = useState('');
@@ -30,10 +37,10 @@ export function Schedule() {
 
   async function getSubjectData(id) {
     try {
-      const res=await getSubject(id);
-      setSubjectData(res.data)
+      const res = await getSubject(id);
+      setSubjectData(res.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
   async function onCreate(payload) {
@@ -107,53 +114,50 @@ export function Schedule() {
     if (subjectIdParam) {
       getSubjectData(subjectIdParam);
     }
-    
   }, []);
 
-    let options=[];
-    let subjectOptions=LoadSubjectsList();
-    if (subjectOptions.length > 0) {
-      if (subjectData?.id) {
-        subjectOptions=[subjectData]
-      }
-      subjectOptions.map((subjectObject) => {
-        options.push(subjectObject.subjectname);
-      });
-
+  let options = [];
+  let subjectOptions = LoadSubjectsList();
+  if (subjectOptions.length > 0) {
+    if (subjectData?.id) {
+      subjectOptions = [subjectData];
     }
+    subjectOptions.map((subjectObject) => {
+      options.push(subjectObject.subjectname);
+    });
+  }
 
-    return (
-      <main className="pt-2nav bg-nexus-white vh-100">
-        <Container fluid="xxl">
-          <Row>
-            <Col>
-              <SectionName title="Schedule a class" className="mt-5" />
-              <ScheduleForm onCreate={onCreate} options={options}/>
-              {loadingCreate && <Loading />}
-              {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
-            </Col>
-            <Col>
-              <SectionName title="Current Clases" className="mt-5" />
-              {loadingList && <Loading />}
-              {errorLoad && <Alert variant="danger">{errorLoad}</Alert>}
-              <ScheduledLesson
-                lessondata={data}
-                onCancel={onCancel}
-                onFinish={onFinish}
-                onStart={onStart}
-                onClose={onClose}
-                onVote={onVote}
-                errorCancel={errorCancel}
-              />
-              {errorCancel && <Alert variant="danger">{errorCancel}</Alert>}
-              {errorStart && <Alert variant="danger">{errorStart}</Alert>}
-              {errorFinish && <Alert variant="danger">{errorFinish}</Alert>}
-              {errorClose && <Alert variant="danger">{errorClose}</Alert>}
-              {errorVote && <Alert variant="danger">{errorVote}</Alert>}
-            </Col>
-          </Row>
-        </Container>
-      </main>
-    );
-
+  return (
+    <main className="pt-1nav bg-nexus-white vh-100">
+      <Container fluid="xxl">
+        <Row>
+          <Col>
+            <SectionName title="Schedule a class" className="mt-5" />
+            <ScheduleForm onCreate={onCreate} options={options} />
+            {loadingCreate && <Loading />}
+            {errorCreate && <Alert variant="danger">{errorCreate}</Alert>}
+          </Col>
+          <Col>
+            <SectionName title="Current Clases" className="mt-5" />
+            {loadingList && <Loading />}
+            {errorLoad && <Alert variant="danger">{errorLoad}</Alert>}
+            <ScheduledLesson
+              lessondata={data}
+              onCancel={onCancel}
+              onFinish={onFinish}
+              onStart={onStart}
+              onClose={onClose}
+              onVote={onVote}
+              errorCancel={errorCancel}
+            />
+            {errorCancel && <Alert variant="danger">{errorCancel}</Alert>}
+            {errorStart && <Alert variant="danger">{errorStart}</Alert>}
+            {errorFinish && <Alert variant="danger">{errorFinish}</Alert>}
+            {errorClose && <Alert variant="danger">{errorClose}</Alert>}
+            {errorVote && <Alert variant="danger">{errorVote}</Alert>}
+          </Col>
+        </Row>
+      </Container>
+    </main>
+  );
 }

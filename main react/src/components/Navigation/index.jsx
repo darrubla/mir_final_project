@@ -16,30 +16,29 @@ import { getMe } from '../../api/teachers';
 export function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const [info, setInfo] = useState()
+  const [setInfo] = useState();
   const [show, setShow] = useState(false);
   const [logType, setLogType] = useState();
 
   async function loadInfo(type) {
     try {
-      console.log('execution')
-      console.log(type)
+      console.log('execution');
+      console.log(type);
       if (type === 'student') {
-        const response=await getMyself();
-        setInfo(response.data)
+        const response = await getMyself();
+        setInfo(response.data);
       }
       if (type === 'teacher') {
-        const response=await getMe();
-        setInfo(response.data)
-
+        const response = await getMe();
+        setInfo(response.data);
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   }
   useEffect(() => {
-    if(user) {
-      loadInfo(user.type)
+    if (user) {
+      loadInfo(user.type);
     }
   }, [user]);
 
@@ -88,7 +87,14 @@ export function Navigation() {
             className="border-white"
           />
           <Navbar.Collapse id="responsive-navbar-nav fw-light fs-5">
-            <Nav className="ms-auto w-50 justify-content-between align-items-center">
+            <Nav
+              className={cx(
+                css`
+                  min-width: 50%;
+                `,
+                'ms-auto justify-content-between align-items-center',
+              )}
+            >
               <NavigationTab route="home" title="Home" />
               {rswitch(
                 { user },
@@ -97,14 +103,14 @@ export function Navigation() {
                     <>
                       <NavigationTab route="schedule" title="Schedule" />
                       <NavigationTab route="checkout" title="Checkout" />
-                      <NavigationTab route="mycalendar" title="Calendar"/>
+                      <NavigationTab route="mycalendar" title="Calendar" />
                     </>
                   ),
                   teacher: (
                     <>
                       <NavigationTab route="bank" title="Bank" />
                       <NavigationTab route="overview" title="Overview" />
-                      <NavigationTab route="mycalendar" title="Calendar"/>
+                      <NavigationTab route="mycalendar" title="Calendar" />
                     </>
                   ),
                   default: <NavigationTab route="about" title="About" />,
@@ -115,7 +121,9 @@ export function Navigation() {
                 <UserNavigation
                   handleSignOut={onSignOut}
                   email={user.email}
-                  photo={`${import.meta.env.VITE_API_URL}/${user?.profilePhoto}`}
+                  photo={`${import.meta.env.VITE_API_URL}/${
+                    user?.profilePhoto
+                  }`}
                 />
               ) : (
                 <Button

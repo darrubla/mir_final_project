@@ -62,13 +62,7 @@ export default function MyCalendar() {
     })
   }
 
-  const events = [
-    {
-      title: "The title",
-      start: "2023-11-05T15:00:00",
-      end: "2023-11-05T17:00:00",
-    },
-  ]
+
   return (
     <div className='mt-5 m-5 pt-5'>
       <div className='pt-5'>

@@ -5,7 +5,7 @@ import { css, cx } from '@emotion/css';
 import { useState } from 'react';
 import { reactSwitch } from '../utils/rswitch';
 
-export function ModalAlert({ handleClose, show, onLog }) {
+export function ModalAlert({ handleClose, show }) {
   const [accountType, setAccountType] = useState();
 
   return (
@@ -121,6 +121,7 @@ ModalAlert.propTypes = {
   onLog: PropTypes.func.isRequired,
 };
 
+// eslint-disable-next-line react/prop-types
 function CustomInput({ children, type }) {
   return (
     <div

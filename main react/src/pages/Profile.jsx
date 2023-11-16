@@ -3,13 +3,9 @@ import { useContext, useEffect, useState } from 'react'
 import UserContext from '../containers/UserContext';
 import { getMyself } from '../api/students';
 import { getMe } from '../api/teachers';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-import { Alert, Badge, Button, Container, Form, Table } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Alert, Badge, Button } from 'react-bootstrap';
 import avatar from '../img/avatar.png';
-import AuthContext from '../containers/AuthContext';
 import ModalEditInfo from './ModalEditInfo';
 import { Loading } from '../animation/Loading';
 import { formatRelative } from 'date-fns';
@@ -17,8 +13,6 @@ import ModalUpdated from '../components/ModalUpdated';
 
 export function Profile() {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
-  const { accountType, setAccountType } = useContext(AuthContext);
   const [loadMyInfo, setLoadMyInfo] = useState(false);
   const [errorMyInfo, setErrorMyInfo] = useState('');
   const [info, setInfo] = useState()

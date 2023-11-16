@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { css, cx } from '@emotion/css';
 import PropTypes from 'prop-types';
-import EditForm from './EditForm';
 
 export default function ModalUpdated({show, handleClose}) {
 

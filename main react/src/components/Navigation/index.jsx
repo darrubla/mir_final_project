@@ -16,7 +16,7 @@ import { getMe } from '../../api/teachers';
 export function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const [info, setInfo] = useState()
+  const [ setInfo] = useState()
   const [show, setShow] = useState(false);
   const [logType, setLogType] = useState();
 
@@ -55,10 +55,10 @@ export function Navigation() {
     navigate(`${logType}/${val}`);
   }
 
-  function handleShow(logT) {
+  /*function handleShow(logT) {
     setShow(true);
     setLogType(logT);
-  }
+  }*/
 
   function handleClose() {
     setShow(false);

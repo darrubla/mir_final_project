@@ -2,7 +2,7 @@
 import { Suspense } from 'react';
 import './App.css';
 import { UserProvider } from './containers/UserContext';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Signin } from './pages/Signin';
 import { Signup } from './pages/Signup';
 import { Signed } from './pages/Signed';
@@ -22,7 +22,6 @@ import { Navigation } from './components/Navigation';
 import { Landing } from './pages/Landing';
 // import ProtectedRoute from './containers/ProtectedRoute'
 import MyCalendar from './pages/MyCalendar';
-import { ModalAlert } from './components/ModalAlert';
 import { AuthApp } from './components/AuthApp';
 import Checkout from './pages/Checkout';
 import CheckoutStatus from './pages/CheckoutStatus';

@@ -6,7 +6,7 @@ export function Information() {
           <h2 className="d-flex m-3 fw-lighter text-start pt-5 mt-5">
             <strong>Information</strong>
           </h2>
-          <p>At Class Nexus, our mission is to bridge the gap between students seeking knowledge and dedicated teachers eager to share their expertise. Whether you're here to learn or teach, our platform offers a seamless experience that empowers both students and teachers.</p>
+          <p>At Class Nexus, our mission is to bridge the gap between students seeking knowledge and dedicated teachers eager to share their expertise. Whether you are here to learn or teach, our platform offers a seamless experience that empowers both students and teachers.</p>
 
           <h4>For Students:</h4>
 
@@ -33,7 +33,7 @@ export function Information() {
           <h4>Why Choose Class Nexus?</h4>
 
           <ul>
-              <li><strong>Diverse Learning Opportunities:</strong> Our platform offers a wide range of class topics, ensuring there's something for everyone.</li>
+              <li><strong>Diverse Learning Opportunities:</strong> Our platform offers a wide range of class topics, ensuring there is something for everyone.</li>
               <li><strong>Convenience and Flexibility:</strong> Learn or teach at your own pace, from anywhere in the world.</li>
               <li><strong>Feedback-Driven Improvement:</strong> Your feedback helps us improve the platform and ensures a high-quality learning experience.</li>
               <li><strong>Community Building:</strong> Join a thriving community of students and teachers who are passionate about education.</li>
@@ -41,7 +41,7 @@ export function Information() {
 
           <p><strong>Get Started Today</strong></p>
 
-          <p>Join Class Nexus and be part of an exciting journey of knowledge-sharing. Whether you're a student eager to learn or a teacher ready to inspire, our platform is here to connect you with your educational goals. Get started today and embark on a path of growth and excellence!</p>
+          <p>Join Class Nexus and be part of an exciting journey of knowledge-sharing. Whether you are a student eager to learn or a teacher ready to inspire, our platform is here to connect you with your educational goals. Get started today and embark on a path of growth and excellence!</p>
         </div>
       </div>
     </>

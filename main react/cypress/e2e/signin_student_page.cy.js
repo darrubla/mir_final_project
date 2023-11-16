@@ -5,17 +5,23 @@ describe('template spec', () => {
   });
 
   it('successfully logged in via form submission', () => {
-    const userEamil = 'carlos9559+s@gmail.com';
+    cy.intercept(
+      'POST',
+      'https://class-nexus-api.onrender.com/api/students/signin/student',
+    ).as('getUser');
+
+    const userEmail = 'carlos9559+s@gmail.com';
     const userPassword = '12345678';
     cy.visit('/auth/login');
     cy.get('button:contains("student")').click();
 
-    cy.get('input[name=email]').type(userEamil);
+    cy.get('input[name=email]').type(userEmail);
 
     // {enter} causes the form to submit
     cy.get('input[name=password]').type(`${userPassword}{enter}`);
 
     // we should be redirected to /
+    //cy.wait('@getUser');
     cy.url().should('include', '/');
 
     // UI should reflect this user being logged in

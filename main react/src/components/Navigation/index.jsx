@@ -32,7 +32,6 @@ export function Navigation() {
       if (type === 'teacher') {
         const response=await getMe();
         setInfo(response.data)
-
       }
     } catch (error) {
         console.log(error)
